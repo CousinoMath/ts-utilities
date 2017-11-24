@@ -13,7 +13,7 @@ export function constant<R,S>(x: R): {(y: S): R} {
 export function flip<R,S,T>(f: Func<R, Func<S,T>>): Func<S, Func<R,T>> {
   return function(y) {
     return function(x) {
-      var g = f(x);
+      let g = f(x);
       return g(y);
     };
   };
@@ -32,19 +32,40 @@ export function over<R,S,T>(f: Func<R,S>, op: Func2<S,S,T>): Func2<R,R,T> {
   }
 }
 
+export function range(start: number, stop: number, delta: number): Array<number> {
+  /* Creates an array [start, start + delta, start + 2 delta, ..., end] where
+   * end is less than delta away from stop.
+   *
+   * PRE: delta != 0
+   * RETURNS: [start, start + delta, start + 2 delta, ..., end] with
+   *          abs(stop - end) < abs(delta)
+   */
+  let size = Math.floor((stop - start)/delta);
+  if(size > 0) {
+    let res = new Array<number>(size + 1);
+    res[0] = start;
+    for(let k = 1; k <= size; k++) {
+      res[k] = res[k - 1] + delta;
+    }
+    return res;
+  } else {
+    return new Array<number>(0);
+  }
+}
+
 export function	longCommSubseqs<T>(xs: string, ys: string): Array<string> {
-		var m = xs.length, n = ys.length, D = new Array<Array<Array<string>>>(m);
-    var R: Array<string>;
-    var s: number, t: number;
-		for(var i = 0; i < m; i++) {
+		let m = xs.length, n = ys.length, D = new Array<Array<Array<string>>>(m);
+    let R: Array<string>;
+    let s: number, t: number;
+		for(let i = 0; i < m; i++) {
 			D[i] = new Array<Array<string>>(n);
 			D[i][0] = [];
 		}
-		for(var j = 0; j < n; j++) {
+		for(let j = 0; j < n; j++) {
 			D[0][j] = [];
 		}
-		for(var i = 1; i < m; i++) {
-			for(var j = 1; j < n; j++) {
+		for(let i = 1; i < m; i++) {
+			for(let j = 1; j < n; j++) {
 				if(xs[i] == ys[j]) {
 					D[i][j] = D[i - 1][j - 1].map(function(zs) { return zs + xs[i]; });
 				} else {
@@ -57,10 +78,10 @@ export function	longCommSubseqs<T>(xs: string, ys: string): Array<string> {
           } else if(s < t) {
             R = D[i][j - 1];
           } else { // s == t
-            var S = D[i][j - 1];
-            var len = S.length;
+            let S = D[i][j - 1];
+            let len = S.length;
             R = D[i - 1][j];
-            for(var idx = 0; idx < len; idx++) {
+            for(let idx = 0; idx < len; idx++) {
               if(R.indexOf(S[idx]) < 0) {
                 R.push(S[idx]);
               }

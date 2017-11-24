@@ -5,7 +5,7 @@ export class ListZipper<T> {
 	behind: Array<T>;
 
 	static unzip<U>(lst: Array<U>): ListZipper<U> {
-		var lstz = new ListZipper<U>();
+		let lstz = new ListZipper<U>();
 		lstz.ahead = lst;
 		lstz.behind = [];
 		return lstz;
@@ -23,7 +23,7 @@ export class ListZipper<T> {
 	atLast(): boolean { return this.ahead.length == 1; }
 
 	forward(): Maybe<T> {
-		var node : T;
+		let node : T;
 		if(this.atEnd()) {
 			return Maybe.Nothing<T>();
 		} else {
@@ -34,7 +34,7 @@ export class ListZipper<T> {
 	}
 
 	backward(): Maybe<T> {
-		var node: T;
+		let node: T;
 		if(this.atStart()) {
 			return Maybe.Nothing<T>();
 		} else {
@@ -57,7 +57,7 @@ export class ListZipper<T> {
 	}
 
 	replace(x: T): Maybe<T> {
-		var zm: Maybe<T>;
+		let zm: Maybe<T>;
 		if(this.atEnd()) {
 			this.ahead.unshift(x);
 			zm = Maybe.Nothing<T>();
@@ -82,19 +82,19 @@ export class List<T> {
 	private _lst: Array<T>;
 
 	static Nil<U>(): List<U> {
-		var lst = new List<U>();
+		let lst = new List<U>();
 		lst._lst = [];
 		return lst;
 	}
 
 	static Cons<U>(hd: U, tl: List<U>): List<U> {
-		var lst = new List<U>();
+		let lst = new List<U>();
 		lst._lst = [hd].concat(tl._lst);
 		return lst;
 	}
 
 	static fromArray<U>(xs: Array<U>): List<U> {
-		var lst = new List<U>();
+		let lst = new List<U>();
 		lst._lst = xs;
 		return lst;
 	}
@@ -112,7 +112,7 @@ export class List<T> {
 	}
 
 	tail(): List<T> {
-		var tl: List<T>;
+		let tl: List<T>;
 		if(! this.isEmpty()) {
 			tl = new List<T>();
 			tl._lst = this._lst.slice(1);
@@ -129,24 +129,24 @@ export class List<T> {
 	}
 
 	postpend(x: T): List<T> {
-		var z = new List<T>();
+		let z = new List<T>();
 		z._lst = this._lst.concat(x);
 		return z;
 	}
 
 	foldl<U>(nil: U, f: {(x: U, y: T): U}): U {
-		var len = this.length();
-		var last = nil;
-		for(var idx = 0; idx < len; idx++) {
+		let len = this.length();
+		let last = nil;
+		for(let idx = 0; idx < len; idx++) {
 			last = f(last, this._lst[idx]);
 		}
 		return last;
 	}
 
 	foldr<U>(nil: U, f: {(x: U, y: T): U}): U {
-		var len = this.length();
-		var last = nil;
-		for(var idx = len - 1; idx >= 0; idx--) {
+		let len = this.length();
+		let last = nil;
+		for(let idx = len - 1; idx >= 0; idx--) {
 			last = f(last, this._lst[idx]);
 		}
 		return last;
@@ -173,8 +173,8 @@ export class List<T> {
 	}
 
 	uniques(): List<T> {
-		var nil = List.Nil<T>();
-		var uniq = function(lst: List<T>, elt: T): List<T> {
+		let nil = List.Nil<T>();
+		let uniq = function(lst: List<T>, elt: T): List<T> {
 			if(lst.contains(elt)) {
 				return lst;
 			} else {

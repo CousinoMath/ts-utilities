@@ -7,14 +7,14 @@ export default class Either<R,S> {
   private _isRight : boolean;
 
   static Left<U,V>(x : U) : Either<U,V> {
-    var left = new Either<U,V>();
+    let left = new Either<U,V>();
     left._lvalue = x;
     left._isRight = false;
     return left;
   }
 
   static Right<U,V>(y : V) : Either<U,V> {
-    var right = new Either<U,V>();
+    let right = new Either<U,V>();
     right._rvalue = y;
     right._isRight = true;
     return right;

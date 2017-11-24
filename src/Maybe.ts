@@ -5,14 +5,14 @@ export default class Maybe<T> {
 	private _isJust : boolean;
 
 	static Nothing<U>() : Maybe<U> {
-		var mx = new Maybe<U>();
+		let mx = new Maybe<U>();
 
 		mx._isJust = false;
 		return mx;
 	}
 
 	static Just<U>(val : U) : Maybe<U> {
-		var mx = new Maybe<U>();
+		let mx = new Maybe<U>();
 
 		mx._value = val;
 		mx._isJust = true;
