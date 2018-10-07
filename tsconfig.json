@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
-    "outDir": "./",
+    "outDir": "./dist/",
     "declaration": true,
     "sourceMap": true,
-    "noImplicitAny": true,
-    "module": "commonjs",
-    "target": "ES6"
+    "strict": true,
+    "target": "ES5"
   },
-  "compileOnSave": true,
-  "exclude": [
-    "node_modules"
+  "compileOnSave": false,
+  "include": [
+    "src/Array.ts",
+    "src/Maybe.ts",
+    "src/Tuple.ts",
+    "src/Utils.ts"
   ]
 }

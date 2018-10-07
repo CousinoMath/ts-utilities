@@ -1,81 +1,83 @@
-import Maybe from "./Maybe";
 
-export default class Tree<T> {
-  node : T;
-  children : Array<Tree<T>>;
+export class Tree<T> {
+  protected node: T;
+  protected children: Array<Tree<T>>;
 
-  constructor(value : T) {
+  constructor(value: T) {
     this.node = value;
     this.children = [];
   }
 
-  hasChildren() : boolean {
-    return this.children.length == 0;
+  public hasChildren(): boolean {
+    return this.children.length === 0;
   }
 
-  numChildren() : number {
+  public numChildren(): number {
     return this.children.length;
   }
 }
 
-export class TreeZipper<T> {
-  prevSiblings : Array<Tree<T>>; //stored in reverse order
-  nextSiblings : Array<Tree<T>>;
-  currTree : Tree<T>;
-  context: Maybe<TreeZipper<T>>;
+// export class TreeZipper<T> {
+//   public prevSiblings: Array<Tree<T>>; // stored in reverse order
+//   public nextSiblings: Array<Tree<T>>;
+//   public currTree: Tree<T>;
+//   public context: TreeZipper<T> | null;
 
-  constructor(tree : Tree<T>, prev : Array<Tree<T>>, next : Array<Tree<T>>, cntxt : Maybe<TreeZipper<T>>) {
-    this.currTree = tree;
-    this.prevSiblings = prev;
-    this.nextSiblings = next;
-    this.context = cntxt;
-  }
+//   constructor(tree: Tree<T>, prev: Array<Tree<T>>, next: Array<Tree<T>>, cntxt: TreeZipper<T> | null) {
+//     this.currTree = tree;
+//     this.prevSiblings = prev;
+//     this.nextSiblings = next;
+//     this.context = cntxt;
+//   }
 
-  atRoot() : boolean {
-    return this.context.isNothing();
-  }
+//   public atRoot(): boolean {
+//     return isNull(this.context);
+//   }
 
-  ascend() : Maybe<TreeZipper<T>> {
-      return this.context;//FIX: should just be TreeZipper<T>
-  }
+//   public ascend(): TreeZipper<T> | null {
+//     return this.context; // FIX: should just be TreeZipper<T>
+//   }
 
-  atLeaf() : boolean {
-    return this.currTree.hasChildren();
-  }
+//   public atLeaf(): boolean {
+//     return this.currTree.hasChildren();
+//   }
 
-  descend() : TreeZipper<T> {
-    if(! this.atLeaf()) {
-      var children = this.currTree.children;
-      return new TreeZipper<T>(children[0], [], children.slice(1), Maybe.Just(this));
-    }
-  }
+//   public descend(): TreeZipper<T> | null {
+//     if (!this.atLeaf()) {
+//       const children = this.currTree.children;
+//       return new TreeZipper<T>(children[0], [], children.slice(1), this);
+//     }
+//     return null;
+//   }
 
-  atFirstSibling() : boolean {
-    return this.prevSiblings.length == 0;
-  }
+//   public atFirstSibling(): boolean {
+//     return this.prevSiblings.length === 0;
+//   }
 
-  prevSibling() : TreeZipper<T> {
-    if(! this.atFirstSibling()) {
-      var prev = this.prevSiblings;
-      return new TreeZipper<T>(prev[0], prev.slice(1), [this.currTree].concat(this.nextSiblings), this.context);
-    }
-  }
+//   public prevSibling(): TreeZipper<T> | null {
+//     if (!this.atFirstSibling()) {
+//       const prev = this.prevSiblings;
+//       return new TreeZipper<T>(prev[0], prev.slice(1), [this.currTree].concat(this.nextSiblings), this.context);
+//     }
+//     return null;
+//   }
 
-  atLastSibling() : boolean {
-    return this.nextSiblings.length == 0;
-  }
+//   public atLastSibling(): boolean {
+//     return this.nextSiblings.length === 0;
+//   }
 
-  nextSibling() : TreeZipper<T> {
-    if(! this.atLastSibling()) {
-      var next = this.nextSiblings;
-      return new TreeZipper<T>(next[0], [this.currTree].concat(this.prevSiblings), next.slice(1), this.context);
-    }
-  }
+//   public nextSibling(): TreeZipper<T> | null {
+//     if (!this.atLastSibling()) {
+//       const next = this.nextSiblings;
+//       return new TreeZipper<T>(next[0], [this.currTree].concat(this.prevSiblings), next.slice(1), this.context);
+//     }
+//     return null;
+//   }
 
-  //insertTreePrior
-  //insertTreeAfter
-  //removeTree
-  //replaceNode
-  //walker
-  //
-}
+//   // insertTreePrior
+//   // insertTreeAfter
+//   // removeTree
+//   // replaceNode
+//   // walker
+//   //
+// }
