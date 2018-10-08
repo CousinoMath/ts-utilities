@@ -2,15 +2,14 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "declaration": true,
+    "declarationDir": "./dist/types/",
     "sourceMap": true,
     "strict": true,
-    "target": "ES5"
+    "target": "ES5",
+    "module": "es2015"
   },
   "compileOnSave": false,
   "include": [
-    "src/Array.ts",
-    "src/Maybe.ts",
-    "src/Tuple.ts",
-    "src/Utils.ts"
+    "src/index.ts"
   ]
 }

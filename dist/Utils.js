@@ -10,7 +10,7 @@ export function ident(x) { return x; }
  * @returns {function(R): function(S): T} `x => y => f(x, y)`
  */
 export function curry(f) {
-    return x => y => f(x, y);
+    return function (x) { return function (y) { return f(x, y); }; };
 }
 /**
  * @summary Uncurry a function
@@ -18,7 +18,7 @@ export function curry(f) {
  * @returns {function(R, S): T} `(x, y) => f(x)(y)`
  */
 export function uncurry(f) {
-    return (x, y) => f(x)(y);
+    return function (x, y) { return f(x)(y); };
 }
 /**
  * @summary Creates a function with constant output
@@ -26,7 +26,7 @@ export function uncurry(f) {
  * @returns {function(*): R} `y => x`
  */
 export function constant(x) {
-    return y => x;
+    return function (y) { return x; };
 }
 /**
  * @summary Flips the arguments for a function that returns another function
@@ -34,7 +34,7 @@ export function constant(x) {
  * @returns {function(S): function(R): T} `y => x => f(x)(y)`
  */
 export function flip(f) {
-    return y => x => f(x)(y);
+    return function (y) { return function (x) { return f(x)(y); }; };
 }
 /**
  * @summary Creates the composition of two functions
@@ -42,7 +42,7 @@ export function flip(f) {
  * @returns {function(function(R): S): function(R): T} `f => x => g(f(x))`
  */
 export function compose(g) {
-    return f => x => g(f(x));
+    return function (f) { return function (x) { return g(f(x)); }; };
 }
 /**
  * @summary Threads a function `f` through a binary operation `op`
@@ -51,33 +51,32 @@ export function compose(g) {
  * @returns {function(R, R): T} `(x, y) => op(f(x), f(y))`
  */
 export function over(f, op) {
-    return (x, y) => op(f(x), f(y));
-}
-/**
- * @summary Returns an array of an arithmetic sequence of numbers
- * @param {number} start the number which begins the array
- * @param {number} stop the number which is the upper bound for the end of the array
- * @param {number} delta the increment between two array values (assumed to be not equal to 0)
- * @returns {Array<number>} `[start, start + delta, ..., start + n * delta]` where `n = Math.floor((stop - start) / delta)`
- */
-export function range(start, stop, delta) {
-    let size = (delta != 0 ? Math.floor((stop - start) / delta) : 0);
-    if (size > 0) {
-        let res = new Array(size + 1);
-        res[0] = start;
-        for (let k = 1; k <= size; k++) {
-            res[k] = res[k - 1] + delta;
-        }
-        return res;
-    }
-    else {
-        return new Array();
-    }
+    return function (x, y) { return op(f(x), f(y)); };
 }
 // /**
+//  * @summary Returns an array of an arithmetic sequence of numbers
+//  * @param {number} start the number which begins the array
+//  * @param {number} stop the number which is the upper bound for the end of the array
+//  * @param {number} delta the increment between two array values (assumed to be not equal to 0)
+//  * @returns {Array<number>} `[start, ..., start + n * delta]` where `n = Math.floor((stop - start) / delta)`
+//  */
+// export function range(start: number, stop: number, delta: number): number[] {
+//   const size = (delta !== 0 ? Math.floor((stop - start) / delta) : 0);
+//   if (size > 0) {
+//     const res = new Array<number>(size + 1);
+//     res[0] = start;
+//     for (let k = 1; k <= size; k++) {
+//       res[k] = res[k - 1] + delta;
+//     }
+//     return res;
+//   } else {
+//     return new Array<number>();
+//   }
+// }
+// /**
 //  * Finds the longest common subsequence (not substring) between two strings
-//  * @param {string} xs 
-//  * @param {string} ys 
+//  * @param {string} xs
+//  * @param {string} ys
 //  */
 // export function	longCommSubseqs(xs: string, ys: string): Array<string> {
 // 		let m = xs.length, n = ys.length, D = new Array<Array<Array<string>>>(m);

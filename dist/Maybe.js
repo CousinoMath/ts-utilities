@@ -1,4 +1,4 @@
-import { ident, constant } from "Utils";
+import { constant, ident } from "./Utils";
 /**
  * @summary Universal property of nullable types
  * @param {S} nil
@@ -6,7 +6,7 @@ import { ident, constant } from "Utils";
  * @returns {function(?T): S} `x => x == null ? nil : f(x)`
  */
 export function maybe(nil, f) {
-    return x => x == null ? nil : f(x);
+    return function (x) { return x == null ? nil : f(x); };
 }
 /**
  * @function isNonNull
@@ -14,14 +14,14 @@ export function maybe(nil, f) {
  * @param {?T} x
  * @returns {boolean} `x != null`
  */
-export let isNonNull = maybe(false, constant(true));
+export var isNonNull = maybe(false, constant(true));
 /**
  * @function isNull
  * @summary Tests if a nullable value is null
  * @param {?T} x
  * @returns {boolean} `x == null`
  */
-export let isNull = maybe(true, constant(false));
+export var isNull = maybe(true, constant(false));
 /**
  * @summary Returns the value from a nullable value or a default value
  * @param {T} d default value
@@ -36,14 +36,14 @@ export function defaultTo(d) {
  * @param {?T} x
  * @returns {Array<T>} `x => x == null ? [] : [x]`
  */
-export let toArray = maybe([], x => [x]);
+export var toArray = maybe([], function (x) { return [x]; });
 /**
  * @function toBoolean
  * @summary Turns a nullable value into a boolean according to whether it is non-null
  * @param {?T} x
  * @returns {boolean} `x != null`
  */
-export let toBoolean = isNonNull;
+export var toBoolean = isNonNull;
 /**
  * @summary Transforms a function over non-null values to one over nullable values
  * @param {function(R): S} f
@@ -57,5 +57,5 @@ export function bind(f) {
  * @summary An alias of `bind`
  * @see bind
  */
-export let map = bind;
+export var map = bind;
 //# sourceMappingURL=Maybe.js.map

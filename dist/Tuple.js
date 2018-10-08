@@ -1,4 +1,4 @@
-import { curry } from "Utils";
+import { curry } from "./Utils";
 /**
  * @summary Constructs a tuple
  * @param {R} x
@@ -12,7 +12,7 @@ export function tuple(x, y) {
  * `curried = x => y => [x, y]`
  * @summary Curried construction of a tuple.
  */
-export let curried = curry(tuple);
+export var curried = curry(tuple);
 /**
  * @summary Creates a function returning a tuple from two functions that share a common input type
  * @param {function(R): T1} f
@@ -20,7 +20,7 @@ export let curried = curry(tuple);
  * @returns {function(R): Tuple<T1,T2>} `x => [f(x), g(x)]`
  */
 export function product(f, g) {
-    return x => [f(x), g(x)];
+    return function (x) { return [f(x), g(x)]; };
 }
 /**
  * @summary Flips the order of a tuple
@@ -37,6 +37,6 @@ export function flip(xy) {
  * @returns {function(Tuple<R1,R2>): Tuple<T1, T2>} `xy => [f(xy[0]), g(xy[1])]`
  */
 export function map(f, g) {
-    return xy => [f(xy[0]), g(xy[1])];
+    return function (xy) { return [f(xy[0]), g(xy[1])]; };
 }
 //# sourceMappingURL=Tuple.js.map
