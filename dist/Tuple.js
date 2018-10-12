@@ -1,9 +1,13 @@
-import { curry } from "./Utils";
 /**
+ * @deprecated since Typescript 2.7
+ * `(x, y) => [x, y]`
  * @summary Constructs a tuple
+ * @export
+ * @template R
+ * @template S
  * @param {R} x
  * @param {S} y
- * @returns {Tuple<R,S>} `(x, y) => [x, y]`
+ * @returns {Tuple<R,S>}
  */
 export function tuple(x, y) {
     return [x, y];
@@ -11,32 +15,55 @@ export function tuple(x, y) {
 /**
  * `curried = x => y => [x, y]`
  * @summary Curried construction of a tuple.
+ * @export
+ * @template R
+ * @template S
+ * @param {R} x
+ * @returns {(y: S) => Tuple<R, S>}
  */
-export var curried = curry(tuple);
-/**
- * @summary Creates a function returning a tuple from two functions that share a common input type
- * @param {function(R): T1} f
- * @param {function(R): T2} g
- * @returns {function(R): Tuple<T1,T2>} `x => [f(x), g(x)]`
- */
-export function product(f, g) {
-    return function (x) { return [f(x), g(x)]; };
+export function curried(x) {
+    return (y) => tuple(x, y);
 }
 /**
- * @summary Flips the order of a tuple
- * @param {Tuple<R, S>} xy
- * @returns {Tuple<S, R>} `xy => [xy[1], xy[0]]`
+ * `x => [f(x), g(x)]`
+ * @summary Creates a function returning a tuple from two functions that share a common input type
+ * @export
+ * @template R
+ * @template T1
+ * @template T2
+ * @param {(x: R) => T1} f
+ * @param {(x: R) => T2} g
+ * @returns {(x: R) => Tuple<T1,T2>}
  */
-export function flip(xy) {
+export function tupleProd(f, g) {
+    return (x) => [f(x), g(x)];
+}
+/**
+ * `xy => [xy[1], xy[0]]`
+ * @summary Flips the order of a tuple
+ * @export
+ * @template R
+ * @template S
+ * @param {Tuple<R, S>} xy
+ * @returns {Tuple<S, R>}
+ */
+export function tupleFlip(xy) {
     return [xy[1], xy[0]];
 }
 /**
+ * `xy => [f(xy[0]), g(xy[1])]`
  * @summary Maps two functions over a tuple
- * @param {function(R1): T1} f
- * @param {function(R2): T2} g
- * @returns {function(Tuple<R1,R2>): Tuple<T1, T2>} `xy => [f(xy[0]), g(xy[1])]`
+ * @export
+ * @template R1
+ * @template R2
+ * @template T1
+ * @template T2
+ * @param {(x: R1) => T1} f
+ * @param {(y: R2) => T2} g
+ * @param {Tuple<R1, R2>} xy
+ * @returns {(xy: Tuple<R1,R2>) => Tuple<T1, T2>}
  */
-export function map(f, g) {
-    return function (xy) { return [f(xy[0]), g(xy[1])]; };
+export function tupleMap(f, g, xy) {
+    return [f(xy[0]), g(xy[1])];
 }
 //# sourceMappingURL=Tuple.js.map

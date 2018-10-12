@@ -1,61 +1,96 @@
-import { constant, ident } from "./Utils";
+import { constant, ident } from "./Function";
 /**
+ * Technically, this does **not** return a function of an optional
+ * parameter, as such a function could be called with no
+ * parameters, i.e. the first parameter being `undefined`.
+ * `(x) => x == null ? nil : f(x)`
  * @summary Universal property of nullable types
+ * @export
+ * @template T
+ * @template S
  * @param {S} nil
- * @param {function(T): S} f
- * @returns {function(?T): S} `x => x == null ? nil : f(x)`
+ * @param {(x: T) => S} f
+ * @returns {(x: Maybe<T>) => S}
  */
 export function maybe(nil, f) {
-    return function (x) { return x == null ? nil : f(x); };
+    return (x) => x == null ? nil : f(x);
 }
 /**
- * @function isNonNull
+ * `x != null`
  * @summary Tests if a nullable value is not null
- * @param {?T} x
- * @returns {boolean} `x != null`
+ * @export
+ * @template T
+ * @param {Maybe<T>} xm
+ * @returns {boolean}
  */
-export var isNonNull = maybe(false, constant(true));
+export const isNonNull = maybe(false, constant(true));
 /**
- * @function isNull
+ * `x == null`
  * @summary Tests if a nullable value is null
- * @param {?T} x
- * @returns {boolean} `x == null`
+ * @export
+ * @template T
+ * @param {Maybe<T>} xm
+ * @returns {boolean}
  */
-export var isNull = maybe(true, constant(false));
+export const isNull = maybe(true, constant(false));
 /**
+ * `(xm) => xm == null ? d : xm`
  * @summary Returns the value from a nullable value or a default value
+ * @export
+ * @template T
  * @param {T} d default value
- * @returns {function(?T): T} `x => x == null ? d : x`
+ * @param {Maybe<T>} xm
+ * @returns {T}
  */
-export function defaultTo(d) {
-    return maybe(d, ident);
+export function defaultTo(d, xm) {
+    return maybe(d, (x) => ident(x))(xm);
 }
 /**
- * @function toArray
+ * `(x) => x == null ? [] : [x]`
  * @summary Turns a nullable value into an array
- * @param {?T} x
- * @returns {Array<T>} `x => x == null ? [] : [x]`
+ * @export
+ * @template T
+ * @param {Maybe<T>} xm
+ * @returns {Array<T>}
  */
-export var toArray = maybe([], function (x) { return [x]; });
-/**
- * @function toBoolean
- * @summary Turns a nullable value into a boolean according to whether it is non-null
- * @param {?T} x
- * @returns {boolean} `x != null`
- */
-export var toBoolean = isNonNull;
-/**
- * @summary Transforms a function over non-null values to one over nullable values
- * @param {function(R): S} f
- * @returns {function(?R): ?S} `x => x == null : null : f(x)`
- */
-export function bind(f) {
-    return maybe(null, f);
+export function maybeToArray(xm) {
+    return maybe([], (x) => [x])(xm);
 }
 /**
- * @function map
- * @summary An alias of `bind`
- * @see bind
+ * `x != null`
+ * @summary Turns a nullable value into a boolean according to whether it is non-null
+ * @export
+ * @template T
+ * @param {Maybe<T>} xm
+ * @returns {boolean}
  */
-export var map = bind;
+export function maybeToBool(xm) {
+    return isNonNull(xm);
+}
+/**
+ * `(x) => x == null ? null : f(x)`
+ * @summary Lifts a function over non-null values to one over nullable values
+ * @export
+ * @template R
+ * @template S
+ * @param {(x: R) => S} f
+ * @param {Maybe<R>} xm
+ * @returns {Maybe<S>}
+ */
+export function maybeBind(f, xm) {
+    return maybe(null, f)(xm);
+}
+/**
+ * @summary An alias of `maybeBind`
+ * @see maybeBind
+ * @export
+ * @template R
+ * @template S
+ * @param {(x: R) => S} f
+ * @param {Maybe<R>} xm
+ * @returns {Maybe<S>}
+ */
+export function maybeMap(f, xm) {
+    return maybeBind(f, xm);
+}
 //# sourceMappingURL=Maybe.js.map

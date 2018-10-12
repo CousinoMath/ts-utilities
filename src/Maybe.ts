@@ -1,70 +1,106 @@
-import { constant, ident } from "./Utils";
-
-type Maybe<T> = T | null;
+import { constant, ident } from "./Function";
 
 /**
- * @summary Universal property of nullable types
- * @param {S} nil
- * @param {function(T): S} f
- * @returns {function(?T): S} `x => x == null ? nil : f(x)`
+ * @summary A type alias for nullable types
+ * @typedef Maybe
+ * @template T
  */
-export function maybe<T, S>(nil: S, f: (x: T) => S): (x: Maybe<T>) => S {
+export type Maybe<T> = T | null;
+
+/**
+ * Technically, this does **not** return a function of an optional
+ * parameter, as such a function could be called with no
+ * parameters, i.e. the first parameter being `undefined`.
+ * `(x) => x == null ? nil : f(x)`
+ * @summary Inductive rule of nullable types
+ * @template T
+ * @template S
+ * @param {S} nil
+ * @param {(x: T) => S} f
+ * @returns {(x: Maybe<T>) => S}
+ */
+export function maybe<T, S>(nil: S, f: (x: T) => S): (xm: Maybe<T>) => S {
     return (x) => x == null ? nil : f(x);
 }
 
 /**
- * @function isNonNull
+ * `x != null`
  * @summary Tests if a nullable value is not null
- * @param {?T} x
- * @returns {boolean} `x != null`
+ * @template T
+ * @param {Maybe<T>} xm
+ * @returns {boolean}
  */
-export let isNonNull = maybe(false, constant(true));
+export function isNonNull<T>(xm: Maybe<T>): boolean {
+    return maybe(false, constant(true))(xm);
+}
 
 /**
- * @function isNull
+ * `x == null`
  * @summary Tests if a nullable value is null
- * @param {?T} x
- * @returns {boolean} `x == null`
+ * @template T
+ * @param {Maybe<T>} xm
+ * @returns {boolean}
  */
-export let isNull = maybe(true, constant(false));
+export function isNull<T>(xm: Maybe<T>): boolean {
+    return maybe(true, constant(false))(xm);
+}
 
 /**
+ * `(xm) => xm == null ? d : xm`
  * @summary Returns the value from a nullable value or a default value
+ * @template T
  * @param {T} d default value
- * @returns {function(?T): T} `x => x == null ? d : x`
+ * @param {Maybe<T>} xm
+ * @returns {T}
  */
-export function defaultTo<T>(d: T): (x: Maybe<T>) => T {
-    return maybe(d, ident);
+export function defaultTo<T>(d: T, xm: Maybe<T>): T {
+    return maybe(d, (x: T) => ident<T>(x))(xm);
 }
 
 /**
- * @function toArray
+ * `(x) => x == null ? [] : [x]`
  * @summary Turns a nullable value into an array
- * @param {?T} x
- * @returns {Array<T>} `x => x == null ? [] : [x]`
+ * @template T
+ * @param {Maybe<T>} xm
+ * @returns {Array<T>}
  */
-export let toArray = maybe([], (x) => [x]);
-
-/**
- * @function toBoolean
- * @summary Turns a nullable value into a boolean according to whether it is non-null
- * @param {?T} x
- * @returns {boolean} `x != null`
- */
-export let toBoolean = isNonNull;
-
-/**
- * @summary Transforms a function over non-null values to one over nullable values
- * @param {function(R): S} f
- * @returns {function(?R): ?S} `x => x == null : null : f(x)`
- */
-export function bind<T, S>(f: (x: T) => S): (xm: Maybe<T>) => Maybe<S> {
-    return maybe(null, f);
+export function maybeToArray<T>(xm: Maybe<T>): T[] {
+    return maybe([], (x: T) => [x])(xm);
 }
 
 /**
- * @function map
- * @summary An alias of `bind`
- * @see bind
+ * `x != null`
+ * @summary Turns a nullable value into a boolean according to whether it is non-null
+ * @template T
+ * @param {Maybe<T>} xm
+ * @returns {boolean}
  */
-export let map = bind;
+export function maybeToBool<T>(xm: Maybe<T>): boolean {
+    return isNonNull(xm);
+}
+
+/**
+ * `(x) => x == null ? null : f(x)`
+ * @summary Lifts a function over non-null values to one over nullable values
+ * @template R
+ * @template S
+ * @param {(x: R) => S} f
+ * @param {Maybe<R>} xm
+ * @returns {Maybe<S>}
+ */
+export function maybeBind<R, S>(f: (x: R) => S, xm: Maybe<R>): Maybe<S> {
+    return maybe(null, f)(xm);
+}
+
+/**
+ * @summary An alias of `maybeBind`
+ * @see {@link maybeBind}
+ * @template R
+ * @template S
+ * @param {(x: R) => S} f
+ * @param {Maybe<R>} xm
+ * @returns {Maybe<S>}
+ */
+export function maybeMap<T, S>(f: (x: T) => S, xm: Maybe<T>): Maybe<S> {
+    return maybeBind(f, xm);
+}

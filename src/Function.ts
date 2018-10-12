@@ -1,21 +1,30 @@
 /**
  * @summary Identity function
+ * @template T
  * @param {T} x
- * @returns {T} `x`
+ * @returns {T}
  */
 export function ident<T>(x: T): T { return x; }
+
 /**
  * @summary Curry a function
- * @param {function(R, S): T} f
- * @returns {function(R): function(S): T} `x => y => f(x, y)`
+ * @template R
+ * @template S
+ * @template T
+ * @param {(x: R, y: S) => T} f
+ * @returns {(x: R) => (y: S) => T}
  */
 export function curry<R, S, T>(f: (x: R, y: S) => T): (x: R) => (y: S) => T {
   return (x) => (y) => f(x, y);
 }
+
 /**
  * @summary Uncurry a function
+ * @template R
+ * @template S
+ * @template T
  * @param {function(R): function(S): T} f
- * @returns {function(R, S): T} `(x, y) => f(x)(y)`
+ * @returns {function(R, S): T}
  */
 export function uncurry<R, S, T>(f: (x: R) => (y: S) => T): (x: R, y: S) => T {
   return (x, y) => f(x)(y);
@@ -23,8 +32,10 @@ export function uncurry<R, S, T>(f: (x: R) => (y: S) => T): (x: R, y: S) => T {
 
 /**
  * @summary Creates a function with constant output
+ * @template R
+ * @template S
  * @param {R} x
- * @returns {function(*): R} `y => x`
+ * @returns {(y: S) => R}
  */
 export function constant<R, S>(x: R): (y: S) => R {
   return (y) => x;
@@ -32,8 +43,11 @@ export function constant<R, S>(x: R): (y: S) => R {
 
 /**
  * @summary Flips the arguments for a function that returns another function
- * @param {function(R): function(S): T} f
- * @returns {function(S): function(R): T} `y => x => f(x)(y)`
+ * @template R
+ * @template S
+ * @template T
+ * @param {(x: R) => (y: S) => T} f
+ * @returns {(y: S) => (x: R) => T}
  */
 export function flip<R, S, T>(f: (x: R) => (y: S) => T): (y: S) => (x: R) => T {
   return (y) => (x) => f(x)(y);
@@ -41,11 +55,15 @@ export function flip<R, S, T>(f: (x: R) => (y: S) => T): (y: S) => (x: R) => T {
 
 /**
  * @summary Creates the composition of two functions
- * @param {function(S): T} g
- * @returns {function(function(R): S): function(R): T} `f => x => g(f(x))`
+ * @template R
+ * @template S
+ * @template T
+ * @param {(y: S) => T} g
+ * @param {(x: R) => S} f
+ * @returns {(x: R) => T}
  */
-export function compose<R, S, T>(g: (y: S) => T): (f: (x: R) => S) => (x: R) => T {
-  return (f) => (x) => g(f(x));
+export function compose<R, S, T>(g: (y: S) => T, f: (x: R) => S): (x: R) => T {
+  return (x) => g(f(x));
 }
 
 /**

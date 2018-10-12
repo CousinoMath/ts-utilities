@@ -5,7 +5,7 @@
     "declarationDir": "./dist/types/",
     "sourceMap": true,
     "strict": true,
-    "target": "ES5",
+    "target": "ES6",
     "module": "es2015"
   },
   "compileOnSave": false,
