@@ -1,0 +1,5548 @@
+{
+	"id": 0,
+	"name": "CousinoMath Typescript Utilties",
+	"kind": 0,
+	"flags": {},
+	"children": [
+		{
+			"id": 281,
+			"name": "Left",
+			"kind": 256,
+			"kindString": "Interface",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"comment": {
+				"tags": [
+					{
+						"tag": "summary",
+						"text": "Left half of the discriminated union\n"
+					}
+				]
+			},
+			"typeParameter": [
+				{
+					"id": 282,
+					"name": "R",
+					"kind": 131072,
+					"kindString": "Type parameter",
+					"flags": {}
+				}
+			],
+			"children": [
+				{
+					"id": 283,
+					"name": "kind",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isExternal": true
+					},
+					"sources": [
+						{
+							"fileName": "Either.ts",
+							"line": 9,
+							"character": 15
+						}
+					],
+					"type": {
+						"type": "stringLiteral",
+						"value": "left"
+					}
+				},
+				{
+					"id": 284,
+					"name": "value",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isExternal": true
+					},
+					"sources": [
+						{
+							"fileName": "Either.ts",
+							"line": 10,
+							"character": 16
+						}
+					],
+					"type": {
+						"type": "typeParameter",
+						"name": "R"
+					}
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						283,
+						284
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Either.ts",
+					"line": 8,
+					"character": 21
+				}
+			]
+		},
+		{
+			"id": 285,
+			"name": "Right",
+			"kind": 256,
+			"kindString": "Interface",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"comment": {
+				"tags": [
+					{
+						"tag": "summary",
+						"text": "Right half of the discriminated union\n"
+					}
+				]
+			},
+			"typeParameter": [
+				{
+					"id": 286,
+					"name": "S",
+					"kind": 131072,
+					"kindString": "Type parameter",
+					"flags": {}
+				}
+			],
+			"children": [
+				{
+					"id": 287,
+					"name": "kind",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isExternal": true
+					},
+					"sources": [
+						{
+							"fileName": "Either.ts",
+							"line": 18,
+							"character": 15
+						}
+					],
+					"type": {
+						"type": "stringLiteral",
+						"value": "right"
+					}
+				},
+				{
+					"id": 288,
+					"name": "value",
+					"kind": 1024,
+					"kindString": "Property",
+					"flags": {
+						"isExported": true,
+						"isExternal": true
+					},
+					"sources": [
+						{
+							"fileName": "Either.ts",
+							"line": 19,
+							"character": 16
+						}
+					],
+					"type": {
+						"type": "typeParameter",
+						"name": "S"
+					}
+				}
+			],
+			"groups": [
+				{
+					"title": "Properties",
+					"kind": 1024,
+					"children": [
+						287,
+						288
+					]
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Either.ts",
+					"line": 17,
+					"character": 22
+				}
+			]
+		},
+		{
+			"id": 289,
+			"name": "Either",
+			"kind": 4194304,
+			"kindString": "Type alias",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"comment": {
+				"tags": [
+					{
+						"tag": "summary",
+						"text": "Generic discriminated union\n"
+					}
+				]
+			},
+			"typeParameter": [
+				{
+					"id": 290,
+					"name": "R",
+					"kind": 131072,
+					"kindString": "Type parameter",
+					"flags": {}
+				},
+				{
+					"id": 291,
+					"name": "S",
+					"kind": 131072,
+					"kindString": "Type parameter",
+					"flags": {}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Either.ts",
+					"line": 25,
+					"character": 18
+				}
+			],
+			"type": {
+				"type": "union",
+				"types": [
+					{
+						"type": "reference",
+						"name": "Left",
+						"id": 281,
+						"typeArguments": [
+							{
+								"type": "typeParameter",
+								"name": "R"
+							}
+						]
+					},
+					{
+						"type": "reference",
+						"name": "Right",
+						"id": 285,
+						"typeArguments": [
+							{
+								"type": "typeParameter",
+								"name": "S"
+							}
+						]
+					}
+				]
+			}
+		},
+		{
+			"id": 97,
+			"name": "Maybe",
+			"kind": 4194304,
+			"kindString": "Type alias",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"comment": {
+				"tags": [
+					{
+						"tag": "summary",
+						"text": "A type alias for nullable types\n"
+					}
+				]
+			},
+			"typeParameter": [
+				{
+					"id": 98,
+					"name": "T",
+					"kind": 131072,
+					"kindString": "Type parameter",
+					"flags": {}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Maybe.ts",
+					"line": 6,
+					"character": 17
+				}
+			],
+			"type": {
+				"type": "union",
+				"types": [
+					{
+						"type": "typeParameter",
+						"name": "T"
+					},
+					{
+						"type": "intrinsic",
+						"name": "null"
+					}
+				]
+			}
+		},
+		{
+			"id": 228,
+			"name": "Tuple",
+			"kind": 4194304,
+			"kindString": "Type alias",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"comment": {
+				"tags": [
+					{
+						"tag": "deprecated",
+						"text": "since Typescript 2.7 implemented them natively\n`Tuple<R,S> = [R, S]`"
+					},
+					{
+						"tag": "summary",
+						"text": "A type alias (now) for tuples\n"
+					}
+				]
+			},
+			"typeParameter": [
+				{
+					"id": 229,
+					"name": "R",
+					"kind": 131072,
+					"kindString": "Type parameter",
+					"flags": {}
+				},
+				{
+					"id": 230,
+					"name": "S",
+					"kind": 131072,
+					"kindString": "Type parameter",
+					"flags": {}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Tuple.ts",
+					"line": 6,
+					"character": 17
+				}
+			],
+			"type": {
+				"type": "tuple",
+				"elements": [
+					{
+						"type": "typeParameter",
+						"name": "R"
+					},
+					{
+						"type": "typeParameter",
+						"name": "S"
+					}
+				]
+			}
+		},
+		{
+			"id": 174,
+			"name": "accumulate",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 175,
+					"name": "accumulate",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "`xs => [xs[0], f(xs[0], xs[1]), f(f(xs[0], xs[1]), xs[2]), ...]`",
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Returns a function creates an array of running accumulations from an input array"
+							},
+							{
+								"tag": "see",
+								"text": "[[cumSum]]"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 176,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 177,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"text": "accumulating function"
+							},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 178,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 179,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 180,
+													"name": "x",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "T"
+													}
+												},
+												{
+													"id": 181,
+													"name": "y",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "T"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "T"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Array.ts",
+											"line": 49,
+											"character": 32
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 182,
+							"name": "xs",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"text": "an array to accumulate over\n"
+							},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "typeParameter",
+									"name": "T"
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "typeParameter",
+							"name": "T"
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Array.ts",
+					"line": 49,
+					"character": 26
+				}
+			]
+		},
+		{
+			"id": 150,
+			"name": "array",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 151,
+					"name": "array",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Creates a recursive function over arrays with arbitrary return type."
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 152,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 153,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 154,
+							"name": "init",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"text": "value returned for an empty array"
+							},
+							"type": {
+								"type": "typeParameter",
+								"name": "S"
+							}
+						},
+						{
+							"id": 155,
+							"name": "ind",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"text": "recursive rule applied to non-empty arrays\n"
+							},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 156,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 157,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 158,
+													"name": "x",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "R"
+													}
+												},
+												{
+													"id": 159,
+													"name": "ys",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "S"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "S"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Array.ts",
+											"line": 9,
+											"character": 41
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 160,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 161,
+									"name": "__call",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 162,
+											"name": "xs",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "array",
+												"elementType": {
+													"type": "typeParameter",
+													"name": "R"
+												}
+											}
+										}
+									],
+									"type": {
+										"type": "typeParameter",
+										"name": "S"
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "Array.ts",
+									"line": 9,
+									"character": 62
+								}
+							]
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Array.ts",
+					"line": 9,
+					"character": 21
+				}
+			]
+		},
+		{
+			"id": 362,
+			"name": "bindLeft",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 363,
+					"name": "bindLeft",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Transforms the left half of `Either` values\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 364,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 365,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 366,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 367,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 368,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 369,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 370,
+													"name": "x",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "R"
+													}
+												}
+											],
+											"type": {
+												"type": "reference",
+												"name": "Either",
+												"id": 289,
+												"typeArguments": [
+													{
+														"type": "typeParameter",
+														"name": "T"
+													},
+													{
+														"type": "typeParameter",
+														"name": "S"
+													}
+												]
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Either.ts",
+											"line": 117,
+											"character": 4
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 371,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 372,
+									"name": "__call",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 373,
+											"name": "xe",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "Either",
+												"id": 289,
+												"typeArguments": [
+													{
+														"type": "typeParameter",
+														"name": "R"
+													},
+													{
+														"type": "typeParameter",
+														"name": "S"
+													}
+												]
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Either",
+										"id": 289,
+										"typeArguments": [
+											{
+												"type": "typeParameter",
+												"name": "T"
+											},
+											{
+												"type": "typeParameter",
+												"name": "S"
+											}
+										]
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "Either.ts",
+									"line": 118,
+									"character": 2
+								}
+							]
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Either.ts",
+					"line": 116,
+					"character": 24
+				}
+			]
+		},
+		{
+			"id": 350,
+			"name": "bindRight",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 351,
+					"name": "bindRight",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Transforms the right half of `Either` values\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 352,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 353,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 354,
+							"name": "U",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 355,
+							"name": "g",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 356,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 357,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 358,
+													"name": "y",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "S"
+													}
+												}
+											],
+											"type": {
+												"type": "reference",
+												"name": "Either",
+												"id": 289,
+												"typeArguments": [
+													{
+														"type": "typeParameter",
+														"name": "R"
+													},
+													{
+														"type": "typeParameter",
+														"name": "U"
+													}
+												]
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Either.ts",
+											"line": 108,
+											"character": 4
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 359,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 360,
+									"name": "__call",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 361,
+											"name": "xe",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "Either",
+												"id": 289,
+												"typeArguments": [
+													{
+														"type": "typeParameter",
+														"name": "R"
+													},
+													{
+														"type": "typeParameter",
+														"name": "S"
+													}
+												]
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Either",
+										"id": 289,
+										"typeArguments": [
+											{
+												"type": "typeParameter",
+												"name": "R"
+											},
+											{
+												"type": "typeParameter",
+												"name": "U"
+											}
+										]
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "Either.ts",
+									"line": 109,
+									"character": 2
+								}
+							]
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Either.ts",
+					"line": 107,
+					"character": 25
+				}
+			]
+		},
+		{
+			"id": 63,
+			"name": "compose",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 64,
+					"name": "compose",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Creates the composition of two functions\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 65,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 66,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 67,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 68,
+							"name": "g",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 69,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 70,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 71,
+													"name": "y",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "S"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "T"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Function.ts",
+											"line": 39,
+											"character": 35
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 72,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 73,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 74,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 75,
+													"name": "x",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "R"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "S"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Function.ts",
+											"line": 39,
+											"character": 51
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 76,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 77,
+									"name": "__call",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 78,
+											"name": "x",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "typeParameter",
+												"name": "R"
+											}
+										}
+									],
+									"type": {
+										"type": "typeParameter",
+										"name": "T"
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "Function.ts",
+									"line": 39,
+									"character": 65
+								}
+							]
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Function.ts",
+					"line": 39,
+					"character": 23
+				}
+			]
+		},
+		{
+			"id": 37,
+			"name": "constant",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 38,
+					"name": "constant",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Creates a function with constant output\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 39,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 40,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 41,
+							"name": "x",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "typeParameter",
+								"name": "R"
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 42,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 43,
+									"name": "__call",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 44,
+											"name": "y",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "typeParameter",
+												"name": "S"
+											}
+										}
+									],
+									"type": {
+										"type": "typeParameter",
+										"name": "R"
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "Function.ts",
+									"line": 25,
+									"character": 37
+								}
+							]
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Function.ts",
+					"line": 25,
+					"character": 24
+				}
+			]
+		},
+		{
+			"id": 183,
+			"name": "cumSum",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 184,
+					"name": "cumSum",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "`[xs[0], xs[0] + xs[1], xs[0] + xs[1] + xs[2], ...]`",
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Takes an array and returns the array of running totals\n"
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 185,
+							"name": "xs",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "intrinsic",
+									"name": "number"
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "number"
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Array.ts",
+					"line": 64,
+					"character": 22
+				}
+			]
+		},
+		{
+			"id": 237,
+			"name": "curried",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 238,
+					"name": "curried",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "`curried = x => y => [x, y]`",
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Curried construction of a tuple.\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 239,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 240,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 241,
+							"name": "x",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "typeParameter",
+								"name": "R"
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 242,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 243,
+									"name": "__call",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 244,
+											"name": "y",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "typeParameter",
+												"name": "S"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Tuple",
+										"id": 228,
+										"typeArguments": [
+											{
+												"type": "typeParameter",
+												"name": "R"
+											},
+											{
+												"type": "typeParameter",
+												"name": "S"
+											}
+										]
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "Tuple.ts",
+									"line": 21,
+									"character": 36
+								}
+							]
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Tuple.ts",
+					"line": 21,
+					"character": 23
+				}
+			]
+		},
+		{
+			"id": 5,
+			"name": "curry",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 6,
+					"name": "curry",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Curry a function\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 7,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 8,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 9,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 10,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 11,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 12,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 13,
+													"name": "x",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "R"
+													}
+												},
+												{
+													"id": 14,
+													"name": "y",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "S"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "T"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Function.ts",
+											"line": 11,
+											"character": 33
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 15,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 16,
+									"name": "__call",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 17,
+											"name": "x",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "typeParameter",
+												"name": "R"
+											}
+										}
+									],
+									"type": {
+										"type": "reflection",
+										"declaration": {
+											"id": 18,
+											"name": "__type",
+											"kind": 65536,
+											"kindString": "Type literal",
+											"flags": {},
+											"signatures": [
+												{
+													"id": 19,
+													"name": "__call",
+													"kind": 4096,
+													"kindString": "Call signature",
+													"flags": {},
+													"parameters": [
+														{
+															"id": 20,
+															"name": "y",
+															"kind": 32768,
+															"kindString": "Parameter",
+															"flags": {},
+															"type": {
+																"type": "typeParameter",
+																"name": "S"
+															}
+														}
+													],
+													"type": {
+														"type": "typeParameter",
+														"name": "T"
+													}
+												}
+											],
+											"sources": [
+												{
+													"fileName": "Function.ts",
+													"line": 11,
+													"character": 63
+												}
+											]
+										}
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "Function.ts",
+									"line": 11,
+									"character": 53
+								}
+							]
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Function.ts",
+					"line": 11,
+					"character": 21
+				}
+			]
+		},
+		{
+			"id": 119,
+			"name": "defaultTo",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 120,
+					"name": "defaultTo",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "`(xm) => xm == null ? d : xm`",
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Returns the value from a nullable value or a default value\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 121,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 122,
+							"name": "d",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "typeParameter",
+								"name": "T"
+							}
+						},
+						{
+							"id": 123,
+							"name": "xm",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "Maybe",
+								"id": 97,
+								"typeArguments": [
+									{
+										"type": "typeParameter",
+										"name": "T"
+									}
+								]
+							}
+						}
+					],
+					"type": {
+						"type": "typeParameter",
+						"name": "T"
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Maybe.ts",
+					"line": 39,
+					"character": 25
+				}
+			]
+		},
+		{
+			"id": 292,
+			"name": "either",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 293,
+					"name": "either",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "Inductive rule for the `Either` type.",
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Creates functions over `Either` values\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 294,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 295,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 296,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 297,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 298,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 299,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 300,
+													"name": "l",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "R"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "T"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Either.ts",
+											"line": 32,
+											"character": 4
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 301,
+							"name": "g",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 302,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 303,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 304,
+													"name": "r",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "S"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "T"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Either.ts",
+											"line": 33,
+											"character": 4
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 305,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 306,
+									"name": "__call",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 307,
+											"name": "e",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "Either",
+												"id": 289,
+												"typeArguments": [
+													{
+														"type": "typeParameter",
+														"name": "R"
+													},
+													{
+														"type": "typeParameter",
+														"name": "S"
+													}
+												]
+											}
+										}
+									],
+									"type": {
+										"type": "typeParameter",
+										"name": "T"
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "Either.ts",
+									"line": 34,
+									"character": 2
+								}
+							]
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Either.ts",
+					"line": 31,
+					"character": 22
+				}
+			]
+		},
+		{
+			"id": 333,
+			"name": "eitherMap",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 334,
+					"name": "eitherMap",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Enables transformations on `Either` values\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 335,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 336,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 337,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 338,
+							"name": "U",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 339,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 340,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 341,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 342,
+													"name": "x",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "R"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "T"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Either.ts",
+											"line": 90,
+											"character": 4
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 343,
+							"name": "g",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 344,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 345,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 346,
+													"name": "y",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "S"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "U"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Either.ts",
+											"line": 91,
+											"character": 4
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 347,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 348,
+									"name": "__call",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 349,
+											"name": "xe",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "Either",
+												"id": 289,
+												"typeArguments": [
+													{
+														"type": "typeParameter",
+														"name": "R"
+													},
+													{
+														"type": "typeParameter",
+														"name": "S"
+													}
+												]
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Either",
+										"id": 289,
+										"typeArguments": [
+											{
+												"type": "typeParameter",
+												"name": "T"
+											},
+											{
+												"type": "typeParameter",
+												"name": "U"
+											}
+										]
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "Either.ts",
+									"line": 92,
+									"character": 2
+								}
+							]
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Either.ts",
+					"line": 89,
+					"character": 25
+				}
+			]
+		},
+		{
+			"id": 212,
+			"name": "find",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 213,
+					"name": "find",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"returns": "either returns the first element of `xs` that makes `f` true or returns null\n",
+						"tags": [
+							{
+								"tag": "deprecated",
+								"text": "since ES6 introduced this to the Array prototype"
+							},
+							{
+								"tag": "summary",
+								"text": "Searches an array with a predicate returning the first element on which the predicate is true"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 214,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 215,
+							"name": "xs",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "typeParameter",
+									"name": "T"
+								}
+							}
+						},
+						{
+							"id": 216,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 217,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 218,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 219,
+													"name": "x",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "T"
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "boolean"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Array.ts",
+											"line": 122,
+											"character": 35
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "Maybe",
+						"id": 97,
+						"typeArguments": [
+							{
+								"type": "typeParameter",
+								"name": "T"
+							}
+						]
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Array.ts",
+					"line": 122,
+					"character": 20
+				}
+			]
+		},
+		{
+			"id": 220,
+			"name": "findIndex",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 221,
+					"name": "findIndex",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"returns": "either the first index of `xs` whose element makes `f` true or returns -1\n",
+						"tags": [
+							{
+								"tag": "deprecated",
+								"text": "since ES6 introduced this to the Array prototype"
+							},
+							{
+								"tag": "summary",
+								"text": "Searches an array with a predicate returning the first index on whose value the predicate is true"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 222,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 223,
+							"name": "xs",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "typeParameter",
+									"name": "T"
+								}
+							}
+						},
+						{
+							"id": 224,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 225,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 226,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 227,
+													"name": "x",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "T"
+													}
+												}
+											],
+											"type": {
+												"type": "intrinsic",
+												"name": "boolean"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Array.ts",
+											"line": 136,
+											"character": 40
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "number"
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Array.ts",
+					"line": 136,
+					"character": 25
+				}
+			]
+		},
+		{
+			"id": 186,
+			"name": "flatMap",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 187,
+					"name": "flatMap",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Flatly maps an array-valued function over an input array\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 188,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 189,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 190,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 191,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 192,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 193,
+													"name": "x",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "R"
+													}
+												}
+											],
+											"type": {
+												"type": "array",
+												"elementType": {
+													"type": "typeParameter",
+													"name": "S"
+												}
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Array.ts",
+											"line": 71,
+											"character": 32
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 194,
+							"name": "xs",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "typeParameter",
+									"name": "R"
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "typeParameter",
+							"name": "S"
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Array.ts",
+					"line": 71,
+					"character": 23
+				}
+			]
+		},
+		{
+			"id": 195,
+			"name": "flatten",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 196,
+					"name": "flatten",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Flattens an array of arrays\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 197,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 198,
+							"name": "xss",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "array",
+									"elementType": {
+										"type": "typeParameter",
+										"name": "T"
+									}
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "typeParameter",
+							"name": "T"
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Array.ts",
+					"line": 78,
+					"character": 23
+				}
+			]
+		},
+		{
+			"id": 45,
+			"name": "flip",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 46,
+					"name": "flip",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Flips the arguments for a function that returns another function\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 47,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 48,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 49,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 50,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 51,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 52,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 53,
+													"name": "x",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "R"
+													}
+												}
+											],
+											"type": {
+												"type": "reflection",
+												"declaration": {
+													"id": 54,
+													"name": "__type",
+													"kind": 65536,
+													"kindString": "Type literal",
+													"flags": {},
+													"signatures": [
+														{
+															"id": 55,
+															"name": "__call",
+															"kind": 4096,
+															"kindString": "Call signature",
+															"flags": {},
+															"parameters": [
+																{
+																	"id": 56,
+																	"name": "y",
+																	"kind": 32768,
+																	"kindString": "Parameter",
+																	"flags": {},
+																	"type": {
+																		"type": "typeParameter",
+																		"name": "S"
+																	}
+																}
+															],
+															"type": {
+																"type": "typeParameter",
+																"name": "T"
+															}
+														}
+													],
+													"sources": [
+														{
+															"fileName": "Function.ts",
+															"line": 32,
+															"character": 42
+														}
+													]
+												}
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Function.ts",
+											"line": 32,
+											"character": 32
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 57,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 58,
+									"name": "__call",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 59,
+											"name": "y",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "typeParameter",
+												"name": "S"
+											}
+										}
+									],
+									"type": {
+										"type": "reflection",
+										"declaration": {
+											"id": 60,
+											"name": "__type",
+											"kind": 65536,
+											"kindString": "Type literal",
+											"flags": {},
+											"signatures": [
+												{
+													"id": 61,
+													"name": "__call",
+													"kind": 4096,
+													"kindString": "Call signature",
+													"flags": {},
+													"parameters": [
+														{
+															"id": 62,
+															"name": "x",
+															"kind": 32768,
+															"kindString": "Parameter",
+															"flags": {},
+															"type": {
+																"type": "typeParameter",
+																"name": "R"
+															}
+														}
+													],
+													"type": {
+														"type": "typeParameter",
+														"name": "T"
+													}
+												}
+											],
+											"sources": [
+												{
+													"fileName": "Function.ts",
+													"line": 32,
+													"character": 66
+												}
+											]
+										}
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "Function.ts",
+									"line": 32,
+									"character": 56
+								}
+							]
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Function.ts",
+					"line": 32,
+					"character": 20
+				}
+			]
+		},
+		{
+			"id": 199,
+			"name": "from",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 200,
+					"name": "from",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"returns": "an array whose elements are `f` applied to their indices",
+						"tags": [
+							{
+								"tag": "deprecated",
+								"text": "since ES6 introduced this to the Array prototype"
+							},
+							{
+								"tag": "summary",
+								"text": "Returns an array of specified length whose entries are `f` mapped over the indices."
+							},
+							{
+								"tag": "throws",
+								"text": "`RangeError` when array length is invalid, i.e. at least `2^32` or negative.\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 201,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 202,
+							"name": "len",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"text": "length of the resulting array"
+							},
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							}
+						},
+						{
+							"id": 203,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"text": "function which will generate elements from their indices"
+							},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 204,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 205,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 206,
+													"name": "idx",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "number"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "T"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Array.ts",
+											"line": 90,
+											"character": 39
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "typeParameter",
+							"name": "T"
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Array.ts",
+					"line": 90,
+					"character": 20
+				}
+			]
+		},
+		{
+			"id": 1,
+			"name": "ident",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 2,
+					"name": "ident",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Identity function\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 3,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 4,
+							"name": "x",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "typeParameter",
+								"name": "T"
+							}
+						}
+					],
+					"type": {
+						"type": "typeParameter",
+						"name": "T"
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Function.ts",
+					"line": 4,
+					"character": 21
+				}
+			]
+		},
+		{
+			"id": 318,
+			"name": "isLeft",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 319,
+					"name": "isLeft",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Tests whether an `Either` value is of the left type.\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 320,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 321,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 322,
+							"name": "xe",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "Either",
+								"id": 289,
+								"typeArguments": [
+									{
+										"type": "typeParameter",
+										"name": "R"
+									},
+									{
+										"type": "typeParameter",
+										"name": "S"
+									}
+								]
+							}
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Either.ts",
+					"line": 63,
+					"character": 22
+				}
+			]
+		},
+		{
+			"id": 111,
+			"name": "isNonNull",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 112,
+					"name": "isNonNull",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "`x != null`",
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Tests if a nullable value is not null\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 113,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 114,
+							"name": "xm",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "Maybe",
+								"id": 97,
+								"typeArguments": [
+									{
+										"type": "typeParameter",
+										"name": "T"
+									}
+								]
+							}
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Maybe.ts",
+					"line": 23,
+					"character": 25
+				}
+			]
+		},
+		{
+			"id": 115,
+			"name": "isNull",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 116,
+					"name": "isNull",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "`x == null`",
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Tests if a nullable value is null\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 117,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 118,
+							"name": "xm",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "Maybe",
+								"id": 97,
+								"typeArguments": [
+									{
+										"type": "typeParameter",
+										"name": "T"
+									}
+								]
+							}
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Maybe.ts",
+					"line": 31,
+					"character": 22
+				}
+			]
+		},
+		{
+			"id": 323,
+			"name": "isRight",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 324,
+					"name": "isRight",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Test whether an `Either` value is of the right type.\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 325,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 326,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 327,
+							"name": "xe",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "Either",
+								"id": 289,
+								"typeArguments": [
+									{
+										"type": "typeParameter",
+										"name": "R"
+									},
+									{
+										"type": "typeParameter",
+										"name": "S"
+									}
+								]
+							}
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Either.ts",
+					"line": 70,
+					"character": 23
+				}
+			]
+		},
+		{
+			"id": 308,
+			"name": "left",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 309,
+					"name": "left",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "The typical use of this needs to look like\n<pre><code class=\"typescript\">(x: R) => left&lt;R, S&rt;(x)</code></pre>\nbecause the Typescript compiler will not be able to infer\nthe correct type for the right half.",
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Creates the \"left half\" of an `Either` value\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 310,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 311,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 312,
+							"name": "x",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "typeParameter",
+								"name": "R"
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "Either",
+						"id": 289,
+						"typeArguments": [
+							{
+								"type": "typeParameter",
+								"name": "R"
+							},
+							{
+								"type": "typeParameter",
+								"name": "S"
+							}
+						]
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Either.ts",
+					"line": 45,
+					"character": 20
+				}
+			]
+		},
+		{
+			"id": 99,
+			"name": "maybe",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 100,
+					"name": "maybe",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "Technically, this does **not** return a function of an optional\nparameter, as such a function could be called with no\nparameters, i.e. the first parameter being `undefined`.\n`(x) => x == null ? nil : f(x)`",
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Inductive rule of nullable types\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 101,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 102,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 103,
+							"name": "nil",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "typeParameter",
+								"name": "S"
+							}
+						},
+						{
+							"id": 104,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 105,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 106,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 107,
+													"name": "x",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "T"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "S"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Maybe.ts",
+											"line": 15,
+											"character": 38
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 108,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 109,
+									"name": "__call",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 110,
+											"name": "xm",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "reference",
+												"name": "Maybe",
+												"id": 97,
+												"typeArguments": [
+													{
+														"type": "typeParameter",
+														"name": "T"
+													}
+												]
+											}
+										}
+									],
+									"type": {
+										"type": "typeParameter",
+										"name": "S"
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "Maybe.ts",
+									"line": 15,
+									"character": 52
+								}
+							]
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Maybe.ts",
+					"line": 15,
+					"character": 21
+				}
+			]
+		},
+		{
+			"id": 132,
+			"name": "maybeBind",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 133,
+					"name": "maybeBind",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "`(x) => x == null ? null : f(x)`",
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Lifts a function over non-null values to one over nullable values\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 134,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 135,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 136,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 137,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 138,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 139,
+													"name": "x",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "R"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "S"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Maybe.ts",
+											"line": 63,
+											"character": 34
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 140,
+							"name": "xm",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "Maybe",
+								"id": 97,
+								"typeArguments": [
+									{
+										"type": "typeParameter",
+										"name": "R"
+									}
+								]
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "Maybe",
+						"id": 97,
+						"typeArguments": [
+							{
+								"type": "typeParameter",
+								"name": "S"
+							}
+						]
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Maybe.ts",
+					"line": 63,
+					"character": 25
+				}
+			]
+		},
+		{
+			"id": 141,
+			"name": "maybeMap",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 142,
+					"name": "maybeMap",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "An alias of `maybeBind`"
+							},
+							{
+								"tag": "see",
+								"text": "[[maybeBind]]\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 143,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 144,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 145,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 146,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 147,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 148,
+													"name": "x",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "T"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "S"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Maybe.ts",
+											"line": 71,
+											"character": 33
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 149,
+							"name": "xm",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "Maybe",
+								"id": 97,
+								"typeArguments": [
+									{
+										"type": "typeParameter",
+										"name": "T"
+									}
+								]
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "Maybe",
+						"id": 97,
+						"typeArguments": [
+							{
+								"type": "typeParameter",
+								"name": "S"
+							}
+						]
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Maybe.ts",
+					"line": 71,
+					"character": 24
+				}
+			]
+		},
+		{
+			"id": 124,
+			"name": "maybeToArray",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 125,
+					"name": "maybeToArray",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "`(x) => x == null ? [] : [x]`",
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Turns a nullable value into an array\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 126,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 127,
+							"name": "xm",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "Maybe",
+								"id": 97,
+								"typeArguments": [
+									{
+										"type": "typeParameter",
+										"name": "T"
+									}
+								]
+							}
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "typeParameter",
+							"name": "T"
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Maybe.ts",
+					"line": 47,
+					"character": 28
+				}
+			]
+		},
+		{
+			"id": 128,
+			"name": "maybeToBool",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 129,
+					"name": "maybeToBool",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "`x != null`",
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Turns a nullable value into a boolean according to whether it is non-null\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 130,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 131,
+							"name": "xm",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "Maybe",
+								"id": 97,
+								"typeArguments": [
+									{
+										"type": "typeParameter",
+										"name": "T"
+									}
+								]
+							}
+						}
+					],
+					"type": {
+						"type": "intrinsic",
+						"name": "boolean"
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Maybe.ts",
+					"line": 55,
+					"character": 27
+				}
+			]
+		},
+		{
+			"id": 79,
+			"name": "over",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 80,
+					"name": "over",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Threads a function `f` through a binary operation `op`\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 81,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 82,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 83,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 84,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 85,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 86,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 87,
+													"name": "x",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "R"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "S"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Function.ts",
+											"line": 47,
+											"character": 4
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 88,
+							"name": "op",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 89,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 90,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 91,
+													"name": "x",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "S"
+													}
+												},
+												{
+													"id": 92,
+													"name": "y",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "S"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "T"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Function.ts",
+											"line": 48,
+											"character": 5
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 93,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 94,
+									"name": "__call",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 95,
+											"name": "x",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "typeParameter",
+												"name": "R"
+											}
+										},
+										{
+											"id": 96,
+											"name": "y",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "typeParameter",
+												"name": "R"
+											}
+										}
+									],
+									"type": {
+										"type": "typeParameter",
+										"name": "T"
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "Function.ts",
+									"line": 49,
+									"character": 2
+								}
+							]
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Function.ts",
+					"line": 46,
+					"character": 20
+				}
+			]
+		},
+		{
+			"id": 207,
+			"name": "range",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 208,
+					"name": "range",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "Generates an array using an arithmetic sequence starting at `start`,\nincrementing by `delta`, and stopping no later than `stop`",
+						"returns": ", where n = Math.floor((stop - start) / delta)\n",
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Generates an array using an arithmetic sequence"
+							}
+						]
+					},
+					"parameters": [
+						{
+							"id": 209,
+							"name": "start",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							},
+							"defaultValue": "0"
+						},
+						{
+							"id": 210,
+							"name": "stop",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							}
+						},
+						{
+							"id": 211,
+							"name": "delta",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "intrinsic",
+								"name": "number"
+							},
+							"defaultValue": "1"
+						}
+					],
+					"type": {
+						"type": "array",
+						"elementType": {
+							"type": "intrinsic",
+							"name": "number"
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Array.ts",
+					"line": 112,
+					"character": 21
+				}
+			]
+		},
+		{
+			"id": 163,
+			"name": "reduce",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 164,
+					"name": "reduce",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "`f(..., f(xs[1], f(xs[0], init))...)`\nThis is different from `reduce` on the Array prototype. You'll find the\ntype signature there is",
+						"text": "    Array.prototype.reduce<T>: (f: (accum: T, value: T, index?: number, array?: T[]) => T, initVal: T) => T\n\nWhereas this reduce function can return a value whose type is different\nthan that of the array elements.",
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "An array reducer which can return an arbitrary value type."
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 165,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 166,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 167,
+							"name": "xs",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"text": "array to be reduced"
+							},
+							"type": {
+								"type": "array",
+								"elementType": {
+									"type": "typeParameter",
+									"name": "R"
+								}
+							}
+						},
+						{
+							"id": 168,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"text": "reducing function"
+							},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 169,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 170,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 171,
+													"name": "accum",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "S"
+													}
+												},
+												{
+													"id": 172,
+													"name": "value",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "R"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "S"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Array.ts",
+											"line": 36,
+											"character": 4
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 173,
+							"name": "init",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"comment": {
+								"text": "initial value\n"
+							},
+							"type": {
+								"type": "typeParameter",
+								"name": "S"
+							}
+						}
+					],
+					"type": {
+						"type": "typeParameter",
+						"name": "S"
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Array.ts",
+					"line": 34,
+					"character": 22
+				}
+			]
+		},
+		{
+			"id": 313,
+			"name": "right",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 314,
+					"name": "right",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "The typical use of this needs to look like\n<pre><code class=\"typescript\">(y: S) => right&lt;R, S&rt;(y)</code></pre>\nbecause the Typescript compiler will not be able to infer\nthe correct type for the left half.",
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Creates the \"right half\" of an `Either` value\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 315,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 316,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 317,
+							"name": "y",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "typeParameter",
+								"name": "S"
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "Either",
+						"id": 289,
+						"typeArguments": [
+							{
+								"type": "typeParameter",
+								"name": "R"
+							},
+							{
+								"type": "typeParameter",
+								"name": "S"
+							}
+						]
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Either.ts",
+					"line": 56,
+					"character": 21
+				}
+			]
+		},
+		{
+			"id": 328,
+			"name": "toPartition",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 329,
+					"name": "toPartition",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "The result of this function will be a tuple of arrays,\none of which has length 1 and the other which is empty.",
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Converts an `Either` value to a tuple of arrays\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 330,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 331,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 332,
+							"name": "xe",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "Either",
+								"id": 289,
+								"typeArguments": [
+									{
+										"type": "typeParameter",
+										"name": "R"
+									},
+									{
+										"type": "typeParameter",
+										"name": "S"
+									}
+								]
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "Tuple",
+						"id": 228,
+						"typeArguments": [
+							{
+								"type": "array",
+								"elementType": {
+									"type": "typeParameter",
+									"name": "R"
+								}
+							},
+							{
+								"type": "array",
+								"elementType": {
+									"type": "typeParameter",
+									"name": "S"
+								}
+							}
+						]
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Either.ts",
+					"line": 79,
+					"character": 27
+				}
+			]
+		},
+		{
+			"id": 231,
+			"name": "tuple",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 232,
+					"name": "tuple",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "deprecated",
+								"text": "since Typescript 2.7\n`(x, y) => [x, y]`"
+							},
+							{
+								"tag": "summary",
+								"text": "Constructs a tuple\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 233,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 234,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 235,
+							"name": "x",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "typeParameter",
+								"name": "R"
+							}
+						},
+						{
+							"id": 236,
+							"name": "y",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "typeParameter",
+								"name": "S"
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "Tuple",
+						"id": 228,
+						"typeArguments": [
+							{
+								"type": "typeParameter",
+								"name": "R"
+							},
+							{
+								"type": "typeParameter",
+								"name": "S"
+							}
+						]
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Tuple.ts",
+					"line": 13,
+					"character": 21
+				}
+			]
+		},
+		{
+			"id": 261,
+			"name": "tupleFlip",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 262,
+					"name": "tupleFlip",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "`xy => [xy[1], xy[0]]`",
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Flips the order of a tuple\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 263,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 264,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 265,
+							"name": "xy",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "Tuple",
+								"id": 228,
+								"typeArguments": [
+									{
+										"type": "typeParameter",
+										"name": "R"
+									},
+									{
+										"type": "typeParameter",
+										"name": "S"
+									}
+								]
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "Tuple",
+						"id": 228,
+						"typeArguments": [
+							{
+								"type": "typeParameter",
+								"name": "S"
+							},
+							{
+								"type": "typeParameter",
+								"name": "R"
+							}
+						]
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Tuple.ts",
+					"line": 40,
+					"character": 25
+				}
+			]
+		},
+		{
+			"id": 266,
+			"name": "tupleMap",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 267,
+					"name": "tupleMap",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "`xy => [f(xy[0]), g(xy[1])]`",
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Maps two functions over a tuple\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 268,
+							"name": "R1",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 269,
+							"name": "R2",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 270,
+							"name": "T1",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 271,
+							"name": "T2",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 272,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 273,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 274,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 275,
+													"name": "x",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "R1"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "T1"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Tuple.ts",
+											"line": 49,
+											"character": 4
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 276,
+							"name": "g",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 277,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 278,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 279,
+													"name": "y",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "R2"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "T2"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Tuple.ts",
+											"line": 50,
+											"character": 4
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 280,
+							"name": "xy",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reference",
+								"name": "Tuple",
+								"id": 228,
+								"typeArguments": [
+									{
+										"type": "typeParameter",
+										"name": "R1"
+									},
+									{
+										"type": "typeParameter",
+										"name": "R2"
+									}
+								]
+							}
+						}
+					],
+					"type": {
+						"type": "reference",
+						"name": "Tuple",
+						"id": 228,
+						"typeArguments": [
+							{
+								"type": "typeParameter",
+								"name": "T1"
+							},
+							{
+								"type": "typeParameter",
+								"name": "T2"
+							}
+						]
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Tuple.ts",
+					"line": 48,
+					"character": 24
+				}
+			]
+		},
+		{
+			"id": 245,
+			"name": "tupleProd",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 246,
+					"name": "tupleProd",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"shortText": "`x => [f(x), g(x)]`",
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Creates a function returning a tuple from two functions that share a common input type\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 247,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 248,
+							"name": "T1",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 249,
+							"name": "T2",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 250,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 251,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 252,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 253,
+													"name": "x",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "R"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "T1"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Tuple.ts",
+											"line": 30,
+											"character": 4
+										}
+									]
+								}
+							}
+						},
+						{
+							"id": 254,
+							"name": "g",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 255,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 256,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 257,
+													"name": "x",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "R"
+													}
+												}
+											],
+											"type": {
+												"type": "typeParameter",
+												"name": "T2"
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Tuple.ts",
+											"line": 31,
+											"character": 4
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 258,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 259,
+									"name": "__call",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 260,
+											"name": "x",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "typeParameter",
+												"name": "R"
+											}
+										}
+									],
+									"type": {
+										"type": "reference",
+										"name": "Tuple",
+										"id": 228,
+										"typeArguments": [
+											{
+												"type": "typeParameter",
+												"name": "T1"
+											},
+											{
+												"type": "typeParameter",
+												"name": "T2"
+											}
+										]
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "Tuple.ts",
+									"line": 32,
+									"character": 2
+								}
+							]
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Tuple.ts",
+					"line": 29,
+					"character": 25
+				}
+			]
+		},
+		{
+			"id": 21,
+			"name": "uncurry",
+			"kind": 64,
+			"kindString": "Function",
+			"flags": {
+				"isExported": true,
+				"isExternal": true
+			},
+			"signatures": [
+				{
+					"id": 22,
+					"name": "uncurry",
+					"kind": 4096,
+					"kindString": "Call signature",
+					"flags": {},
+					"comment": {
+						"tags": [
+							{
+								"tag": "summary",
+								"text": "Uncurry a function\n"
+							}
+						]
+					},
+					"typeParameter": [
+						{
+							"id": 23,
+							"name": "R",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 24,
+							"name": "S",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						},
+						{
+							"id": 25,
+							"name": "T",
+							"kind": 131072,
+							"kindString": "Type parameter",
+							"flags": {}
+						}
+					],
+					"parameters": [
+						{
+							"id": 26,
+							"name": "f",
+							"kind": 32768,
+							"kindString": "Parameter",
+							"flags": {},
+							"type": {
+								"type": "reflection",
+								"declaration": {
+									"id": 27,
+									"name": "__type",
+									"kind": 65536,
+									"kindString": "Type literal",
+									"flags": {},
+									"signatures": [
+										{
+											"id": 28,
+											"name": "__call",
+											"kind": 4096,
+											"kindString": "Call signature",
+											"flags": {},
+											"parameters": [
+												{
+													"id": 29,
+													"name": "x",
+													"kind": 32768,
+													"kindString": "Parameter",
+													"flags": {},
+													"type": {
+														"type": "typeParameter",
+														"name": "R"
+													}
+												}
+											],
+											"type": {
+												"type": "reflection",
+												"declaration": {
+													"id": 30,
+													"name": "__type",
+													"kind": 65536,
+													"kindString": "Type literal",
+													"flags": {},
+													"signatures": [
+														{
+															"id": 31,
+															"name": "__call",
+															"kind": 4096,
+															"kindString": "Call signature",
+															"flags": {},
+															"parameters": [
+																{
+																	"id": 32,
+																	"name": "y",
+																	"kind": 32768,
+																	"kindString": "Parameter",
+																	"flags": {},
+																	"type": {
+																		"type": "typeParameter",
+																		"name": "S"
+																	}
+																}
+															],
+															"type": {
+																"type": "typeParameter",
+																"name": "T"
+															}
+														}
+													],
+													"sources": [
+														{
+															"fileName": "Function.ts",
+															"line": 18,
+															"character": 45
+														}
+													]
+												}
+											}
+										}
+									],
+									"sources": [
+										{
+											"fileName": "Function.ts",
+											"line": 18,
+											"character": 35
+										}
+									]
+								}
+							}
+						}
+					],
+					"type": {
+						"type": "reflection",
+						"declaration": {
+							"id": 33,
+							"name": "__type",
+							"kind": 65536,
+							"kindString": "Type literal",
+							"flags": {},
+							"signatures": [
+								{
+									"id": 34,
+									"name": "__call",
+									"kind": 4096,
+									"kindString": "Call signature",
+									"flags": {},
+									"parameters": [
+										{
+											"id": 35,
+											"name": "x",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "typeParameter",
+												"name": "R"
+											}
+										},
+										{
+											"id": 36,
+											"name": "y",
+											"kind": 32768,
+											"kindString": "Parameter",
+											"flags": {},
+											"type": {
+												"type": "typeParameter",
+												"name": "S"
+											}
+										}
+									],
+									"type": {
+										"type": "typeParameter",
+										"name": "T"
+									}
+								}
+							],
+							"sources": [
+								{
+									"fileName": "Function.ts",
+									"line": 18,
+									"character": 59
+								}
+							]
+						}
+					}
+				}
+			],
+			"sources": [
+				{
+					"fileName": "Function.ts",
+					"line": 18,
+					"character": 23
+				}
+			]
+		}
+	],
+	"groups": [
+		{
+			"title": "Interfaces",
+			"kind": 256,
+			"children": [
+				281,
+				285
+			]
+		},
+		{
+			"title": "Type aliases",
+			"kind": 4194304,
+			"children": [
+				289,
+				97,
+				228
+			]
+		},
+		{
+			"title": "Functions",
+			"kind": 64,
+			"children": [
+				174,
+				150,
+				362,
+				350,
+				63,
+				37,
+				183,
+				237,
+				5,
+				119,
+				292,
+				333,
+				212,
+				220,
+				186,
+				195,
+				45,
+				199,
+				1,
+				318,
+				111,
+				115,
+				323,
+				308,
+				99,
+				132,
+				141,
+				124,
+				128,
+				79,
+				207,
+				163,
+				313,
+				328,
+				231,
+				261,
+				266,
+				245,
+				21
+			]
+		}
+	]
+}

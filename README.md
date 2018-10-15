@@ -11,9 +11,9 @@ functional.
 
 New types and aliases introduced by this library.
 
-* `Either` is a generic discrimated union, useful for functional
+* [[Either]] is a generic discrimated union, useful for functional
   style error error tracking
-* `Maybe` an alias for nullable types, which can be useful when
+* [[Maybe]] an alias for nullable types, which can be useful when
   using the compiler options `strict` or `strictNullChecks`
 
 ### Other Files ###

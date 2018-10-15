@@ -5,11 +5,9 @@
     "declarationDir": "./dist/types/",
     "sourceMap": true,
     "strict": true,
-    "target": "ES6",
+    "target": "es2015",
     "module": "es2015"
   },
   "compileOnSave": false,
-  "include": [
-    "src/index.ts"
-  ]
+  "include": ["src/index.ts"]
 }

@@ -52,15 +52,19 @@ class QuadTree<T> {
 
   public inBoundary(p: IPoint2D): boolean {
     let bool = p.x <= this.upperRight.x && p.y <= this.upperRight.y;
-    bool = bool && (this.lowerLeft.x < p.x ||
-      (this.includeLeft && this.lowerLeft.x === p.x));
-    bool = bool && (this.lowerLeft.y < p.y ||
-      (this.includeBottom && this.lowerLeft.y === p.y));
+    bool =
+      bool &&
+      (this.lowerLeft.x < p.x ||
+        (this.includeLeft && this.lowerLeft.x === p.x));
+    bool =
+      bool &&
+      (this.lowerLeft.y < p.y ||
+        (this.includeBottom && this.lowerLeft.y === p.y));
     return bool;
   }
 
   public search(p: IPoint2D): T | null {
-    if (! this.inBoundary(p)) {
+    if (!this.inBoundary(p)) {
       return null;
     }
     for (const data of this.points) {
@@ -70,7 +74,7 @@ class QuadTree<T> {
     }
     const center = {
       x: (this.upperRight.x + this.lowerLeft.x) / 2,
-      y: (this.upperRight.y + this.lowerLeft.y) / 2,
+      y: (this.upperRight.y + this.lowerLeft.y) / 2
     };
     if (p.x <= center.x) {
       if (p.y <= center.y) {
@@ -97,21 +101,22 @@ class QuadTree<T> {
   }
 
   protected removePoints(ps: Array<[IPoint2D, T]>): void {
-    this.points.filter((pd1) =>
-      ! ps.some((pd2) => equalPoint2D(pd1[0], pd2[0])));
+    this.points.filter(pd1 => !ps.some(pd2 => equalPoint2D(pd1[0], pd2[0])));
   }
 
   protected containsPoint(p: IPoint2D): boolean {
-    return this.points.some((pd1) => equalPoint2D(p, pd1[0]));
+    return this.points.some(pd1 => equalPoint2D(p, pd1[0]));
   }
 
   protected updatePoint(p: IPoint2D, d: T): void {
-    this.points.filter((pd1) => ! equalPoint2D(p, pd1[0]));
+    this.points.filter(pd1 => !equalPoint2D(p, pd1[0]));
     this.points.push([p, d]);
   }
 
-  protected mapReduceQuads<R, S>(map: (q: (QuadTree<T> | null)) => R,
-                                 reduce: (r1: R, r2: R, r3: R, r4: R) => S): S {
+  protected mapReduceQuads<R, S>(
+    map: (q: QuadTree<T> | null) => R,
+    reduce: (r1: R, r2: R, r3: R, r4: R) => S
+  ): S {
     const ne = map(this.northEast);
     const nw = map(this.northWest);
     const sw = map(this.southWest);
@@ -119,25 +124,35 @@ class QuadTree<T> {
     return reduce(ne, nw, sw, se);
   }
 
-  protected defaultMapReduceQuads<R, S>(dflt: R, map: (q: QuadTree<T>) => R,
-                                        reduce: (r1: R, r2: R, r3: R, r4: R) => S): S {
-    return this.mapReduceQuads((q) => q == null ? dflt : map(q), reduce);
+  protected defaultMapReduceQuads<R, S>(
+    dflt: R,
+    map: (q: QuadTree<T>) => R,
+    reduce: (r1: R, r2: R, r3: R, r4: R) => S
+  ): S {
+    return this.mapReduceQuads(q => (q == null ? dflt : map(q)), reduce);
   }
 
   protected getNodeSize(): number {
-    return this.points.length + this.defaultMapReduceQuads(0, (q) => 1,
-      (r1, r2, r3, r4) => r1 + r2 + r3 + r4);
+    return (
+      this.points.length +
+      this.defaultMapReduceQuads(
+        0,
+        q => 1,
+        (r1, r2, r3, r4) => r1 + r2 + r3 + r4
+      )
+    );
   }
 
   protected getCenter(): IPoint2D {
-    return { x: (this.upperRight.x + this.lowerLeft.x) / 2,
-      y: (this.upperRight.y + this.lowerLeft.y) / 2,
+    return {
+      x: (this.upperRight.x + this.lowerLeft.x) / 2,
+      y: (this.upperRight.y + this.lowerLeft.y) / 2
     };
   }
 
   protected notifyDepthChange(propogate: boolean): void {
     const oldDepth = this.depth;
-    this.depth = 1 + this.defaultMapReduceQuads(0, (q) => q.depth, Math.max);
+    this.depth = 1 + this.defaultMapReduceQuads(0, q => q.depth, Math.max);
     if (propogate && oldDepth !== this.depth && this.parent != null) {
       this.parent.notifyDepthChange(true);
     }
@@ -146,7 +161,7 @@ class QuadTree<T> {
   protected createNE(): void {
     const ur = {
       x: this.upperRight.x,
-      y: this.upperRight.y,
+      y: this.upperRight.y
     };
     const ll = this.getCenter();
     this.northEast = new QuadTree<T>(ur, ll);
@@ -159,11 +174,11 @@ class QuadTree<T> {
   protected createNW(): void {
     const ur = {
       x: (this.upperRight.x + this.lowerLeft.x) / 2,
-      y: this.upperRight.y,
+      y: this.upperRight.y
     };
     const ll = {
       x: this.lowerLeft.x,
-      y: (this.upperRight.y + this.lowerLeft.y) / 2,
+      y: (this.upperRight.y + this.lowerLeft.y) / 2
     };
     this.northWest = new QuadTree<T>(ur, ll);
     this.northWest.includeLeft = this.includeLeft;
@@ -176,7 +191,7 @@ class QuadTree<T> {
     const ur = this.getCenter();
     const ll = {
       x: this.lowerLeft.x,
-      y: this.lowerLeft.y,
+      y: this.lowerLeft.y
     };
     this.southWest = new QuadTree<T>(ur, ll);
     this.southWest.includeLeft = this.includeLeft;
@@ -188,11 +203,11 @@ class QuadTree<T> {
   protected createSE(): void {
     const ur = {
       x: this.upperRight.x,
-      y: (this.upperRight.y + this.lowerLeft.y) / 2,
+      y: (this.upperRight.y + this.lowerLeft.y) / 2
     };
     const ll = {
       x: (this.upperRight.x + this.lowerLeft.x) / 2,
-      y: this.lowerLeft.y,
+      y: this.lowerLeft.y
     };
     this.southEast = new QuadTree<T>(ur, ll);
     this.southEast.includeLeft = false;
@@ -206,8 +221,12 @@ class QuadTree<T> {
     *     + Node is unbalanced, size > 4
     */
     // Partition the list of new points into the quadrants
-    let [ne, nw, sw, se] = [new Array<[IPoint2D, T]>(), new Array<[IPoint2D, T]>(),
-      new Array<[IPoint2D, T]>(), new Array<[IPoint2D, T]>()];
+    let [ne, nw, sw, se] = [
+      new Array<[IPoint2D, T]>(),
+      new Array<[IPoint2D, T]>(),
+      new Array<[IPoint2D, T]>(),
+      new Array<[IPoint2D, T]>()
+    ];
     const center = this.getCenter();
     for (const pd of this.points) {
       const p = pd[0];
@@ -231,22 +250,34 @@ class QuadTree<T> {
 
     // If the class methods behave, point leaves should only occur in null
     // quadrants.
-    console.assert(this.northEast == null || ne.length === 0,
+    console.assert(
+      this.northEast == null || ne.length === 0,
       "in QuadTree.subdivide: North east quadrant is non-null " +
         "yet failed to accept points.",
-      this.northEast, ne);
-    console.assert(this.northWest == null || nw.length === 0,
+      this.northEast,
+      ne
+    );
+    console.assert(
+      this.northWest == null || nw.length === 0,
       "in QuadTree.subdivide: North west quadrant is non-null " +
         "yet failed to accept points.",
-      this.northWest, nw);
-    console.assert(this.southWest == null || sw.length === 0,
+      this.northWest,
+      nw
+    );
+    console.assert(
+      this.southWest == null || sw.length === 0,
       "in QuadTree.subdivide: South west quadrant is non-null " +
         "yet failed to accept points.",
-      this.southWest, sw);
-    console.assert(this.southEast == null || se.length === 0,
+      this.southWest,
+      sw
+    );
+    console.assert(
+      this.southEast == null || se.length === 0,
       "in QuadTree.subdivide: South east quadrant is non-null " +
         "yet failed to accept points.",
-      this.southEast, se);
+      this.southEast,
+      se
+    );
 
     // loop through (at most 4 times) creating one quadrant which
     // absorbs the most points.
@@ -259,10 +290,13 @@ class QuadTree<T> {
       const maxQuadSize = Math.max(neLen, nwLen, swLen, seLen);
 
       // Notice that each branch will only occur once.
-      console.assert(maxQuadSize > 0,
+      console.assert(
+        maxQuadSize > 0,
         "in QuadTree.subdivide: maximum number of points per " +
           "quadrant is non-positive and yet node size is greater than 4.",
-        maxQuadSize, this.getNodeSize());
+        maxQuadSize,
+        this.getNodeSize()
+      );
       if (neLen === maxQuadSize) {
         this.createNE();
         this.northEast.crudeInsert(ne, false);
@@ -278,7 +312,8 @@ class QuadTree<T> {
         this.southWest.crudeInsert(sw, false);
         this.removePoints(sw);
         sw = [];
-      } else { // seLen == maxQuadSize
+      } else {
+        // seLen == maxQuadSize
         this.createSE();
         this.southEast.crudeInsert(se, false);
         this.removePoints(se);
@@ -287,10 +322,12 @@ class QuadTree<T> {
     }
 
     // We should now be balanced.
-    console.assert(this.getNodeSize() <= 4,
+    console.assert(
+      this.getNodeSize() <= 4,
       "in QuadTree.subdivide: subdivide ended with node size " +
         "larger than 4",
-      this.getNodeSize());
+      this.getNodeSize()
+    );
   }
 
   protected prune(depthNotify: boolean): Array<[IPoint2D, T]> {
@@ -299,45 +336,71 @@ class QuadTree<T> {
     let depthAltered = false;
     const pds = new Array<[IPoint2D, T]>();
     let escape = 0;
-    let minQuadSize = this.defaultMapReduceQuads(Number.POSITIVE_INFINITY,
-      (q) => q.size, Math.min);
-    let numQuads = this.defaultMapReduceQuads(0, (q) => 1,
-      (r1, r2, r3, r4) => r1 + r2 + r3 + r4);
+    let minQuadSize = this.defaultMapReduceQuads(
+      Number.POSITIVE_INFINITY,
+      q => q.size,
+      Math.min
+    );
+    let numQuads = this.defaultMapReduceQuads(
+      0,
+      q => 1,
+      (r1, r2, r3, r4) => r1 + r2 + r3 + r4
+    );
     let numPoints = this.points.length;
-    while (escape++ < 4 && numQuads > 0 &&
-        minQuadSize + numPoints + numQuads <= 5) {
+    while (
+      escape++ < 4 &&
+      numQuads > 0 &&
+      minQuadSize + numPoints + numQuads <= 5
+    ) {
       if (this.northEast != null && minQuadSize === this.northEast.size) {
         const pds0 = this.northEast.prune(false);
         pds.push(...pds0);
         this.points.push(...pds0);
         this.northEast = null;
         depthAltered = true;
-      } else if (this.northWest != null && minQuadSize === this.northWest.size) {
+      } else if (
+        this.northWest != null &&
+        minQuadSize === this.northWest.size
+      ) {
         const pds0 = this.northWest.prune(false);
         pds.push(...pds0);
         this.points.push(...pds0);
         this.northWest = null;
         depthAltered = true;
-      } else if (this.southWest != null && minQuadSize === this.southWest.size) {
+      } else if (
+        this.southWest != null &&
+        minQuadSize === this.southWest.size
+      ) {
         const pds0 = this.southWest.prune(false);
         pds.push(...pds0);
         this.points.push(...pds0);
         this.southWest = null;
         depthAltered = true;
-      } else if (this.southEast != null && minQuadSize === this.southEast.size) {
+      } else if (
+        this.southEast != null &&
+        minQuadSize === this.southEast.size
+      ) {
         const pds0 = this.southEast.prune(false);
         pds.push(...pds0);
         this.points.push(...pds0);
         this.southEast = null;
         depthAltered = true;
       }
-      minQuadSize = this.defaultMapReduceQuads(Number.POSITIVE_INFINITY,
-        (q) => q.size, Math.min);
-      numQuads = this.defaultMapReduceQuads(0, (q) => 1,
-        (r1, r2, r3, r4) => r1 + r2 + r3 + r4);
+      minQuadSize = this.defaultMapReduceQuads(
+        Number.POSITIVE_INFINITY,
+        q => q.size,
+        Math.min
+      );
+      numQuads = this.defaultMapReduceQuads(
+        0,
+        q => 1,
+        (r1, r2, r3, r4) => r1 + r2 + r3 + r4
+      );
       numPoints = this.points.length;
     }
-    if (depthAltered) { this.notifyDepthChange(depthNotify); }
+    if (depthAltered) {
+      this.notifyDepthChange(depthNotify);
+    }
     return pds;
   }
 
@@ -346,13 +409,16 @@ class QuadTree<T> {
      *   + No duplicates in `pds` or common points with `this.points`
      */
     // Partition the new points into the quadrants
-    let [ne, nw, sw, se] = [new Array<[IPoint2D, T]>(),
-      new Array<[IPoint2D, T]>(), new Array<[IPoint2D, T]>(),
-      new Array<[IPoint2D, T]>()];
+    let [ne, nw, sw, se] = [
+      new Array<[IPoint2D, T]>(),
+      new Array<[IPoint2D, T]>(),
+      new Array<[IPoint2D, T]>(),
+      new Array<[IPoint2D, T]>()
+    ];
     const center = this.getCenter();
     for (const pd of pds) {
       const p = pd[0];
-      if (! this.inBoundary(p)) {
+      if (!this.inBoundary(p)) {
         continue;
       }
       if (this.containsPoint(p)) {
@@ -422,22 +488,30 @@ class QuadTree<T> {
     }
 
     // Now there should be no more than 16 new points yet to be placed.
-    console.assert(ne.length <= 4,
+    console.assert(
+      ne.length <= 4,
       "in QuadTree.crudeInsert: More than 4 points lie in " +
         "north east quadrant.",
-      ne.length);
-    console.assert(nw.length <= 4,
+      ne.length
+    );
+    console.assert(
+      nw.length <= 4,
       "in QuadTree.crudeInsert: More than 4 points lie in " +
         "north west quadrant.",
-      nw.length);
-    console.assert(sw.length <= 4,
+      nw.length
+    );
+    console.assert(
+      sw.length <= 4,
       "in QuadTree.crudeInsert: More than 4 points lie in " +
         "south west quadrant.",
-      sw.length);
-    console.assert(se.length <= 4,
+      sw.length
+    );
+    console.assert(
+      se.length <= 4,
       "in QuadTree.crudeInsert: More than 4 points lie in " +
         "south east quadrant.",
-      se.length);
+      se.length
+    );
 
     // Make remaining points temporary leaves, and then call `subdivide`
     const newPoints = [...ne, ...nw, ...sw, ...se];

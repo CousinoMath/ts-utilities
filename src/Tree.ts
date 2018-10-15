@@ -1,4 +1,3 @@
-
 export class Tree<T> {
   protected node: T;
   protected children: Array<Tree<T>>;

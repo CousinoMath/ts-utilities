@@ -73,9 +73,9 @@
 				<h3 id="types">Types</h3>
 				<p>New types and aliases introduced by this library.</p>
 				<ul>
-					<li><code>Either</code> is a generic discrimated union, useful for functional
+					<li><a href="globals.html#either">Either</a> is a generic discrimated union, useful for functional
 					style error error tracking</li>
-					<li><code>Maybe</code> an alias for nullable types, which can be useful when
+					<li><a href="globals.html#maybe">Maybe</a> an alias for nullable types, which can be useful when
 					using the compiler options <code>strict</code> or <code>strictNullChecks</code></li>
 				</ul>
 				<h3 id="other-files">Other Files</h3>
@@ -88,27 +88,27 @@
 				<p>The type <code>Either&lt;R, S&gt;</code> is similar to Typescript&#39;s union type
 					<code>R | S</code> in that the values can either be of type <code>R</code> or of type
 					<code>S</code>. The difference is that you don&#39;t need type guards or literal
-					types with <code>Either</code>. In other words, while the type
-					<code>number | number</code> is the same as type <code>number</code>,
-					<code>Either&lt;number, number&gt;</code> is not the same as <code>number</code>.
-					<code>Either&lt;number, number&gt;</code> carries along with a <code>number</code> it a notion
+					types with Either. In other words, while the type
+					<code>number | number</code> is the same as type number,
+					<code>Either&lt;number, number&gt;</code> is not the same as number.
+					This either type carries, along with a number, a notion
 					of &quot;left&quot; and &quot;right&quot;. This is useful when you want to write a
 					generic function that takes a parameter which can either be of
 					type <code>R</code> or of type <code>S</code>. It turns out not to be possible in
 					Typescript to write meaningful functions with type signature
 					<code>(rs: R | S) =&gt; T</code> with <code>R</code> and <code>S</code> being generic type variables.
-					You can however write functions with signature
+					You can however write functions with the signature
 				<code>(rs: Either&lt;R, S&gt;) =&gt; T</code>.</p>
-				<p><code>Either</code> types have been found to be useful when handling errors
+				<p>Either types have been found to be useful when handling errors
 					in a functional style. The most basic error reporting utilizes
 					types of the kind <code>Either&lt;string, T&gt;</code>, where a successful result
 					is kept in the right as a <code>T</code> value, and an error (in the form of
 					a string error message) is kept in the left. This can extend to
 					more generic errors which have their own types <code>Error&lt;E&gt;</code>. For
 					example, if you&#39;re being vary cautious with arrays, you&#39;ll want
-					to watch for <code>RangeError</code>. You can write functions that produce
+					to watch for RangeError. You can write functions that produce
 					an <code>Either&lt;RangeError, T[]&gt;</code> value which will be populated with
-					an array when successful and a <code>RangeError</code> encountered when
+					an array when successful and a RangeError encountered when
 					trying to create an array of negative length for example. Consumers
 					of <code>Either&lt;RangeError, T[]&gt;</code> values can easily detect whether the
 					value they&#39;ve been given is a successful result or an error. This
@@ -117,7 +117,7 @@
 				<h2 id="maybe">Maybe</h2>
 				<p>The <code>Maybe&lt;T&gt;</code> type is an alias for nullable types, i.e.
 					<code>T | null</code>. This is handy when working under the compiler options
-					<code>strict</code> or <code>strictNullChecks</code>. Included are utility functions to
+					&quot;strict&quot; or &quot;strictNullChecks&quot;. Included are utility functions to
 					set default values for maybe values as well as transform functions
 					so that they can deal with maybes. There is one subtle distinction
 					to be made regarding functions with optional parameters, e.g.
@@ -155,17 +155,14 @@
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#tuple" class="tsd-kind-icon">Tuple</a>
 					</li>
-					<li class=" tsd-kind-variable tsd-is-external">
-						<a href="globals.html#isnonnull" class="tsd-kind-icon">is<wbr>Non<wbr>Null</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-external">
-						<a href="globals.html#isnull" class="tsd-kind-icon">is<wbr>Null</a>
-					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#accumulate" class="tsd-kind-icon">accumulate</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#array" class="tsd-kind-icon">array</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#bind" class="tsd-kind-icon">bind</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#bindleft" class="tsd-kind-icon">bind<wbr>Left</a>
@@ -175,6 +172,12 @@
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#compose" class="tsd-kind-icon">compose</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#concat" class="tsd-kind-icon">concat</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#concatmap" class="tsd-kind-icon">concat<wbr>Map</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#constant" class="tsd-kind-icon">constant</a>
@@ -189,13 +192,25 @@
 						<a href="globals.html#curry" class="tsd-kind-icon">curry</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#cycle" class="tsd-kind-icon">cycle</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#defaultto" class="tsd-kind-icon">default<wbr>To</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#drop" class="tsd-kind-icon">drop</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#dropwhile" class="tsd-kind-icon">drop<wbr>While</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#either" class="tsd-kind-icon">either</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#eithermap" class="tsd-kind-icon">either<wbr>Map</a>
+						<a href="globals.html#every" class="tsd-kind-icon">every</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#filter" class="tsd-kind-icon">filter</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#find" class="tsd-kind-icon">find</a>
@@ -222,19 +237,28 @@
 						<a href="globals.html#isleft" class="tsd-kind-icon">is<wbr>Left</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#isnonnull" class="tsd-kind-icon">is<wbr>Non<wbr>Null</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#isnull" class="tsd-kind-icon">is<wbr>Null</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#isright" class="tsd-kind-icon">is<wbr>Right</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#iterable" class="tsd-kind-icon">iterable</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#left" class="tsd-kind-icon">left</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#leftiterable" class="tsd-kind-icon">left<wbr>Iterable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#map" class="tsd-kind-icon">map</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#maybe" class="tsd-kind-icon">maybe</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#maybebind" class="tsd-kind-icon">maybe<wbr>Bind</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#maybemap" class="tsd-kind-icon">maybe<wbr>Map</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#maybetoarray" class="tsd-kind-icon">maybe<wbr>ToArray</a>
@@ -242,8 +266,14 @@
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#maybetobool" class="tsd-kind-icon">maybe<wbr>ToBool</a>
 					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#naturals" class="tsd-kind-icon">naturals</a>
+					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#over" class="tsd-kind-icon">over</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#product" class="tsd-kind-icon">product</a>
 					</li>
 					<li class=" tsd-kind-function tsd-is-external">
 						<a href="globals.html#range" class="tsd-kind-icon">range</a>
@@ -252,7 +282,22 @@
 						<a href="globals.html#reduce" class="tsd-kind-icon">reduce</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#repeat" class="tsd-kind-icon">repeat</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#right" class="tsd-kind-icon">right</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#rightiterable" class="tsd-kind-icon">right<wbr>Iterable</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#some" class="tsd-kind-icon">some</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-external">
+						<a href="globals.html#take" class="tsd-kind-icon">take</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#takewhile" class="tsd-kind-icon">take<wbr>While</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#topartition" class="tsd-kind-icon">to<wbr>Partition</a>
@@ -261,16 +306,13 @@
 						<a href="globals.html#tuple" class="tsd-kind-icon">tuple</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#tupleflip" class="tsd-kind-icon">tuple<wbr>Flip</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#tuplemap" class="tsd-kind-icon">tuple<wbr>Map</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
-						<a href="globals.html#tupleprod" class="tsd-kind-icon">tuple<wbr>Prod</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
 						<a href="globals.html#uncurry" class="tsd-kind-icon">uncurry</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#unzip" class="tsd-kind-icon">unzip</a>
+					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter tsd-is-external">
+						<a href="globals.html#zip" class="tsd-kind-icon">zip</a>
 					</li>
 				</ul>
 			</nav>
