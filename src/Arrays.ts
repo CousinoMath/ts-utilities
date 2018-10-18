@@ -1,5 +1,10 @@
-import { ident } from "./Function";
-import { Maybe } from "./Maybe";
+/**
+ * A collection of Array utility functions.
+ */
+
+import { ident } from './Functions';
+import { Maybe } from './Maybe';
+import { Ordering } from './Ordering';
 
 /**
  * @summary Creates a recursive function over arrays with arbitrary return type.
@@ -38,7 +43,6 @@ export function reduce<R, S>(
   init: S
 ): S {
   return xs.reduce<S>(f, init);
-  return array(init, (x: R, ys: S) => f(ys, x))(xs);
 }
 
 /**
@@ -91,7 +95,7 @@ export function flatten<T>(xss: T[][]): T[] {
  */
 export function from<T>(len: number, f: (idx: number) => T): T[] {
   if (len > Math.pow(2, 32) - 1 || len < 0) {
-    throw new RangeError("Invalid array length.");
+    throw new RangeError('Invalid array length.');
   }
 
   const arr = new Array<T>();
@@ -142,4 +146,72 @@ export function findIndex<T>(xs: T[], f: (x: T) => boolean): number {
     }
   }
   return -1;
+}
+
+export function uniqueBy<T>(eq: (x: T, y: T) => boolean, xs: T[]): T[] {
+  const ys = xs.slice(0);
+  let len = ys.length;
+  for (let i = 0; i < len; i++) {
+    const x = ys[i];
+    let j = i + 1;
+    while (j < len) {
+      if (eq(x, ys[j])) {
+        ys.splice(j, 1);
+        len--;
+      } else {
+        j++;
+      }
+    }
+  }
+  return ys;
+}
+
+// type Ordering = 'LT' | 'EQ' | 'GT';
+export function sortBy<T>(ord: Ordering<T>, xs: T[]): T[] {
+  const unsorted: T[][] = [xs];
+  const sorted: T[][] = [];
+
+  while (unsorted.length > 0) {
+    const ys = unsorted.shift();
+
+    if (typeof ys !== 'undefined') {
+      const ylen = ys.length;
+      if (ylen > 1) {
+        const ymid = Math.floor(ylen / 2);
+        unsorted.push(ys.slice(0, ymid));
+        unsorted.push(ys.slice(ymid + 1, ylen - 1));
+      } else {
+        sorted.push(ys);
+      }
+    }
+  }
+
+  while (sorted.length > 1) {
+    const ys1 = sorted.shift();
+    const ys2 = sorted.shift();
+    if (typeof ys1 !== 'undefined' && typeof ys2 !== 'undefined') {
+      const len1 = ys1.length;
+      const len2 = ys2.length;
+      let i1 = 0;
+      let i2 = 0;
+      const ys: T[] = [];
+
+      while (i1 < len1 && i2 < len2) {
+        if (ord(ys1[i1], ys2[i2]) === 'GT') {
+          ys.push(ys2[i2]);
+          i2++;
+        } else {
+          ys.push(ys1[i1]);
+          i1++;
+        }
+      }
+      if (i1 === len1) {
+        ys.push(...ys2);
+      } else {
+        ys.push(...ys1);
+      }
+      sorted.push(ys);
+    }
+  }
+  return sorted[0];
 }

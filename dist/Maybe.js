@@ -1,68 +1,135 @@
-import { constant, ident } from "./Function";
 /**
- * Technically, this does **not** return a function of an optional
+ * Maybe extends a type to include null as a possible value.
+ */
+import { constant, ident } from './Functions';
+/**
+ * Technically, this does *not* return a function of an optional
  * parameter, as such a function could be called with no
  * parameters, i.e. the first parameter being `undefined`.
- * `(x) => x == null ? nil : f(x)`
+ * `maybe(nil, f)(null) = nil`
+ * `maybe(nil, f)(x) = f(x)`
  * @summary Inductive rule of nullable types
  */
 export function maybe(nil, f) {
     return x => (x == null ? nil : f(x));
 }
 /**
- * `x != null`
+ * `isNonNull(x) === true` if and only if `x != null`
  * @summary Tests if a nullable value is not null
  */
 export function isNonNull(xm) {
     return maybe(false, constant(true))(xm);
 }
 /**
- * `x == null`
+ * `isNull(x) === true` if and only if `x == null`
  * @summary Tests if a nullable value is null
  */
 export function isNull(xm) {
     return maybe(true, constant(false))(xm);
 }
 /**
- * `(xm) => xm == null ? d : xm`
+ * `defaultTo(d)(null) = d`
+ * `defaultTo(d)(x) = x`
  * @summary Returns the value from a nullable value or a default value
  */
 export function defaultTo(d, xm) {
     return maybe(d, (x) => ident(x))(xm);
 }
+// /**
+//  * `maybeToArray(null) = []`
+//  * `maybeToArray(x) = [x]`
+//  * @summary Turns a nullable value into an array
+//  */
+// export function maybeToArray<T>(xm: Maybe<T>): T[] {
+//   return maybe([], (x: T) => [x])(xm);
+// }
 /**
- * `(x) => x == null ? [] : [x]`
- * @summary Turns a nullable value into an array
+ * `first([]) = null`
+ * `first([x, ...rest]) = x`
+ * @summary Returns the first element of an array if it exists, and null otherwise.
  */
-export function maybeToArray(xm) {
-    return maybe([], (x) => [x])(xm);
+export function first(xs) {
+    return xs.length > 0 ? xs[0] : null;
 }
 /**
- * `x != null`
- * @summary Turns a nullable value into a boolean according to whether it is non-null
+ * `last([]) = null`
+ * `last([...rest, x]) = x`
+ * @summary Returns the last element of an array if it exists, and null otherwise.
  */
-export function maybeToBool(xm) {
-    return isNonNull(xm);
+export function last(xs) {
+    const len = xs.length;
+    return len > 0 ? xs[len - 1] : null;
 }
 /**
- * `(x) => x == null ? null : f(x)`
+ * `nth([], _) = nth(_, 0.5) = nth(_, NaN) = nth(_, Infinity) = null`
+ * `nth([...firstNm1Elts, xn, ...rest], n) = xn`
+ * @summary Returns the nth element of an array if it exists, and null otherwise.
+ * @param n index of the element to return
+ */
+export function nth(xs, n) {
+    const len = xs.length;
+    const inRange = len > 0 && Number.isInteger(n) && n >= 0 && n < len;
+    return inRange ? xs[n] : null;
+}
+/**
+ * `concatMaybe([null, ...rest]) = concatMaybe(rest)`
+ * `concatMaybe([x, ...rest]) = [x, ...concatMaybe(rest)]`
+ * @summary Takes an array of possibly null values and returns an array of only non-null values.
+ */
+export function concatMaybes(xms) {
+    const vals = [];
+    for (const xm of xms) {
+        maybe(0, x => vals.push(x))(xm);
+    }
+    return vals;
+}
+/**
+ * `lift(f)(null) = null`
+ * `lift(f)(x) = f(x)`
  * @summary Lifts a function over non-null values to one over nullable values
  */
-export function bind(f, xm) {
-    return maybe(null, f)(xm);
+export function lift(f) {
+    return maybe(null, f);
 }
 /**
- * @summary An alias of `maybeBind`
- * @see [[maybeBind]]
+ * `bind(f)(null) = null`
+ * `bind(f)(x) = f(x)`
+ * @summary An alias of `lift`
+ * @see [[lift]]
  */
-export function map(f, xm) {
-    return bind(f, xm);
+export function bind(f) {
+    return maybe(null, f);
 }
+// const monadReduction: <T>(xmm: Maybe<Maybe<T>>) => Maybe<T> = bind(lift(ident));
 /**
- * @summary Returns an iterable object suitable for use in `for of` loops
- * @see [[maybeToArray]]
+ * `liftToArray(f)(xs) = concatMaybes(xs.map(f))`
+ * @summary Resulting function maps `f` over its input and outputs only non null results.
  */
-export function iterable(xm) {
-    return maybeToArray(xm);
+export function liftToArray(f) {
+    return xs => {
+        const ys = [];
+        for (const x of xs) {
+            maybe(0, y => ys.push(y))(f(x));
+        }
+        return ys;
+    };
+}
+export function liftToSet(f) {
+    return xs => {
+        const ys = new Set();
+        for (const x of xs) {
+            maybe(ys, y => ys.add(y))(f(x));
+        }
+        return ys;
+    };
+}
+export function liftToMap(f) {
+    return xs => {
+        const ys = new Map();
+        for (const [xkey, xval] of xs) {
+            maybe(ys, ypair => ys.set(ypair[0], ypair[1]))(f([xkey, xval]));
+        }
+        return ys;
+    };
 }
 //# sourceMappingURL=Maybe.js.map

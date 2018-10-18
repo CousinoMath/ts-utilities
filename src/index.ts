@@ -1,8 +1,27 @@
-import * as Arrays from "./Array";
-import * as Either from "./Either";
-import * as Functions from "./Function";
-import * as Iterable from "./Iterable";
-import * as Maybe from "./Maybe";
-import * as Tuple from "./Tuple";
+import { AbstractList } from './AbstractList';
+import * as Arrays from './Arrays';
+import * as Booleans from './Booleans';
+import * as Either from './Either';
+import * as Functions from './Functions';
+import * as Iterable from './Iterable';
+import { List } from './List';
+import * as Maybe from './Maybe';
+import { NonEmptyList } from './NonEmptyList';
+import * as Objects from './Objects';
+import * as Ordering from './Ordering';
+import * as Tuple from './Tuple';
 
-export { Arrays, Either, Functions, Iterable, Maybe, Tuple };
+export {
+  AbstractList,
+  Arrays,
+  Booleans,
+  Either,
+  Functions,
+  Iterable,
+  List,
+  Maybe,
+  NonEmptyList,
+  Objects,
+  Ordering,
+  Tuple
+};

@@ -1,37 +1,40 @@
 /**
+ * Helpers for tuples
+ */
+/**
  * @deprecated since Typescript 2.7
- * `(x, y) => [x, y]`
+ * `tuple(x, y) = [x, y]`
  * @summary Constructs a tuple
  */
 export function tuple(x, y) {
     return [x, y];
 }
 /**
- * `curried = x => y => [x, y]`
+ * `curried(x)(y) = [x, y]`
  * @summary Curried construction of a tuple.
  */
 export function curried(x) {
     return (y) => tuple(x, y);
 }
 /**
- * `x => [f(x), g(x)]`
+ * `product(f, g)(x) = [f(x), g(x)]`
  * @summary Creates a function returning a tuple from two functions that share a common input type
  */
 export function product(f, g) {
     return x => [f(x), g(x)];
 }
 /**
- * `xy => [xy[1], xy[0]]`
+ * `swap([x, y]) => [y, x]`
  * @summary Flips the order of a tuple
  */
-export function flip(xy) {
+export function swap(xy) {
     return [xy[1], xy[0]];
 }
 /**
- * `xy => [f(xy[0]), g(xy[1])]`
+ * `map(f, g)([x, y]) = [f(x), g(y)]`
  * @summary Maps two functions over a tuple
  */
-export function map(f, g, xy) {
-    return [f(xy[0]), g(xy[1])];
+export function map(f, g) {
+    return xy => [f(xy[0]), g(xy[1])];
 }
 //# sourceMappingURL=Tuple.js.map

@@ -15,8 +15,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "lint": "tslint -p tsconfig.json",
-    "docs": "typedoc --out doc --mode file --name \"CousinoMath Typescript Utilties\" --readme ./README.md src/index.ts",
-    "docs-json": "typedoc --json docs.json --mode file --name \"CousinoMath Typescript Utilties\" --readme ./README.md src/index.ts",
+    "docs": "typedoc --out doc --mode modules --name \"CousinoMath Typescript Utilties\" --readme ./README.md src/index.ts",
+    "docs:json": "typedoc --json docs.json --mode modules --name \"CousinoMath Typescript Utilties\" --readme ./README.md src/index.ts",
     "test": "jasmine"
   },
   "author": "Andrew Cousino",

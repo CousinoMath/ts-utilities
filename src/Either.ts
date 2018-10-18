@@ -1,12 +1,15 @@
-import { compose, constant } from "./Function";
-import { Tuple, tuple } from "./Tuple";
+/**
+ * A generic, discriminated union type and helpers
+ */
+
+import { compose, constant, ident } from './Functions';
 
 /**
  * @summary Left half of the discriminated union
  */
 // tslint:disable-next-line
 export interface Left<R> {
-  readonly kind: "left";
+  readonly kind: 'left';
   readonly value: R;
 }
 
@@ -15,7 +18,7 @@ export interface Left<R> {
  */
 // tslint:disable-next-line
 export interface Right<S> {
-  readonly kind: "right";
+  readonly kind: 'right';
   readonly value: S;
 }
 
@@ -32,32 +35,30 @@ export function either<R, S, T>(
   f: (l: R) => T,
   g: (r: S) => T
 ): (e: Either<R, S>) => T {
-  return (x: Either<R, S>) => (x.kind === "left" ? f(x.value) : g(x.value));
+  return (x: Either<R, S>) => (x.kind === 'left' ? f(x.value) : g(x.value));
 }
 
 /**
- * The typical use of this needs to look like
- * <pre><code class='typescript'>(x: R) => left&lt;R, S&rt;(x)</code></pre>
- * because the Typescript compiler will not be able to infer
- * the correct type for the right half.
+ * Using left often means explicitly annotating types as
+ * the type of the right values cannot be easily deduced.
  * @summary Creates the 'left half' of an `Either` value
  */
 export function left<R, S>(x: R): Either<R, S> {
-  return { kind: "left", value: x };
+  return { kind: 'left', value: x };
 }
 
 /**
- * The typical use of this needs to look like
- * <pre><code class='typescript'>(y: S) => right&lt;R, S&rt;(y)</code></pre>
- * because the Typescript compiler will not be able to infer
- * the correct type for the left half.
+ * Using right often means explicitly annotating types as
+ * the type of the left values cannot be easily deduced.
  * @summary Creates the 'right half' of an `Either` value
  */
 export function right<R, S>(y: S): Either<R, S> {
-  return { kind: "right", value: y };
+  return { kind: 'right', value: y };
 }
 
 /**
+ * `isLeft(left(_)) = true`
+ * `isLeft(right(_)) = false`
  * @summary Tests whether an `Either` value is of the left type.
  */
 export function isLeft<R, S>(xe: Either<R, S>): boolean {
@@ -65,6 +66,8 @@ export function isLeft<R, S>(xe: Either<R, S>): boolean {
 }
 
 /**
+ * `isRight(left(_)) = false`
+ * `isRight(right(_)) = true`
  * @summary Test whether an `Either` value is of the right type.
  */
 export function isRight<R, S>(xe: Either<R, S>): boolean {
@@ -72,21 +75,69 @@ export function isRight<R, S>(xe: Either<R, S>): boolean {
 }
 
 /**
- * The result of this function will be a tuple of arrays,
- * one of which has length 1 and the other which is empty.
- * @summary Converts an `Either` value to a tuple of arrays
+ * `partition(xs) = [lefts(xs), rights(xs)]`
+ * @summary Converts an array Eithers to a tuple of an array of left values and another of right values.
+ * @see [[lefts]]
+ * @see [[rights]]
  */
-export function toPartition<R, S>(xe: Either<R, S>): Tuple<R[], S[]> {
-  return either(
-    (x: R) => tuple([x], new Array<S>()),
-    (y: S) => tuple(new Array<R>(), [y])
-  )(xe);
+export function partition<R, S>(xes: Array<Either<R, S>>): [R[], S[]] {
+  const leftsArr: R[] = [];
+  const rightsArr: S[] = [];
+
+  for (const xe of xes) {
+    switch (xe.kind) {
+      case 'left':
+        leftsArr.push(xe.value);
+        break;
+      case 'right':
+        rightsArr.push(xe.value);
+        break;
+    }
+  }
+  return [leftsArr, rightsArr];
 }
 
 /**
+ * `lefts([left(x), ...rest]) = [x, lefts(rest)]`
+ * `lefts([right(x), ...rest]) = lefts(rest)`
+ * @summary Returns an array consisting of the left values of `xes`.
+ * @see [[rights]]
+ * @see [[partition]]
+ */
+export function lefts<R, S>(xes: Array<Either<R, S>>): R[] {
+  const leftsArr: R[] = [];
+  for (const xe of xes) {
+    if (xe.kind === 'left') {
+      leftsArr.push(xe.value);
+    }
+  }
+  return leftsArr;
+}
+
+/**
+ * `rights([left(x), ...rest]) = rights(rest)`
+ * `rights([right(x), ...rest]) = [x, rights(rest)]`
+ * @summary Returns an array consisting of the right values of `xes`.
+ * @see [[lefts]]
+ * @see [[partition]]
+ */
+export function rights<R, S>(xes: Array<Either<R, S>>): S[] {
+  const rightsArr: S[] = [];
+
+  for (const xe of xes) {
+    if (xe.kind === 'right') {
+      rightsArr.push(xe.value);
+    }
+  }
+  return rightsArr;
+}
+
+/**
+ * `lift(f, g)(left(x)) = left(f(x))`
+ * `lift(f, g)(right(y)) = right(g(y))`
  * @summary Enables transformations on `Either` values
  */
-export function map<R, S, T, U>(
+export function lift<R, S, T, U>(
   f: (x: R) => T,
   g: (y: S) => U
 ): (xe: Either<R, S>) => Either<T, U> {
@@ -102,7 +153,11 @@ export function map<R, S, T, U>(
 }
 
 /**
+ * `bindRight(g)(left(x)) = left(x)`
+ * `bindRight(g)(right(y)) = right(g(y))`
  * @summary Transforms the right half of `Either` values
+ * @see [[bindLeft]]
+ * @see [[lift]]
  */
 export function bindRight<R, S, U>(
   g: (y: S) => Either<R, U>
@@ -111,7 +166,11 @@ export function bindRight<R, S, U>(
 }
 
 /**
+ * `bindLeft(f)(left(x)) = left(f(x))`
+ * `bindLeft(f)(right(y)) = right(y)`
  * @summary Transforms the left half of `Either` values
+ * @see [[bindRight]]
+ * @see [[lift]]
  */
 export function bindLeft<R, S, T>(
   f: (x: R) => Either<T, S>
@@ -120,15 +179,23 @@ export function bindLeft<R, S, T>(
 }
 
 /**
- * @summary Converts Either to an iterable over the left type.
+ * `leftDefault(d)(left(x)) = x`
+ * `leftDefault(d)(right(y)) = d`
+ * @summary Returns the left value if present, and a default otherwise.
+ * @param d default value
+ * @see [[rightDefault]]
  */
-export function leftIterable<R, S>(xe: Either<R, S>): Iterable<R> {
-  return toPartition(xe)[0];
+export function leftDefault<R, S>(d: R, xe: Either<R, S>): R {
+  return either<R, S, R>(ident, constant(d))(xe);
 }
 
 /**
- * @summary Converts Either to an iterable over the right type.
+ * `rightDefault(d)(left(x)) = d`
+ * `rightDefault(d)(right(y)) = y`
+ * @summary Returns the right value if present, and a default otherwise.
+ * @param d default value
+ * @see [[leftDefault]]
  */
-export function rightIterable<R, S>(xe: Either<R, S>): Iterable<S> {
-  return toPartition(xe)[1];
+export function rightDefault<R, S>(d: S, xe: Either<R, S>): S {
+  return either<R, S, S>(constant(d), ident)(xe);
 }

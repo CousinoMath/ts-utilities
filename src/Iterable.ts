@@ -1,4 +1,8 @@
-import { constant, ident } from "./Function";
+/**
+ * Helpers for finite and infinite Iterables
+ */
+
+import { ident } from './Functions';
 
 /**
  * @summary Applies a function over the elements of an iterable.
@@ -45,61 +49,109 @@ export function concatMap<S, T>(
 }
 
 /**
- * @todo deal with negative `n`, positve and negative infinity
  * @summary Takes the first `n` elements of an iterable and return the results as an array.
  * @param n a positive integer
  */
-export function take(n: number): <T>(xs: Iterable<T>) => T[] {
-  if (!Number.isInteger(n) || n <= 0) {
-    return constant([]);
+export function take(n: number): <T>(xs: Iterable<T>) => Iterable<T> {
+  if (!Number.isInteger(n) || n === 0) {
+    return <T>(xs: Iterable<T>) => [];
   }
-  return <T>(xs: Iterable<T>) => {
-    const arr: T[] = [];
-    let count = n;
-    const iterT = xs[Symbol.iterator]();
-    let nextT = iterT.next();
-    while (count-- > 0 && !nextT.done) {
-      arr.push(nextT.value);
-      nextT = iterT.next();
-    }
-    return arr;
-  };
+  if (n === Number.POSITIVE_INFINITY || n === Number.NEGATIVE_INFINITY) {
+    return ident;
+  }
+  if (n > 0) {
+    return <T>(xs: Iterable<T>) => {
+      const arr: T[] = [];
+      let count = n;
+      const iterT = xs[Symbol.iterator]();
+      let nextT = iterT.next();
+      while (count-- > 0 && !nextT.done) {
+        arr.push(nextT.value);
+        nextT = iterT.next();
+      }
+      return arr;
+    };
+  } else {
+    return <T>(xs: Iterable<T>) => {
+      return {
+        [Symbol.iterator](): Iterator<T> {
+          const keep: T[] = [];
+          const iterT = xs[Symbol.iterator]();
+          let nextT = iterT.next();
+          let count = 0;
+          while (count-- > n && !nextT.done) {
+            keep.push(nextT.value);
+            nextT = iterT.next();
+          }
+          while (!nextT.done) {
+            keep.shift();
+            keep.push(nextT.value);
+            nextT = iterT.next();
+          }
+          return keep[Symbol.iterator]();
+        }
+      };
+    };
+  }
 }
 
 /**
- * @todo deal with negative `n`, positive and negative infiniity
  * @summary Drops the first `n` elements of an iterable.
  * @param n a positive integer
  */
 export function drop(n: number): <T>(xs: Iterable<T>) => Iterable<T> {
-  if (!Number.isInteger(n) || n <= 0) {
+  if (Number.isNaN(n) || n === 0) {
     return ident;
   }
-  return <T>(xs: Iterable<T>) => {
-    let count = n;
-    const iterT = xs[Symbol.iterator]();
-    let nextT = iterT.next();
-    while (count-- > 0 && !nextT.done) {
-      nextT = iterT.next();
-    }
-    if (nextT.done) {
-      return {
-        [Symbol.iterator](): Iterator<T> {
-          return {
-            next(y?: any): IteratorResult<T> {
-              return nextT;
-            }
-          };
-        }
-      };
-    } else {
-      return {
-        [Symbol.iterator](): Iterator<T> {
-          return iterT;
-        }
-      };
-    }
-  };
+  if (n === Number.POSITIVE_INFINITY || n === Number.NEGATIVE_INFINITY) {
+    return <T>(xs: Iterable<T>) => [];
+  }
+  if (n > 0) {
+    return <T>(xs: Iterable<T>) => {
+      let count = n;
+      const iterT = xs[Symbol.iterator]();
+      let nextT = iterT.next();
+      while (count-- > 0 && !nextT.done) {
+        nextT = iterT.next();
+      }
+      if (nextT.done) {
+        return {
+          [Symbol.iterator](): Iterator<T> {
+            return {
+              next(y?: any): IteratorResult<T> {
+                return nextT;
+              }
+            };
+          }
+        };
+      } else {
+        return {
+          [Symbol.iterator](): Iterator<T> {
+            return iterT;
+          }
+        };
+      }
+    };
+  } else {
+    return <T>(xs: Iterable<T>) => {
+      const keep: T[] = [];
+      const discard: T[] = [];
+      const iterT = xs[Symbol.iterator]();
+      let nextT = iterT.next();
+      let count = 0;
+
+      while (count-- > n && !nextT.done) {
+        discard.push(nextT.value);
+        nextT = iterT.next();
+      }
+      while (!nextT.done) {
+        keep.push(discard[0]);
+        discard.shift();
+        discard.push(nextT.value);
+      }
+      return keep;
+    };
+  }
 }
 
 /**
@@ -187,11 +239,11 @@ export function* naturals(): Iterable<number> {
 
 /**
  * @summary Returns true if and only if every element of the iterable makes `pred` true.
+ * Short-circuits once a false is observed.
  */
 export function every<T>(
   pred: (x: T) => boolean
 ): (xs: Iterable<T>) => boolean {
-  //   return iterable<T, boolean>(true, (accu, x) => accum && pred(x));
   return xs => {
     for (const x of xs) {
       if (!pred(x)) {
@@ -204,9 +256,9 @@ export function every<T>(
 
 /**
  * @summary Returns true if and only if there is at least one element of the iterable which makes `pred` true.
+ * Short-circuits once a true is observed.
  */
 export function some<T>(pred: (x: T) => boolean): (xs: Iterable<T>) => boolean {
-  //   return iterable<T, boolean>(false, (accum, x) => accum || pred(x));
   return xs => {
     for (const x of xs) {
       if (pred(x)) {
@@ -248,6 +300,7 @@ export function accumulate<S, T>(
 
 /**
  * @summary Zips up two iterables into one iterable of tuples.
+ * Stops as soon as one of the two iterables stops.
  */
 export function zip<S, T>(xs: Iterable<S>, ys: Iterable<T>): Iterable<[S, T]> {
   return {
@@ -298,11 +351,102 @@ export function iterable<S, T>(
   };
 }
 
-export function* concat<T>(xs: Iterable<T>, ys: Iterable<T>): Iterable<T> {
+/**
+ * @summary Joins together an iterable collection of iterables
+ * Be careful regarding infinite iterables.
+ */
+export function* concat<T>(xss: Iterable<Iterable<T>>): Iterable<T> {
+  for (const xs of xss) {
+    for (const x of xs) {
+      yield x;
+    }
+  }
+}
+
+/**
+ * @summary Interleaves two iterables into one.
+ * Stops as soon as one of the two iterables stops.
+ */
+export function interleave<T>(xs: Iterable<T>, ys: Iterable<T>): Iterable<T> {
+  return {
+    [Symbol.iterator](): Iterator<T> {
+      const iterX = xs[Symbol.iterator]();
+      const iterY = ys[Symbol.iterator]();
+      let turnX = true;
+      let lastT = iterX.next();
+      let done = lastT.done;
+      return {
+        next(y?: any): IteratorResult<T> {
+          if (done) {
+            return lastT;
+          }
+          const nextT = lastT;
+          turnX = !turnX;
+          lastT = turnX ? iterX.next() : iterY.next();
+          done = done || lastT.done;
+          return nextT;
+        }
+      };
+    }
+  };
+}
+
+/**
+ * @summary Returns an iterable that generates only unique values.
+ * This uses a Set as a cache for values that have been seen
+ * already. So mindful of the space consumed when passing in
+ * a large iterable.
+ */
+export function* unique<T>(xs: Iterable<T>): Iterable<T> {
+  const seen = new Set<T>();
   for (const x of xs) {
-    yield x;
+    if (!seen.has(x)) {
+      seen.add(x);
+      yield x;
+    }
   }
-  for (const y of ys) {
-    yield y;
+}
+
+/**
+ * @summary Bundles the results of an iterable into groups of `n`.
+ * `n` is allowed to be +Infinity, in which case, the first
+ * bundle returned contains everything. Be careful about
+ * infinite iterables.
+ */
+export function bundle(n: number): <T>(xs: Iterable<T>) => Iterable<T[]> {
+  if ((!Number.isInteger(n) && n !== Number.POSITIVE_INFINITY) || n <= 1) {
+    return <T>(xs: Iterable<T>) => map((x: T) => [x])(xs);
   }
+  function* generator<T>(xs: Iterable<T>): Iterable<T[]> {
+    let nextBundle: T[] = [];
+    for (const x of xs) {
+      if (nextBundle.length < n) {
+        nextBundle.push(x);
+      } else {
+        yield nextBundle;
+        nextBundle = [];
+      }
+    }
+    return nextBundle;
+  }
+  return generator;
+}
+
+/**
+ * @summary Generates all values from an iterable and returns them as an array.
+ * This function short-circuits when `xs` is an array. Be
+ * careful about infinite iterables.
+ */
+export function toArray<T>(xs: Iterable<T>): T[] {
+  if (xs instanceof Array) {
+    return xs as T[];
+  }
+  const arr: T[] = [];
+  const iterT = xs[Symbol.iterator]();
+  let nextT = iterT.next();
+  while (!nextT.done) {
+    arr.push(nextT.value);
+    nextT = iterT.next();
+  }
+  return arr;
 }
