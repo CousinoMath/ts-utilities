@@ -1,8 +1,8 @@
+import { constant, ident } from './Functions';
+
 /**
  * Maybe extends a type to include null as a possible value.
  */
-
-import { constant, ident } from './Functions';
 
 /**
  * @summary A type alias that extends a type to be nullable.

@@ -87,9 +87,9 @@
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external"><a href="_tuple_.html#curried" class="tsd-kind-icon">curried</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external"><a href="_tuple_.html#flip" class="tsd-kind-icon">flip</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external"><a href="_tuple_.html#map" class="tsd-kind-icon">map</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external"><a href="_tuple_.html#product" class="tsd-kind-icon">product</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external"><a href="_tuple_.html#swap" class="tsd-kind-icon">swap</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external"><a href="_tuple_.html#tuple-1" class="tsd-kind-icon">tuple</a></li>
 							</ul>
 						</section>
@@ -104,7 +104,7 @@
 					<div class="tsd-signature tsd-kind-icon">Tuple<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/CousinoMath/Documents/blob/083c131/dev/TypeScript/Utilities/src/Tuple.ts#L9">Tuple.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/CousinoMath/Documents/blob/f04fd1d/dev/TypeScript/Utilities/src/Tuple.ts#L10">Tuple.ts:10</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -132,12 +132,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/CousinoMath/Documents/blob/083c131/dev/TypeScript/Utilities/src/Tuple.ts#L24">Tuple.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/CousinoMath/Documents/blob/f04fd1d/dev/TypeScript/Utilities/src/Tuple.ts#L25">Tuple.ts:25</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p><code>curried = x =&gt; y =&gt; [x, y]</code></p>
+									<p><code>curried(x)(y) = [x, y]</code></p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>summary</dt>
@@ -183,48 +183,6 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external">
-					<a name="flip" class="tsd-anchor"></a>
-					<h3>flip</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">flip&lt;R, S&gt;<span class="tsd-signature-symbol">(</span>xy<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">]</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/CousinoMath/Documents/blob/083c131/dev/TypeScript/Utilities/src/Tuple.ts#L43">Tuple.ts:43</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p><code>xy =&gt; [xy[1], xy[0]]</code></p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>summary</dt>
-									<dd><p>Flips the order of a tuple</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>R</h4>
-								</li>
-								<li>
-									<h4>S</h4>
-								</li>
-							</ul>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>xy: <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">]</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">]</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external">
 					<a name="map" class="tsd-anchor"></a>
 					<h3>map</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external">
@@ -234,12 +192,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/CousinoMath/Documents/blob/083c131/dev/TypeScript/Utilities/src/Tuple.ts#L51">Tuple.ts:51</a></li>
+									<li>Defined in <a href="https://github.com/CousinoMath/Documents/blob/f04fd1d/dev/TypeScript/Utilities/src/Tuple.ts#L52">Tuple.ts:52</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p><code>xy =&gt; [f(xy[0]), g(xy[1])]</code></p>
+									<p><code>map(f, g)([x, y]) = [f(x), g(y)]</code></p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>summary</dt>
@@ -339,12 +297,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/CousinoMath/Documents/blob/083c131/dev/TypeScript/Utilities/src/Tuple.ts#L32">Tuple.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/CousinoMath/Documents/blob/f04fd1d/dev/TypeScript/Utilities/src/Tuple.ts#L33">Tuple.ts:33</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p><code>x =&gt; [f(x), g(x)]</code></p>
+									<p><code>product(f, g)(x) = [f(x), g(x)]</code></p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>summary</dt>
@@ -432,6 +390,48 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external">
+					<a name="swap" class="tsd-anchor"></a>
+					<h3>swap</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external">
+						<li class="tsd-signature tsd-kind-icon">swap&lt;R, S&gt;<span class="tsd-signature-symbol">(</span>xy<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/CousinoMath/Documents/blob/f04fd1d/dev/TypeScript/Utilities/src/Tuple.ts#L44">Tuple.ts:44</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p><code>swap([x, y]) =&gt; [y, x]</code></p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>summary</dt>
+									<dd><p>Flips the order of a tuple</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>R</h4>
+								</li>
+								<li>
+									<h4>S</h4>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>xy: <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external">
 					<a name="tuple-1" class="tsd-anchor"></a>
 					<h3>tuple</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external">
@@ -441,14 +441,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/CousinoMath/Documents/blob/083c131/dev/TypeScript/Utilities/src/Tuple.ts#L16">Tuple.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/CousinoMath/Documents/blob/f04fd1d/dev/TypeScript/Utilities/src/Tuple.ts#L17">Tuple.ts:17</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<dl class="tsd-comment-tags">
 									<dt>deprecated</dt>
 									<dd><p>since Typescript 2.7
-										<code>(x, y) =&gt; [x, y]</code></p>
+										<code>tuple(x, y) = [x, y]</code></p>
 									</dd>
 									<dt>summary</dt>
 									<dd><p>Constructs a tuple</p>
@@ -495,7 +495,13 @@
 						<span>Externals</span>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_abstractlist_.html">"<wbr>Abstract<wbr>List"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="_arrays_.html">"<wbr>Arrays"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_booleans_.html">"<wbr>Booleans"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="_either_.html">"<wbr>Either"</a>
@@ -507,7 +513,19 @@
 						<a href="_iterable_.html">"<wbr>Iterable"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_list_.html">"<wbr>List"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="_maybe_.html">"<wbr>Maybe"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_nonemptylist_.html">"<wbr>Non<wbr>Empty<wbr>List"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_objects_.html">"<wbr>Objects"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_ordering_.html">"<wbr>Ordering"</a>
 					</li>
 					<li class="current tsd-kind-external-module tsd-is-external">
 						<a href="_tuple_.html">"<wbr>Tuple"</a>
@@ -523,13 +541,13 @@
 						<a href="_tuple_.html#curried" class="tsd-kind-icon">curried</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external">
-						<a href="_tuple_.html#flip" class="tsd-kind-icon">flip</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external">
 						<a href="_tuple_.html#map" class="tsd-kind-icon">map</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external">
 						<a href="_tuple_.html#product" class="tsd-kind-icon">product</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external">
+						<a href="_tuple_.html#swap" class="tsd-kind-icon">swap</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external">
 						<a href="_tuple_.html#tuple-1" class="tsd-kind-icon">tuple</a>

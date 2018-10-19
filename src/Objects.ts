@@ -1,18 +1,30 @@
 import { numberOrd } from './Ordering';
 
+/**
+ * @summary A convenience function for `(x, y) => x == y`
+ */
 export function equals2<T>(x: T, y: T): boolean {
   // tslint:disable-next-line
   return x == y;
 }
 
+/**
+ * @summary A convenience function for `(x, y) => x === y`
+ */
 export function equals3<T>(x: T, y: T): boolean {
   return x === y;
 }
 
+/**
+ * @summary A convenience function for `(x, y) => Object.is(x, y)`
+ */
 export function sameValue<T>(x: T, y: T): boolean {
   return Object.is(x, y);
 }
 
+/**
+ * @summary A convenience function for SameValueZero equality
+ */
 export function sameValueZero<T>(x: T, y: T): boolean {
   const xType = typeof x;
   const yType = typeof y;

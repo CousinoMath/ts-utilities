@@ -85,7 +85,7 @@
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external"><a href="_functions_.html#curry" class="tsd-kind-icon">curry</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external"><a href="_functions_.html#flip" class="tsd-kind-icon">flip</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external"><a href="_functions_.html#ident" class="tsd-kind-icon">ident</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external"><a href="_functions_.html#through" class="tsd-kind-icon">through</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external"><a href="_functions_.html#on" class="tsd-kind-icon">on</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external"><a href="_functions_.html#uncurry" class="tsd-kind-icon">uncurry</a></li>
 							</ul>
 						</section>
@@ -98,18 +98,18 @@
 					<a name="compose" class="tsd-anchor"></a>
 					<h3>compose</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">compose&lt;S, T&gt;<span class="tsd-signature-symbol">(</span>g<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
+						<li class="tsd-signature tsd-kind-icon">compose&lt;R, S, T&gt;<span class="tsd-signature-symbol">(</span>g<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span>, f<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Functions.ts:49</li>
+									<li>Defined in <a href="https://github.com/CousinoMath/Documents/blob/f04fd1d/dev/TypeScript/Utilities/src/Functions.ts#L49">Functions.ts:49</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p><code>compose(g)(f)(x) = g(f(x))</code></p>
+									<p><code>compose(g, f)(x) = g(f(x))</code></p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>summary</dt>
@@ -119,6 +119,9 @@
 							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
+								<li>
+									<h4>R</h4>
+								</li>
 								<li>
 									<h4>S</h4>
 								</li>
@@ -149,64 +152,43 @@
 										</li>
 									</ul>
 								</li>
+								<li>
+									<h5>f: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">S</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>x: <span class="tsd-signature-type">R</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">S</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
 							<ul class="tsd-parameters">
 								<li class="tsd-parameter-siganture">
-									<ul class="tsd-signatures tsd-kind-type-literal tsd-has-type-parameter tsd-is-not-exported">
-										<li class="tsd-signature tsd-kind-icon">&lt;R&gt;<span class="tsd-signature-symbol">(</span>f<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
+									<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
 									</ul>
 									<ul class="tsd-descriptions">
 										<li class="tsd-description">
-											<h4 class="tsd-type-parameters-title">Type parameters</h4>
-											<ul class="tsd-type-parameters">
-												<li>
-													<h4>R</h4>
-												</li>
-											</ul>
 											<h4 class="tsd-parameters-title">Parameters</h4>
 											<ul class="tsd-parameters">
 												<li>
-													<h5>f: <span class="tsd-signature-type">function</span></h5>
-													<ul class="tsd-parameters">
-														<li class="tsd-parameter-siganture">
-															<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-																<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">S</span></li>
-															</ul>
-															<ul class="tsd-descriptions">
-																<li class="tsd-description">
-																	<h4 class="tsd-parameters-title">Parameters</h4>
-																	<ul class="tsd-parameters">
-																		<li>
-																			<h5>x: <span class="tsd-signature-type">R</span></h5>
-																		</li>
-																	</ul>
-																	<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">S</span></h4>
-																</li>
-															</ul>
-														</li>
-													</ul>
+													<h5>x: <span class="tsd-signature-type">R</span></h5>
 												</li>
 											</ul>
-											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
-											<ul class="tsd-parameters">
-												<li class="tsd-parameter-siganture">
-													<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-														<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
-													</ul>
-													<ul class="tsd-descriptions">
-														<li class="tsd-description">
-															<h4 class="tsd-parameters-title">Parameters</h4>
-															<ul class="tsd-parameters">
-																<li>
-																	<h5>x: <span class="tsd-signature-type">R</span></h5>
-																</li>
-															</ul>
-															<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
-														</li>
-													</ul>
-												</li>
-											</ul>
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
 										</li>
 									</ul>
 								</li>
@@ -224,7 +206,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Functions.ts:33</li>
+									<li>Defined in <a href="https://github.com/CousinoMath/Documents/blob/f04fd1d/dev/TypeScript/Utilities/src/Functions.ts#L33">Functions.ts:33</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -287,7 +269,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Functions.ts:17</li>
+									<li>Defined in <a href="https://github.com/CousinoMath/Documents/blob/f04fd1d/dev/TypeScript/Utilities/src/Functions.ts#L17">Functions.ts:17</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -389,7 +371,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Functions.ts:41</li>
+									<li>Defined in <a href="https://github.com/CousinoMath/Documents/blob/f04fd1d/dev/TypeScript/Utilities/src/Functions.ts#L41">Functions.ts:41</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -506,7 +488,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Functions.ts:9</li>
+									<li>Defined in <a href="https://github.com/CousinoMath/Documents/blob/f04fd1d/dev/TypeScript/Utilities/src/Functions.ts#L9">Functions.ts:9</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -536,21 +518,21 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external">
-					<a name="through" class="tsd-anchor"></a>
-					<h3>through</h3>
+					<a name="on" class="tsd-anchor"></a>
+					<h3>on</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external">
-						<li class="tsd-signature tsd-kind-icon">through&lt;R, S&gt;<span class="tsd-signature-symbol">(</span>f<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
+						<li class="tsd-signature tsd-kind-icon">on&lt;R, S, T&gt;<span class="tsd-signature-symbol">(</span>f<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span>, op<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Functions.ts:59</li>
+									<li>Defined in <a href="https://github.com/CousinoMath/Documents/blob/f04fd1d/dev/TypeScript/Utilities/src/Functions.ts#L57">Functions.ts:57</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p><code>through(f)(op)(x, y) = op(f(x), f(y))</code></p>
+									<p><code>on(f, op)(x, y) = op(f(x), f(y))</code></p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>summary</dt>
@@ -565,6 +547,9 @@
 								</li>
 								<li>
 									<h4>S</h4>
+								</li>
+								<li>
+									<h4>T</h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -590,70 +575,49 @@
 										</li>
 									</ul>
 								</li>
+								<li>
+									<h5>op: <span class="tsd-signature-type">function</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter-siganture">
+											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">S</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>x: <span class="tsd-signature-type">S</span></h5>
+														</li>
+														<li>
+															<h5>y: <span class="tsd-signature-type">S</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
 							<ul class="tsd-parameters">
 								<li class="tsd-parameter-siganture">
-									<ul class="tsd-signatures tsd-kind-type-literal tsd-has-type-parameter tsd-is-not-exported">
-										<li class="tsd-signature tsd-kind-icon">&lt;T&gt;<span class="tsd-signature-symbol">(</span>op<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
+									<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">R</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
 									</ul>
 									<ul class="tsd-descriptions">
 										<li class="tsd-description">
-											<h4 class="tsd-type-parameters-title">Type parameters</h4>
-											<ul class="tsd-type-parameters">
-												<li>
-													<h4>T</h4>
-												</li>
-											</ul>
 											<h4 class="tsd-parameters-title">Parameters</h4>
 											<ul class="tsd-parameters">
 												<li>
-													<h5>op: <span class="tsd-signature-type">function</span></h5>
-													<ul class="tsd-parameters">
-														<li class="tsd-parameter-siganture">
-															<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-																<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">S</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
-															</ul>
-															<ul class="tsd-descriptions">
-																<li class="tsd-description">
-																	<h4 class="tsd-parameters-title">Parameters</h4>
-																	<ul class="tsd-parameters">
-																		<li>
-																			<h5>x: <span class="tsd-signature-type">S</span></h5>
-																		</li>
-																		<li>
-																			<h5>y: <span class="tsd-signature-type">S</span></h5>
-																		</li>
-																	</ul>
-																	<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
-																</li>
-															</ul>
-														</li>
-													</ul>
+													<h5>x: <span class="tsd-signature-type">R</span></h5>
+												</li>
+												<li>
+													<h5>y: <span class="tsd-signature-type">R</span></h5>
 												</li>
 											</ul>
-											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
-											<ul class="tsd-parameters">
-												<li class="tsd-parameter-siganture">
-													<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-														<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>x<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">R</span>, y<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">R</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
-													</ul>
-													<ul class="tsd-descriptions">
-														<li class="tsd-description">
-															<h4 class="tsd-parameters-title">Parameters</h4>
-															<ul class="tsd-parameters">
-																<li>
-																	<h5>x: <span class="tsd-signature-type">R</span></h5>
-																</li>
-																<li>
-																	<h5>y: <span class="tsd-signature-type">R</span></h5>
-																</li>
-															</ul>
-															<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
-														</li>
-													</ul>
-												</li>
-											</ul>
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">T</span></h4>
 										</li>
 									</ul>
 								</li>
@@ -671,7 +635,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in Functions.ts:25</li>
+									<li>Defined in <a href="https://github.com/CousinoMath/Documents/blob/f04fd1d/dev/TypeScript/Utilities/src/Functions.ts#L25">Functions.ts:25</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -781,7 +745,13 @@
 						<span>Externals</span>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_abstractlist_.html">"<wbr>Abstract<wbr>List"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="_arrays_.html">"<wbr>Arrays"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_booleans_.html">"<wbr>Booleans"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="_either_.html">"<wbr>Either"</a>
@@ -793,7 +763,19 @@
 						<a href="_iterable_.html">"<wbr>Iterable"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_list_.html">"<wbr>List"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="_maybe_.html">"<wbr>Maybe"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_nonemptylist_.html">"<wbr>Non<wbr>Empty<wbr>List"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_objects_.html">"<wbr>Objects"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="_ordering_.html">"<wbr>Ordering"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="_tuple_.html">"<wbr>Tuple"</a>
@@ -818,7 +800,7 @@
 						<a href="_functions_.html#ident" class="tsd-kind-icon">ident</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external">
-						<a href="_functions_.html#through" class="tsd-kind-icon">through</a>
+						<a href="_functions_.html#on" class="tsd-kind-icon">on</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-external-module tsd-has-type-parameter tsd-is-external">
 						<a href="_functions_.html#uncurry" class="tsd-kind-icon">uncurry</a>

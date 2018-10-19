@@ -55,3 +55,41 @@ export function map<R1, R2, T1, T2>(
 ): (xy: [R1, R2]) => [T1, T2] {
   return xy => [f(xy[0]), g(xy[1])];
 }
+
+export function to3Tuple<R, S, T>([[x, y], z]: [[R, S], T]): [R, S, T] {
+  return [x, y, z];
+}
+
+export function from3Tuple<R, S, T>([x, y, z]: [R, S, T]): [[R, S], T] {
+  return [[x, y], z];
+}
+
+export function to4Tuple<Q, R, S, T>([[[w, x], y], z]: [[[Q, R], S], T]): [
+  Q,
+  R,
+  S,
+  T
+] {
+  return [w, x, y, z];
+}
+
+export function from4Tuple<Q, R, S, T>([w, x, y, z]: [Q, R, S, T]): [
+  [[Q, R], S],
+  T
+] {
+  return [[[w, x], y], z];
+}
+
+export function to5Tuple<P, Q, R, S, T>([[[[v, w], x], y], z]: [
+  [[[P, Q], R], S],
+  T
+]): [P, Q, R, S, T] {
+  return [v, w, x, y, z];
+}
+
+export function from5Tuple<P, Q, R, S, T>([v, w, x, y, z]: [P, Q, R, S, T]): [
+  [[[P, Q], R], S],
+  T
+] {
+  return [[[[v, w], x], y], z];
+}

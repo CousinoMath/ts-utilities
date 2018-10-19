@@ -7,45 +7,6 @@ import { Maybe } from './Maybe';
 import { Ordering } from './Ordering';
 
 /**
- * @summary Creates a recursive function over arrays with arbitrary return type.
- * @param init value returned for an empty array
- * @param ind recursive rule applied to non-empty arrays
- */
-export function array<R, S>(init: S, ind: (x: R, ys: S) => S): (xs: R[]) => S {
-  return xs => {
-    let val = init;
-    const len = xs.length;
-    for (let i = 0; i < len; i++) {
-      val = ind(xs[i], val);
-    }
-    return val;
-  };
-}
-
-/**
- * `f(..., f(xs[1], f(xs[0], init))...)`
- * This is different from `reduce` on the Array prototype. You'll find the
- * type signature there is
- *
- *     Array.prototype.reduce<T>: (f: (accum: T, value: T, index?: number, array?: T[]) => T, initVal: T) => T
- *
- * Whereas this reduce function can return a value whose type is different
- * than that of the array elements.
- * @deprecated ever since I learned about `reduce<T>(...)`
- * @summary An array reducer which can return an arbitrary value type.
- * @param xs array to be reduced
- * @param f reducing function
- * @param init initial value
- */
-export function reduce<R, S>(
-  xs: R[],
-  f: (accum: S, value: R) => S,
-  init: S
-): S {
-  return xs.reduce<S>(f, init);
-}
-
-/**
  * `xs => [xs[0], f(xs[0], xs[1]), f(f(xs[0], xs[1]), xs[2]), ...]`
  * @summary Returns a function creates an array of running accumulations from an input array
  * @see [[cumSum]]
@@ -64,60 +25,27 @@ export function accumulate<T>(f: (x: T, y: T) => T, xs: T[]): T[] {
 }
 
 /**
+ * @summary Creates a recursive function over arrays with arbitrary return type.
+ * @param init value returned for an empty array
+ * @param ind recursive rule applied to non-empty arrays
+ */
+export function array<R, S>(init: S, ind: (x: R, ys: S) => S): (xs: R[]) => S {
+  return xs => {
+    let val = init;
+    const len = xs.length;
+    for (let i = 0; i < len; i++) {
+      val = ind(xs[i], val);
+    }
+    return val;
+  };
+}
+
+/**
  * `[xs[0], xs[0] + xs[1], xs[0] + xs[1] + xs[2], ...]`
  * @summary Takes an array and returns the array of running totals
  */
 export function cumSum(xs: number[]): number[] {
   return accumulate((x: number, y: number) => x + y, xs);
-}
-
-/**
- * @summary Flatly maps an array-valued function over an input array
- */
-export function flatMap<R, S>(f: (x: R) => S[], xs: R[]): S[] {
-  return array([], (x: R, ys: S[]) => ys.concat(f(x)))(xs);
-}
-
-/**
- * @summary Flattens an array of arrays
- */
-export function flatten<T>(xss: T[][]): T[] {
-  return flatMap<T[], T>(ident, xss);
-}
-
-/**
- * @deprecated since ES6 introduced this to the Array prototype
- * @summary Returns an array of specified length whose entries are `f` mapped over the indices.
- * @param len length of the resulting array
- * @param f function which will generate elements from their indices
- * @returns an array whose elements are `f` applied to their indices
- * @throws `RangeError` when array length is invalid, i.e. at least `2^32` or negative.
- */
-export function from<T>(len: number, f: (idx: number) => T): T[] {
-  if (len > Math.pow(2, 32) - 1 || len < 0) {
-    throw new RangeError('Invalid array length.');
-  }
-
-  const arr = new Array<T>();
-
-  for (let idx = 0; idx < len; idx++) {
-    arr.push(f(idx));
-  }
-  return arr;
-}
-
-/**
- * Generates an array using an arithmetic sequence starting at `start`,
- * incrementing by `delta`, and stopping no later than `stop`
- * @summary Generates an array using an arithmetic sequence
- * @param [start=0]
- * @param stop
- * @param [delta=1]
- * @returns [start, start + delta, ..., start + n * delta], where n = Math.floor((stop - start) / delta)
- */
-export function range(start = 0, stop: number, delta = 1): number[] {
-  const len = delta === 0 ? 0 : Math.floor((stop - start) / delta);
-  return from(Math.max(len, 0), idx => start + idx * delta);
 }
 
 /**
@@ -148,6 +76,131 @@ export function findIndex<T>(xs: T[], f: (x: T) => boolean): number {
   return -1;
 }
 
+/**
+ * @summary Flatly maps an array-valued function over an input array
+ */
+export function flatMap<R, S>(f: (x: R) => S[], xs: R[]): S[] {
+  return array([], (x: R, ys: S[]) => ys.concat(f(x)))(xs);
+}
+
+/**
+ * @summary Flattens an array of arrays
+ */
+export function flatten<T>(xss: T[][]): T[] {
+  return flatMap<T[], T>(ident, xss);
+}
+
+/**
+ * @deprecated since ES6 introduced this to the Array prototype
+ * @summary Returns an array of specified length whose entries are `f` mapped over the indices.
+ * @param len length of the resulting array
+ * @param f function which will generate elements from their indices
+ * @returns an array whose elements are `f` applied to their indices
+ * @throws `RangeError` when array length is invalid, i.e. at least `2^32` or negative.
+ */
+export function from<T>(len: number, f: (idx: number) => T): T[] {
+  if (len < 0 || Math.log2(len) >= 32) {
+    // Math.log(0) = -Infinity < 32
+    throw new RangeError('Invalid array length.');
+  }
+  const arr: T[] = new Array(len);
+  for (let idx = 0; idx < len; idx++) {
+    arr[idx] = f(idx);
+  }
+  return arr;
+}
+
+/**
+ * Generates an array using an arithmetic sequence starting at `start`,
+ * incrementing by `delta`, and stopping no later than `stop`
+ * @summary Generates an array using an arithmetic sequence
+ * @param [start=0]
+ * @param stop
+ * @param [delta=1]
+ * @returns [start, start + delta, ..., start + n * delta], where n = Math.floor((stop - start) / delta)
+ */
+export function range(start = 0, stop: number, delta = 1): number[] {
+  if (typeof stop === 'undefined') {
+    return from(Math.max(start, 0), ident);
+  } else {
+    const rng = stop - start;
+    const len =
+      Math.abs(delta) === 0 ? 0 : Math.floor((rng + Math.sign(rng)) / delta);
+    return from(Math.max(len, 0), idx => start + idx * delta);
+  }
+}
+
+/**
+ * `f(..., f(xs[1], f(xs[0], init))...)`
+ * This is different from `reduce` on the Array prototype. You'll find the
+ * type signature there is
+ *
+ *     Array.prototype.reduce<T>: (f: (accum: T, value: T, index?: number, array?: T[]) => T, initVal: T) => T
+ *
+ * Whereas this reduce function can return a value whose type is different
+ * than that of the array elements.
+ * @deprecated ever since I learned about `reduce<T>(...)`
+ * @summary An array reducer which can return an arbitrary value type.
+ * @param xs array to be reduced
+ * @param f reducing function
+ * @param init initial value
+ */
+export function reduce<R, S>(
+  xs: R[],
+  f: (accum: S, value: R) => S,
+  init: S
+): S {
+  return xs.reduce<S>(f, init);
+}
+
+export function sortBy<T>(ord: Ordering<T>, xs: T[]): T[] {
+  function merge(ys1: T[], ys2: T[]): T[] {
+    const len1 = ys1.length;
+    const len2 = ys2.length;
+    let i1 = 0;
+    let i2 = 0;
+    const ys: T[] = [];
+
+    while (i1 < len1 && i2 < len2) {
+      if (ord(ys1[i1], ys2[i2]) === 'GT') {
+        ys.push(ys2[i2]);
+        i2++;
+      } else {
+        ys.push(ys1[i1]);
+        i1++;
+      }
+    }
+    if (i1 === len1) {
+      ys.push(...ys2.slice(i2));
+    } else {
+      ys.push(...ys1.slice(i1));
+    }
+    return ys;
+  }
+
+  let sorted: T[][] = xs.map(x => [x]);
+  let results = [];
+  while (sorted.length > 1) {
+    if (sorted.length % 2 === 1) {
+      const ys1 = sorted.pop();
+      const ys2 = sorted.pop();
+      if (typeof ys1 !== 'undefined' && typeof ys2 !== 'undefined') {
+        sorted.push(merge(ys1, ys2));
+      }
+    }
+    while (sorted.length > 1) {
+      const ys1 = sorted.shift();
+      const ys2 = sorted.shift();
+      if (typeof ys1 !== 'undefined' && typeof ys2 !== 'undefined') {
+        results.push(merge(ys1, ys2));
+      }
+    }
+    sorted = results.concat(sorted);
+    results = [];
+  }
+  return sorted[0];
+}
+
 export function uniqueBy<T>(eq: (x: T, y: T) => boolean, xs: T[]): T[] {
   const ys = xs.slice(0);
   let len = ys.length;
@@ -164,54 +217,4 @@ export function uniqueBy<T>(eq: (x: T, y: T) => boolean, xs: T[]): T[] {
     }
   }
   return ys;
-}
-
-// type Ordering = 'LT' | 'EQ' | 'GT';
-export function sortBy<T>(ord: Ordering<T>, xs: T[]): T[] {
-  const unsorted: T[][] = [xs];
-  const sorted: T[][] = [];
-
-  while (unsorted.length > 0) {
-    const ys = unsorted.shift();
-
-    if (typeof ys !== 'undefined') {
-      const ylen = ys.length;
-      if (ylen > 1) {
-        const ymid = Math.floor(ylen / 2);
-        unsorted.push(ys.slice(0, ymid));
-        unsorted.push(ys.slice(ymid + 1, ylen - 1));
-      } else {
-        sorted.push(ys);
-      }
-    }
-  }
-
-  while (sorted.length > 1) {
-    const ys1 = sorted.shift();
-    const ys2 = sorted.shift();
-    if (typeof ys1 !== 'undefined' && typeof ys2 !== 'undefined') {
-      const len1 = ys1.length;
-      const len2 = ys2.length;
-      let i1 = 0;
-      let i2 = 0;
-      const ys: T[] = [];
-
-      while (i1 < len1 && i2 < len2) {
-        if (ord(ys1[i1], ys2[i2]) === 'GT') {
-          ys.push(ys2[i2]);
-          i2++;
-        } else {
-          ys.push(ys1[i1]);
-          i1++;
-        }
-      }
-      if (i1 === len1) {
-        ys.push(...ys2);
-      } else {
-        ys.push(...ys1);
-      }
-      sorted.push(ys);
-    }
-  }
-  return sorted[0];
 }
