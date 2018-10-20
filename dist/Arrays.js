@@ -3,7 +3,7 @@
  * A collection of Array utility functions.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-const Functions_1 = require("./Functions");
+var Functions_1 = require("./Functions");
 /**
  * `xs => [xs[0], f(xs[0], xs[1]), f(f(xs[0], xs[1]), xs[2]), ...]`
  * @summary Returns a function creates an array of running accumulations from an input array
@@ -16,9 +16,9 @@ function accumulate(f, xs) {
         return xs;
     }
     else {
-        const x = xs[0];
-        const ys = xs.slice(1);
-        const ind = (u, vs) => vs.concat(f(u, vs[vs.length - 1]));
+        var x = xs[0];
+        var ys = xs.slice(1);
+        var ind = function (u, vs) { return vs.concat(f(u, vs[vs.length - 1])); };
         return array([x], ind)(ys);
     }
 }
@@ -29,10 +29,10 @@ exports.accumulate = accumulate;
  * @param ind recursive rule applied to non-empty arrays
  */
 function array(init, ind) {
-    return xs => {
-        let val = init;
-        const len = xs.length;
-        for (let i = 0; i < len; i++) {
+    return function (xs) {
+        var val = init;
+        var len = xs.length;
+        for (var i = 0; i < len; i++) {
             val = ind(xs[i], val);
         }
         return val;
@@ -44,7 +44,7 @@ exports.array = array;
  * @summary Takes an array and returns the array of running totals
  */
 function cumSum(xs) {
-    return accumulate((x, y) => x + y, xs);
+    return accumulate(function (x, y) { return x + y; }, xs);
 }
 exports.cumSum = cumSum;
 /**
@@ -53,7 +53,8 @@ exports.cumSum = cumSum;
  * @returns either returns the first element of `xs` that makes `f` true or returns null
  */
 function find(xs, f) {
-    for (const x of xs) {
+    for (var _i = 0, xs_1 = xs; _i < xs_1.length; _i++) {
+        var x = xs_1[_i];
         if (f(x)) {
             return x;
         }
@@ -67,7 +68,7 @@ exports.find = find;
  * @returns either the first index of `xs` whose element makes `f` true or returns -1
  */
 function findIndex(xs, f) {
-    for (let i = 0; i < xs.length; i++) {
+    for (var i = 0; i < xs.length; i++) {
         if (f(xs[i])) {
             return i;
         }
@@ -88,7 +89,7 @@ exports.first = first;
  * @summary Flatly maps an array-valued function over an input array
  */
 function flatMap(f, xs) {
-    return array([], (x, ys) => ys.concat(f(x)))(xs);
+    return array([], function (x, ys) { return ys.concat(f(x)); })(xs);
 }
 exports.flatMap = flatMap;
 /**
@@ -111,8 +112,8 @@ function from(len, f) {
         // Math.log(0) = -Infinity < 32
         throw new RangeError('Invalid array length.');
     }
-    const arr = new Array(len);
-    for (let idx = 0; idx < len; idx++) {
+    var arr = new Array(len);
+    for (var idx = 0; idx < len; idx++) {
         arr[idx] = f(idx);
     }
     return arr;
@@ -124,7 +125,7 @@ exports.from = from;
  * @summary Returns the last element of an array if it exists, and null otherwise.
  */
 function last(xs) {
-    const len = xs.length;
+    var len = xs.length;
     return len > 0 ? xs[len - 1] : null;
 }
 exports.last = last;
@@ -135,8 +136,8 @@ exports.last = last;
  * @param n index of the element to return
  */
 function nth(xs, n) {
-    const len = xs.length;
-    const inRange = len > 0 && Number.isInteger(n) && n >= -0 && n < len;
+    var len = xs.length;
+    var inRange = len > 0 && Number.isInteger(n) && n >= -0 && n < len;
     // arr[-0] === arr[0]
     return inRange ? xs[n] : null;
 }
@@ -150,14 +151,16 @@ exports.nth = nth;
  * @param [delta=1]
  * @returns [start, start + delta, ..., start + n * delta], where n = Math.floor((stop - start) / delta)
  */
-function range(start = 0, stop, delta = 1) {
+function range(start, stop, delta) {
+    if (start === void 0) { start = 0; }
+    if (delta === void 0) { delta = 1; }
     if (typeof stop === 'undefined') {
         return from(Math.max(start, 0), Functions_1.ident);
     }
     else {
-        const rng = stop - start;
-        const len = Math.abs(delta) === 0 ? 0 : Math.floor((rng + Math.sign(rng)) / delta);
-        return from(Math.max(len, 0), idx => start + idx * delta);
+        var rng = stop - start;
+        var len = Math.abs(delta) === 0 ? 0 : Math.floor((rng + Math.sign(rng)) / delta);
+        return from(Math.max(len, 0), function (idx) { return start + idx * delta; });
     }
 }
 exports.range = range;
@@ -186,11 +189,11 @@ exports.reduce = reduce;
  */
 function sortOn(ord, xs) {
     function merge(ys1, ys2) {
-        const len1 = ys1.length;
-        const len2 = ys2.length;
-        let i1 = 0;
-        let i2 = 0;
-        const ys = [];
+        var len1 = ys1.length;
+        var len2 = ys2.length;
+        var i1 = 0;
+        var i2 = 0;
+        var ys = [];
         while (i1 < len1 && i2 < len2) {
             if (ord(ys1[i1], ys2[i2]) === 'GT') {
                 ys.push(ys2[i2]);
@@ -202,26 +205,26 @@ function sortOn(ord, xs) {
             }
         }
         if (i1 === len1) {
-            ys.push(...ys2.slice(i2));
+            ys.push.apply(ys, ys2.slice(i2));
         }
         else {
-            ys.push(...ys1.slice(i1));
+            ys.push.apply(ys, ys1.slice(i1));
         }
         return ys;
     }
-    let sorted = xs.map(x => [x]);
-    let results = [];
+    var sorted = xs.map(function (x) { return [x]; });
+    var results = [];
     while (sorted.length > 1) {
         if (sorted.length % 2 === 1) {
-            const ys1 = sorted.pop();
-            const ys2 = sorted.pop();
+            var ys1 = sorted.pop();
+            var ys2 = sorted.pop();
             if (typeof ys1 !== 'undefined' && typeof ys2 !== 'undefined') {
                 sorted.push(merge(ys1, ys2));
             }
         }
         while (sorted.length > 1) {
-            const ys1 = sorted.shift();
-            const ys2 = sorted.shift();
+            var ys1 = sorted.shift();
+            var ys2 = sorted.shift();
             if (typeof ys1 !== 'undefined' && typeof ys2 !== 'undefined') {
                 results.push(merge(ys1, ys2));
             }
@@ -237,11 +240,11 @@ exports.sortOn = sortOn;
  * @param eq used to test equality between elements
  */
 function uniqueBy(eq, xs) {
-    const ys = xs.slice(0);
-    let len = ys.length;
-    for (let i = 0; i < len; i++) {
-        const x = ys[i];
-        let j = i + 1;
+    var ys = xs.slice(0);
+    var len = ys.length;
+    for (var i = 0; i < len; i++) {
+        var x = ys[i];
+        var j = i + 1;
         while (j < len) {
             if (eq(x, ys[j])) {
                 ys.splice(j, 1);

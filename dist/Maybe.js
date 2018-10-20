@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Functions_1 = require("./Functions");
+var Functions_1 = require("./Functions");
 /**
  * `bind(f)(null) = null`
  * `bind(f)(x) = f(x)`
@@ -13,14 +13,58 @@ function bind(f) {
 exports.bind = bind;
 // const monadReduction: <T>(xmm: Maybe<Maybe<T>>) => Maybe<T> = bind(lift(ident));
 /**
+ * `liftToArray(f)(xs) = concatMaybes(xs.map(f))`
+ * @summary Resulting function maps `f` over its input and outputs only non null results.
+ */
+function bindToArray(f) {
+    return function (xs) {
+        var ys = [];
+        for (var _i = 0, xs_1 = xs; _i < xs_1.length; _i++) {
+            var x = xs_1[_i];
+            maybe(0, function (y) { return ys.push(y); })(f(x));
+        }
+        return ys;
+    };
+}
+exports.bindToArray = bindToArray;
+/**
+ * @summary Resulting function maps `f` over its entries, keeping only non-null results.
+ */
+function bindToMap(f) {
+    return function (xs) {
+        var ys = new Map();
+        for (var _i = 0, xs_2 = xs; _i < xs_2.length; _i++) {
+            var _a = xs_2[_i], xkey = _a[0], xval = _a[1];
+            maybe(ys, function (ypair) { return ys.set(ypair[0], ypair[1]); })(f([xkey, xval]));
+        }
+        return ys;
+    };
+}
+exports.bindToMap = bindToMap;
+/**
+ * @summary Resulting function maps `f` over its elements, keeping only non-null results.
+ */
+function bindToSet(f) {
+    return function (xs) {
+        var ys = new Set();
+        for (var _i = 0, xs_3 = xs; _i < xs_3.length; _i++) {
+            var x = xs_3[_i];
+            maybe(ys, function (y) { return ys.add(y); })(f(x));
+        }
+        return ys;
+    };
+}
+exports.bindToSet = bindToSet;
+/**
  * `concatMaybe([null, ...rest]) = concatMaybe(rest)`
  * `concatMaybe([x, ...rest]) = [x, ...concatMaybe(rest)]`
  * @summary Takes an array of possibly null values and returns an array of only non-null values.
  */
 function concatMaybes(xms) {
-    const vals = [];
-    for (const xm of xms) {
-        maybe(0, x => vals.push(x))(xm);
+    var vals = [];
+    for (var _i = 0, xms_1 = xms; _i < xms_1.length; _i++) {
+        var xm = xms_1[_i];
+        maybe(0, function (x) { return vals.push(x); })(xm);
     }
     return vals;
 }
@@ -31,7 +75,7 @@ exports.concatMaybes = concatMaybes;
  * @summary Returns the value from a nullable value or a default value
  */
 function defaultTo(d, xm) {
-    return maybe(d, (x) => Functions_1.ident(x))(xm);
+    return maybe(d, function (x) { return Functions_1.ident(x); })(xm);
 }
 exports.defaultTo = defaultTo;
 /**
@@ -56,49 +100,9 @@ exports.isNull = isNull;
  * @summary Lifts a function over non-null values to one over nullable values
  */
 function lift(f) {
-    return maybe(null, f);
+    return bind(f);
 }
 exports.lift = lift;
-/**
- * `liftToArray(f)(xs) = concatMaybes(xs.map(f))`
- * @summary Resulting function maps `f` over its input and outputs only non null results.
- */
-function liftToArray(f) {
-    return xs => {
-        const ys = [];
-        for (const x of xs) {
-            maybe(0, y => ys.push(y))(f(x));
-        }
-        return ys;
-    };
-}
-exports.liftToArray = liftToArray;
-/**
- * @summary Resulting function maps `f` over its entries, keeping only non-null results.
- */
-function liftToMap(f) {
-    return xs => {
-        const ys = new Map();
-        for (const [xkey, xval] of xs) {
-            maybe(ys, ypair => ys.set(ypair[0], ypair[1]))(f([xkey, xval]));
-        }
-        return ys;
-    };
-}
-exports.liftToMap = liftToMap;
-/**
- * @summary Resulting function maps `f` over its elements, keeping only non-null results.
- */
-function liftToSet(f) {
-    return xs => {
-        const ys = new Set();
-        for (const x of xs) {
-            maybe(ys, y => ys.add(y))(f(x));
-        }
-        return ys;
-    };
-}
-exports.liftToSet = liftToSet;
 /**
  * Technically, this does *not* return a function of an optional
  * parameter, as such a function could be called with no
@@ -108,7 +112,7 @@ exports.liftToSet = liftToSet;
  * @summary Inductive rule of nullable types
  */
 function maybe(nil, f) {
-    return x => (x == null ? nil : f(x));
+    return function (x) { return (x == null ? nil : f(x)); };
 }
 exports.maybe = maybe;
 //# sourceMappingURL=Maybe.js.map

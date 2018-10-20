@@ -3,7 +3,7 @@
  * A generic, discriminated union type and helpers
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-const Functions_1 = require("./Functions");
+var Functions_1 = require("./Functions");
 /**
  * `bindLeft(f)(left(x)) = left(f(x))`
  * `bindLeft(f)(right(y)) = right(y)`
@@ -31,7 +31,7 @@ exports.bindRight = bindRight;
  * @summary Creates functions over `Either` values
  */
 function either(f, g) {
-    return (x) => (x.kind === 'left' ? f(x.value) : g(x.value));
+    return function (x) { return (x.kind === 'left' ? f(x.value) : g(x.value)); };
 }
 exports.either = either;
 /**
@@ -80,8 +80,9 @@ exports.leftDefault = leftDefault;
  * @see [[partition]]
  */
 function lefts(xes) {
-    const leftsArr = [];
-    for (const xe of xes) {
+    var leftsArr = [];
+    for (var _i = 0, xes_1 = xes; _i < xes_1.length; _i++) {
+        var xe = xes_1[_i];
         if (xe.kind === 'left') {
             leftsArr.push(xe.value);
         }
@@ -95,8 +96,8 @@ exports.lefts = lefts;
  * @summary Enables transformations on `Either` values
  */
 function lift(f, g) {
-    const lf = Functions_1.compose(left, f);
-    const rg = Functions_1.compose(right, g);
+    var lf = Functions_1.compose(left, f);
+    var rg = Functions_1.compose(right, g);
     return either(lf, rg);
 }
 exports.lift = lift;
@@ -107,9 +108,10 @@ exports.lift = lift;
  * @see [[rights]]
  */
 function partition(xes) {
-    const leftsArr = [];
-    const rightsArr = [];
-    for (const xe of xes) {
+    var leftsArr = [];
+    var rightsArr = [];
+    for (var _i = 0, xes_2 = xes; _i < xes_2.length; _i++) {
+        var xe = xes_2[_i];
         switch (xe.kind) {
             case 'left':
                 leftsArr.push(xe.value);
@@ -150,8 +152,9 @@ exports.rightDefault = rightDefault;
  * @see [[partition]]
  */
 function rights(xes) {
-    const rightsArr = [];
-    for (const xe of xes) {
+    var rightsArr = [];
+    for (var _i = 0, xes_3 = xes; _i < xes_3.length; _i++) {
+        var xe = xes_3[_i];
         if (xe.kind === 'right') {
             rightsArr.push(xe.value);
         }

@@ -3,8 +3,8 @@ import * as Arrays from './Arrays';
 import * as Booleans from './Booleans';
 import * as Either from './Either';
 import * as Functions from './Functions';
-import * as Iterable from './Iterable';
-import { List } from './List';
+// import * as Iterable from './Iterable';
+import { List, list } from './List';
 import * as Maybe from './Maybe';
 import { NonEmptyList } from './NonEmptyList';
 import * as Objects from './Objects';
@@ -17,8 +17,9 @@ export {
   Booleans,
   Either,
   Functions,
-  Iterable,
+  // Iterable,
   List,
+  list,
   Maybe,
   NonEmptyList,
   Objects,

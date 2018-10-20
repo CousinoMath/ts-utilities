@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @see [[ifte]]
  */
 function bool(trueRes, falseRes) {
-    return b => (b ? trueRes : falseRes);
+    return function (b) { return (b ? trueRes : falseRes); };
 }
 exports.bool = bool;
 /**

@@ -21,6 +21,50 @@ export function bind<S, T>(f: (x: S) => Maybe<T>): (xm: Maybe<S>) => Maybe<T> {
 // const monadReduction: <T>(xmm: Maybe<Maybe<T>>) => Maybe<T> = bind(lift(ident));
 
 /**
+ * `liftToArray(f)(xs) = concatMaybes(xs.map(f))`
+ * @summary Resulting function maps `f` over its input and outputs only non null results.
+ */
+export function bindToArray<S, T>(f: (x: S) => Maybe<T>): (xs: S[]) => T[] {
+  return xs => {
+    const ys: T[] = [];
+    for (const x of xs) {
+      maybe<T, number>(0, y => ys.push(y))(f(x));
+    }
+    return ys;
+  };
+}
+
+/**
+ * @summary Resulting function maps `f` over its entries, keeping only non-null results.
+ */
+export function bindToMap<R, S, T, U>(
+  f: ([key, val]: [R, S]) => Maybe<[T, U]>
+): (xs: Map<R, S>) => Map<T, U> {
+  return xs => {
+    const ys = new Map<T, U>();
+    for (const [xkey, xval] of xs) {
+      maybe<[T, U], Map<T, U>>(ys, ypair => ys.set(ypair[0], ypair[1]))(
+        f([xkey, xval])
+      );
+    }
+    return ys;
+  };
+}
+
+/**
+ * @summary Resulting function maps `f` over its elements, keeping only non-null results.
+ */
+export function bindToSet<S, T>(f: (x: S) => Maybe<T>): (xs: Set<S>) => Set<T> {
+  return xs => {
+    const ys = new Set<T>();
+    for (const x of xs) {
+      maybe<T, Set<T>>(ys, y => ys.add(y))(f(x));
+    }
+    return ys;
+  };
+}
+
+/**
  * `concatMaybe([null, ...rest]) = concatMaybe(rest)`
  * `concatMaybe([x, ...rest]) = [x, ...concatMaybe(rest)]`
  * @summary Takes an array of possibly null values and returns an array of only non-null values.
@@ -64,51 +108,7 @@ export function isNull<T>(xm: Maybe<T>): boolean {
  * @summary Lifts a function over non-null values to one over nullable values
  */
 export function lift<S, T>(f: (x: S) => T): (xm: Maybe<S>) => Maybe<T> {
-  return maybe(null, f);
-}
-
-/**
- * `liftToArray(f)(xs) = concatMaybes(xs.map(f))`
- * @summary Resulting function maps `f` over its input and outputs only non null results.
- */
-export function liftToArray<S, T>(f: (x: S) => Maybe<T>): (xs: S[]) => T[] {
-  return xs => {
-    const ys: T[] = [];
-    for (const x of xs) {
-      maybe<T, number>(0, y => ys.push(y))(f(x));
-    }
-    return ys;
-  };
-}
-
-/**
- * @summary Resulting function maps `f` over its entries, keeping only non-null results.
- */
-export function liftToMap<R, S, T, U>(
-  f: ([key, val]: [R, S]) => Maybe<[T, U]>
-): (xs: Map<R, S>) => Map<T, U> {
-  return xs => {
-    const ys = new Map<T, U>();
-    for (const [xkey, xval] of xs) {
-      maybe<[T, U], Map<T, U>>(ys, ypair => ys.set(ypair[0], ypair[1]))(
-        f([xkey, xval])
-      );
-    }
-    return ys;
-  };
-}
-
-/**
- * @summary Resulting function maps `f` over its elements, keeping only non-null results.
- */
-export function liftToSet<S, T>(f: (x: S) => Maybe<T>): (xs: Set<S>) => Set<T> {
-  return xs => {
-    const ys = new Set<T>();
-    for (const x of xs) {
-      maybe<T, Set<T>>(ys, y => ys.add(y))(f(x));
-    }
-    return ys;
-  };
+  return bind(f);
 }
 
 /**

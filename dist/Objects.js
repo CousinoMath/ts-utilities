@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Ordering_1 = require("./Ordering");
+var Ordering_1 = require("./Ordering");
 /**
  * @summary A convenience function for `(x, y) => x == y`
  */
@@ -27,8 +27,8 @@ exports.sameValue = sameValue;
  * @summary A convenience function for SameValueZero equality
  */
 function sameValueZero(x, y) {
-    const xType = typeof x;
-    const yType = typeof y;
+    var xType = typeof x;
+    var yType = typeof y;
     if (xType === 'number' || yType === 'number') {
         return xType === yType && Ordering_1.numberOrd(Number(x), Number(y)) === 'EQ';
     }

@@ -12,11 +12,6 @@ import { curry } from "./Functions";
 export type Tuple<R, S> = [R, S];
 
 /**
- * @deprecated since Typescript 2.7
- * `tuple(x, y) = [x, y]`
- * @summary Constructs a tuple
- */
-/**
  * `curried(x)(y) = [x, y]`
  * @summary Curried construction of a tuple.
  */
@@ -32,7 +27,7 @@ export function map<R1, R2, T1, T2>(
   f: (x: R1) => T1,
   g: (y: R2) => T2
 ): (xy: [R1, R2]) => [T1, T2] {
-  return xy => [f(xy[0]), g(xy[1])];
+  return ([x, y]: [R1, R2]) => [f(x), g(y)];
 }
 
 /**
@@ -55,7 +50,9 @@ export function swap<R, S>([x, y]: [R, S]): [S, R] {
 }
 
 /**
- * @summary A convenience function for building tuples.
+ * @deprecated since Typescript 2.7
+ * `tuple(x, y) = [x, y]`
+ * @summary Constructs a tuple
  */
 export function tuple<R, S>(x: R, y: S): [R, S] {
   return [x, y];

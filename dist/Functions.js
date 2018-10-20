@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @summary Creates the composition of two functions
  */
 function compose(g, f) {
-    return (x) => g(f(x));
+    return function (x) { return g(f(x)); };
 }
 exports.compose = compose;
 /**
@@ -16,7 +16,7 @@ exports.compose = compose;
  * @summary Creates a function with constant output
  */
 function constant(x) {
-    return (y) => x;
+    return function (y) { return x; };
 }
 exports.constant = constant;
 /**
@@ -24,7 +24,7 @@ exports.constant = constant;
  * @summary Curry a function
  */
 function curry(f) {
-    return x => y => f(x, y);
+    return function (x) { return function (y) { return f(x, y); }; };
 }
 exports.curry = curry;
 /**
@@ -32,7 +32,7 @@ exports.curry = curry;
  * @summary Flips the arguments for a function that returns another function
  */
 function flip(f) {
-    return (y, x) => f(x, y);
+    return function (y, x) { return f(x, y); };
 }
 exports.flip = flip;
 /**
@@ -48,7 +48,7 @@ exports.ident = ident;
  * @summary Threads a function `f` through a binary operation `op`
  */
 function on(f, op) {
-    return (x, y) => op(f(x), f(y));
+    return function (x, y) { return op(f(x), f(y)); };
 }
 exports.on = on;
 /**
@@ -56,7 +56,7 @@ exports.on = on;
  * @summary Uncurry a function
  */
 function uncurry(f) {
-    return (x, y) => f(x)(y);
+    return function (x, y) { return f(x)(y); };
 }
 exports.uncurry = uncurry;
 //# sourceMappingURL=Functions.js.map

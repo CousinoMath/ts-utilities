@@ -1,20 +1,14 @@
 {
   "compilerOptions": {
-    "outDir": "./dist/",
     "declaration": true,
     "declarationDir": "./dist/types/",
-    "sourceMap": true,
-    "strict": true,
-    // "noImplicitAny": true,
-    // "noImplicitThis": true,
-    // "alwaysStrict": true,
-    // "strictNullChecks": true,
-    // "strictFunctionTypes": true,
-    // "strictPropertyInitialization": true,
-    "target": "es2015",
     "module": "es2015",
     "noUnusedLocals": true,
-    "noUnusedParameters": false
+    "noUnusedParameters": false,
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2015"
   },
   "compileOnSave": false,
   "include": ["src/index.ts"]

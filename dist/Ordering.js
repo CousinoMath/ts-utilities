@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Functions_1 = require("./Functions");
+var Functions_1 = require("./Functions");
 /**
  * `preorder(f, ord)(x, y) <-> ord(f(x), f(y))`
  * @summary Pulls back an ordering along a function.
@@ -23,14 +23,14 @@ exports.dateOrd = dateOrd;
  * @summary Total ordering on number type. (excepting on NaNs)
  */
 function numberOrd(x, y) {
-    const xNan = Number.isNaN(x);
-    const yNan = Number.isNaN(y);
+    var xNan = Number.isNaN(x);
+    var yNan = Number.isNaN(y);
     if (xNan || yNan) {
         return xNan && yNan ? 'EQ' : 'LT';
     }
     // Rid of anomolous NaN
-    const xAbs = Math.abs(x);
-    const yAbs = Math.abs(y);
+    var xAbs = Math.abs(x);
+    var yAbs = Math.abs(y);
     if (xAbs > 0 || yAbs > 0) {
         if (x < y) {
             return 'LT';
@@ -67,7 +67,7 @@ exports.stringOrd = stringOrd;
  * @summary Converts a typical comparing function `f` into an `Ordering`.
  */
 function toOrdering(f) {
-    return (x, y) => numberOrd(f(x, y), 0);
+    return function (x, y) { return numberOrd(f(x, y), 0); };
 }
 exports.toOrdering = toOrdering;
 //# sourceMappingURL=Ordering.js.map

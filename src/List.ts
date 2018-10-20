@@ -8,7 +8,7 @@
 
 import { AbstractList } from './AbstractList';
 import { curry, ident } from './Functions';
-import { Maybe, maybe } from './Maybe';
+import { bind, Maybe, maybe } from './Maybe';
 import { NonEmptyList } from './NonEmptyList';
 import { sameValueZero } from './Objects';
 import { Ordering } from './Ordering';
@@ -52,15 +52,10 @@ export class List<T> extends AbstractList<T> {
   }
 
   /**
-   * The inductive rule for lists.
-   * @summary Creates a recursive function over lists.
-   * @see [[reduce]]
+   * @summary Convenient list factory
    */
-  public static list<A, B>(
-    nil: B,
-    f: (accum: B, val: A) => B
-  ): (xs: List<A>) => B {
-    return xs => xs.reduce(f, nil);
+  public static make<A>(...arr: A[]): List<A> {
+    return new List(arr);
   }
 
   /**
@@ -386,10 +381,10 @@ export class List<T> extends AbstractList<T> {
     const len = this.length;
     for (let i = 0; i < len; i++) {
       const idxm = ys.findIndex(y => eq(arr[i], y));
-      if (idxm != null) {
+      bind((idx: number) => {
         arr.splice(i, 1);
-        ys.delete(idxm);
-      }
+        ys.delete(idx);
+      })(idxm);
     }
     return new List(arr);
   }
@@ -1138,6 +1133,19 @@ export class List<T> extends AbstractList<T> {
     return new List(arr);
   }
 }
+
+  /**
+   * The inductive rule for lists.
+   * @summary Creates a recursive function over lists.
+   * @see [[reduce]]
+   */
+export function list<S, T>(
+    nil: T,
+    f: (accum: T, val: S) => T
+  ): (xs: List<S>) => T {
+    return xs => xs.reduce(f, nil);
+  }
+
 
 /**
  * [SameValueZero]: (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness#Same-value-zero_equality).

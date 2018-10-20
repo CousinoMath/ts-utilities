@@ -6,51 +6,77 @@
  * lists are lightweight wrappers of arrays which are carefully crafted to be
  * used interchangable with arrays, and with each other.
  */
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-const Functions_1 = require("./Functions");
-const List_1 = require("./List");
+var Functions_1 = require("./Functions");
+var List_1 = require("./List");
 /**
  * A specialized list subclass that encodes "non-emptiness" into
  * the type system. This has been designed to interoperate
  * simply with the List superclass.
  */
-class NonEmptyList extends List_1.List {
-    constructor(hd, tl) {
-        super([hd, ...tl]);
+var NonEmptyList = /** @class */ (function (_super) {
+    __extends(NonEmptyList, _super);
+    function NonEmptyList(hd, tl) {
+        return _super.call(this, [hd].concat(tl)) || this;
     }
     /**
      * A convenience to build instances from arrays, which
      * should obviously be non-empty.
      */
-    static make(arr) {
+    NonEmptyList._make = function (arr) {
         return new NonEmptyList(arr[0], arr.slice(1));
-    }
-    /**
-     * @summary Returns the first element of the list.
-     * @see [[tail]]
-     * @see [[List.head]]
-     */
-    get head() {
-        return super.arr[0];
-    }
-    /**
-     * @summary Returns false.
-     * @throws Error just in case this is not empty.
-     * @see [[List.isEmpty]]
-     */
-    get isEmpty() {
-        if (super.length === 0) {
-            throw new Error('A non-empty list was found to be empty');
-        }
-        return false;
-    }
-    /**
-     * @summary Returns the last element of the list.
-     * @see [[List.last]]
-     */
-    get last() {
-        return super.arr[super.length - 1];
-    }
+    };
+    Object.defineProperty(NonEmptyList.prototype, "head", {
+        /**
+         * @summary Returns the first element of the list.
+         * @see [[tail]]
+         * @see [[List.head]]
+         */
+        get: function () {
+            return _super.prototype.arr[0];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NonEmptyList.prototype, "isEmpty", {
+        /**
+         * @summary Returns false.
+         * @throws Error just in case this is not empty.
+         * @see [[List.isEmpty]]
+         */
+        get: function () {
+            if (_super.prototype.length === 0) {
+                throw new Error('A non-empty list was found to be empty');
+            }
+            return false;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(NonEmptyList.prototype, "last", {
+        /**
+         * @summary Returns the last element of the list.
+         * @see [[List.last]]
+         */
+        get: function () {
+            return _super.prototype.arr[_super.prototype.length - 1];
+        },
+        enumerable: true,
+        configurable: true
+    });
     /**
      * `[x_1, x_2, ..., x_n].accumulate(f, init) = [y_1, y_2, ..., y_n]`
      * where `y_1 := init` and `y_{k + 1} := f(y_k, x_k)`
@@ -60,9 +86,9 @@ class NonEmptyList extends List_1.List {
      * @see [[reduce]]
      * @see [[List.accumulate]]
      */
-    accumulate(f, init) {
-        return NonEmptyList.make(super.accumulate(f, init).toArray());
-    }
+    NonEmptyList.prototype.accumulate = function (f, init) {
+        return NonEmptyList._make(_super.prototype.accumulate.call(this, f, init).toArray());
+    };
     /**
      * `[x_1, x_2, ..., x_n].accumulateRight(f, init) = [y_1, y_2, ..., y_n]`
      * where `y_n := init` and `y_{k - 1} := f(y_k, x_k)`
@@ -72,9 +98,9 @@ class NonEmptyList extends List_1.List {
      * @see [[reduceRight]]
      * @see [[List.accumulateRight]]
      */
-    accumulateRight(f, init) {
-        return NonEmptyList.make(super.accumulateRight(f, init).toArray());
-    }
+    NonEmptyList.prototype.accumulateRight = function (f, init) {
+        return NonEmptyList._make(_super.prototype.accumulateRight.call(this, f, init).toArray());
+    };
     /**
      * `[x_1, x_2, ..., x_n].accumulate(f, init) = [y_1, y_2, ..., y_{n}]`
      * where `y_1 := x_n` and `y_{k - 1} := f(y_k, x_{k - 1})`
@@ -83,9 +109,9 @@ class NonEmptyList extends List_1.List {
      * @see [[List.accumulateRightWith]]
      * @param f the function used to accumulate over the array
      */
-    accumulateRightWith(f) {
-        return NonEmptyList.make(super.accumulateRightWith(f).toArray());
-    }
+    NonEmptyList.prototype.accumulateRightWith = function (f) {
+        return NonEmptyList._make(_super.prototype.accumulateRightWith.call(this, f).toArray());
+    };
     /**
      * `[x_1, x_2, ..., x_n].accumulate(f, init) = [y_1, y_2, ..., y_{n}]`
      * where `y_1 := x_1` and `y_{k + 1} := f(y_k, x_{k + 1})`
@@ -94,18 +120,18 @@ class NonEmptyList extends List_1.List {
      * @see [[List.accumulateWith]]
      * @param f the function used to accumulate over the array
      */
-    accumulateWith(f) {
-        return NonEmptyList.make(super.accumulateWith(f).toArray());
-    }
+    NonEmptyList.prototype.accumulateWith = function (f) {
+        return NonEmptyList._make(_super.prototype.accumulateWith.call(this, f).toArray());
+    };
     /**
      * Here equality is [SameValueZero]
      * @summary Returns a list formed partitions the current list according to `eq`.
      * @see [[groupBy]]
      * @see [[List.group]]
      */
-    group() {
-        return NonEmptyList.make(super.group().toArray());
-    }
+    NonEmptyList.prototype.group = function () {
+        return NonEmptyList._make(_super.prototype.group.call(this).toArray());
+    };
     /**
      * `xs.groupBy(eq) = [ys_1, ys_2, ..., ys_n]` where each
      * ys_k is the largest sublist of `xs` whose elements are
@@ -115,32 +141,32 @@ class NonEmptyList extends List_1.List {
      * @summary Returns a list formed partitions the current list according to `eq`.
      * @see [[List.groupBy]]
      */
-    groupBy(eq) {
-        return NonEmptyList.make(super.groupBy(eq).toArray());
-    }
+    NonEmptyList.prototype.groupBy = function (eq) {
+        return NonEmptyList._make(_super.prototype.groupBy.call(this, eq).toArray());
+    };
     /**
      * @summary Returns a list of all prefixes of the current list.
      * @see [[List.inits]]
      */
-    inits() {
-        return NonEmptyList.make(super.inits().toArray());
-    }
+    NonEmptyList.prototype.inits = function () {
+        return NonEmptyList._make(_super.prototype.inits.call(this).toArray());
+    };
     /**
      * `[x_1, x_2, ..., x_n].intersperse(elt) = [x_1, elt, x_2, elt, ..., elt, x_n]`
      * `[x_1].intersperse(elt) = [x_1]`
      * @summary Returns a copy of the current list with `x` interspersed between the element.
      * @see [[List.intersperse]]
      */
-    intersperse(x) {
-        return NonEmptyList.make(super.intersperse(x).toArray());
-    }
+    NonEmptyList.prototype.intersperse = function (x) {
+        return NonEmptyList._make(_super.prototype.intersperse.call(this, x).toArray());
+    };
     /**
      * @summary Returns a new list which is built by mapping `f` across the current list.
      * @see [[List.map]]
      */
-    map(f) {
-        return NonEmptyList.make(super.map(f).toArray());
-    }
+    NonEmptyList.prototype.map = function (f) {
+        return NonEmptyList._make(_super.prototype.map.call(this, f).toArray());
+    };
     /**
      * `[x_1, x_2, ..., x_n].mapAccum(f, init) = [accum_n, [y_1, y_2, ..., y_n]]`
      * where `[accum_1, y_1] = f(init, x_1)` and
@@ -150,10 +176,10 @@ class NonEmptyList extends List_1.List {
      * @param init seed value for the accumulation
      * @see [[List.mapAccum]]
      */
-    mapAccum(f, init) {
-        const [val, xs] = super.mapAccum(f, init);
-        return [val, NonEmptyList.make(xs.toArray())];
-    }
+    NonEmptyList.prototype.mapAccum = function (f, init) {
+        var _a = _super.prototype.mapAccum.call(this, f, init), val = _a[0], xs = _a[1];
+        return [val, NonEmptyList._make(xs.toArray())];
+    };
     /**
      * `[x_1, x_2, ..., x_n].mapAccum(f, init) = [accum_1, [y_1, y_2, ..., y_n]]`
      * where `[accum_n, y_n] = f(init, x_n)` and
@@ -164,34 +190,34 @@ class NonEmptyList extends List_1.List {
      * @see [[mapAccum]]
      * @see [[List.mapAccumRight]]
      */
-    mapAccumRight(f, init) {
-        const [val, xs] = super.mapAccumRight(f, init);
-        return [val, NonEmptyList.make(xs.toArray())];
-    }
+    NonEmptyList.prototype.mapAccumRight = function (f, init) {
+        var _a = _super.prototype.mapAccumRight.call(this, f, init), val = _a[0], xs = _a[1];
+        return [val, NonEmptyList._make(xs.toArray())];
+    };
     /**
      * @summary Returns the largest element of the current list.
      * @param ord ordering to use on the elements
      * @see [[AbstractList.max]]
      */
-    max(ord) {
-        const maxFn = (x, y) => (ord(x, y) === 'LT' ? y : x);
-        return List_1.List.list(this.head, maxFn)(this.tail);
-    }
+    NonEmptyList.prototype.max = function (ord) {
+        var maxFn = function (x, y) { return (ord(x, y) === 'LT' ? y : x); };
+        return this.tail.reduce(maxFn, this.head);
+    };
     /**
      * @summary Returns the smallest element of the current list.
      * @param ord ordering to use on the elements
      * @see [[AbstractList.min]]
      */
-    min(ord) {
+    NonEmptyList.prototype.min = function (ord) {
         return this.max(Functions_1.flip(ord));
-    }
+    };
     /**
      * @summary Returns a collection of all permutations of the current list.
      * @see [[List.permutations]]
      */
-    permutations() {
-        return NonEmptyList.make(super.permutations().toArray());
-    }
+    NonEmptyList.prototype.permutations = function () {
+        return NonEmptyList._make(_super.prototype.permutations.call(this).toArray());
+    };
     /**
      * `[x_1, x_2, ..., x_n].accumulate(f, init) = y_1`
      * where `y_n := x_n` and `y_{k - 1} := f(y_k, x_{k - 1})`
@@ -200,9 +226,9 @@ class NonEmptyList extends List_1.List {
      * @see [[accumulateRightWith]]
      * @see [[AbstractList.reduceRightWith]]
      */
-    reduceRightWith(f) {
+    NonEmptyList.prototype.reduceRightWith = function (f) {
         return this.reverse().reduceWith(f);
-    }
+    };
     /**
      * `[x_1, x_2, ..., x_n].accumulate(f, init) = y_n`
      * where `y_1 := x_1` and `y_{k + 1} := f(y_k, x_{k + 1})`
@@ -211,80 +237,80 @@ class NonEmptyList extends List_1.List {
      * @see [[accumulateWith]]
      * @see [[AbstractList.reduceWith]]
      */
-    reduceWith(f) {
-        return super.arr.slice(1).reduce(f, this.head);
-    }
+    NonEmptyList.prototype.reduceWith = function (f) {
+        return _super.prototype.arr.slice(1).reduce(f, this.head);
+    };
     /**
      * @summary Returns a copy of the current list with the element at the given index replaced.
      * @param n index of the element to replace
      * @param elt value used to replace the removed element
      * @see [[List.replace]]
      */
-    replace(n, elt) {
-        return NonEmptyList.make(super.replace(n, elt).toArray());
-    }
+    NonEmptyList.prototype.replace = function (n, elt) {
+        return NonEmptyList._make(_super.prototype.replace.call(this, n, elt).toArray());
+    };
     /**
      * @summary Returns a copy of the current list with elements reverse.
      * @see [[List.reverse]]
      */
-    reverse() {
-        return NonEmptyList.make(super.arr.slice(0).reverse());
-    }
+    NonEmptyList.prototype.reverse = function () {
+        return NonEmptyList._make(_super.prototype.arr.slice(0).reverse());
+    };
     /**
      * This should be a stable sort.
      * @summary Returns a sorted copy of the current list.
      * @param ord ordering to use for sorting
      * @see [[List.sortOn]]
      */
-    sortOn(ord) {
-        return NonEmptyList.make(super.sortOn(ord).toArray());
-    }
+    NonEmptyList.prototype.sortOn = function (ord) {
+        return NonEmptyList._make(_super.prototype.sortOn.call(this, ord).toArray());
+    };
     /**
      * @summary Returns a list of all subsequences of the current list.
      * @throws RangeError if the number of subsequences exceeds the limit on array lengths.
      * @see [[List.subsequences]]
      */
-    subsequences() {
-        return NonEmptyList.make(super.subsequences().toArray());
-    }
+    NonEmptyList.prototype.subsequences = function () {
+        return NonEmptyList._make(_super.prototype.subsequences.call(this).toArray());
+    };
     /**
      * @summary Returns a list of all suffixes of the current list.
      * @see [[List.tails]]
      */
-    tails() {
-        return NonEmptyList.make(super.tails().toArray());
-    }
+    NonEmptyList.prototype.tails = function () {
+        return NonEmptyList._make(_super.prototype.tails.call(this).toArray());
+    };
     /**
      * @summary Converts any subclass to the base implementation.
      * @see [[List.toList]]
      */
-    toList() {
-        return new List_1.List(super.arr);
-    }
+    NonEmptyList.prototype.toList = function () {
+        return new List_1.List(_super.prototype.arr);
+    };
     /**
      * @summary Returns a copy of itself.
      * @see [[AbstractList.toNonEmptyList]]
      */
-    toNonEmptyList() {
-        return NonEmptyList.make(super.arr);
-    }
+    NonEmptyList.prototype.toNonEmptyList = function () {
+        return NonEmptyList._make(_super.prototype.arr);
+    };
     /**
      * Here equality is [SameValueZero]
      * @summary Returns a copy with duplicates removed.
      * @see [[uniquesBy]]
      * @see [[List.uniques]]
      */
-    uniques() {
-        return NonEmptyList.make(super.uniques().toArray());
-    }
+    NonEmptyList.prototype.uniques = function () {
+        return NonEmptyList._make(_super.prototype.uniques.call(this).toArray());
+    };
     /**
      * @summary Returns a list of elements of the current list with duplicates removed.
      * @param eq test for equality between elements
      * @see [[List.uniquesBy]]
      */
-    uniquesBy(eq) {
-        return NonEmptyList.make(super.uniquesBy(eq).toArray());
-    }
+    NonEmptyList.prototype.uniquesBy = function (eq) {
+        return NonEmptyList._make(_super.prototype.uniquesBy.call(this, eq).toArray());
+    };
     /**
      * This ignores duplicates in `ys` but will keep any
      * duplicates of the current list.
@@ -294,9 +320,9 @@ class NonEmptyList extends List_1.List {
      * @see [[unionBy]]
      * @see [[List.union]]
      */
-    union(ys) {
-        return NonEmptyList.make(super.union(ys).toArray());
-    }
+    NonEmptyList.prototype.union = function (ys) {
+        return NonEmptyList._make(_super.prototype.union.call(this, ys).toArray());
+    };
     /**
      * This ignores duplicates in `ys` but will keep any
      * duplicates of the current list.
@@ -304,10 +330,11 @@ class NonEmptyList extends List_1.List {
      * @param eq test for equality between elements
      * @see [[List.unionBy]]
      */
-    unionBy(eq, ys) {
-        return NonEmptyList.make(super.unionBy(eq, ys).toArray());
-    }
-}
+    NonEmptyList.prototype.unionBy = function (eq, ys) {
+        return NonEmptyList._make(_super.prototype.unionBy.call(this, eq, ys).toArray());
+    };
+    return NonEmptyList;
+}(List_1.List));
 exports.NonEmptyList = NonEmptyList;
 /**
  * [SameValueZero]: (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness#Same-value-zero_equality).

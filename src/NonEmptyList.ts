@@ -21,7 +21,7 @@ export class NonEmptyList<T> extends List<T> {
    * A convenience to build instances from arrays, which
    * should obviously be non-empty.
    */
-  private static make<A>(arr: A[]): NonEmptyList<A> {
+  private static _make<A>(arr: A[]): NonEmptyList<A> {
     return new NonEmptyList(arr[0], arr.slice(1));
   }
 
@@ -68,7 +68,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.accumulate]]
    */
   public accumulate<U>(f: (acc: U, val: T) => U, init: U): NonEmptyList<U> {
-    return NonEmptyList.make(super.accumulate(f, init).toArray());
+    return NonEmptyList._make(super.accumulate(f, init).toArray());
   }
 
   /**
@@ -84,7 +84,7 @@ export class NonEmptyList<T> extends List<T> {
     f: (acc: U, val: T) => U,
     init: U
   ): NonEmptyList<U> {
-    return NonEmptyList.make(super.accumulateRight(f, init).toArray());
+    return NonEmptyList._make(super.accumulateRight(f, init).toArray());
   }
 
   /**
@@ -96,7 +96,7 @@ export class NonEmptyList<T> extends List<T> {
    * @param f the function used to accumulate over the array
    */
   public accumulateRightWith(f: (acc: T, val: T) => T): NonEmptyList<T> {
-    return NonEmptyList.make(super.accumulateRightWith(f).toArray());
+    return NonEmptyList._make(super.accumulateRightWith(f).toArray());
   }
 
   /**
@@ -108,7 +108,7 @@ export class NonEmptyList<T> extends List<T> {
    * @param f the function used to accumulate over the array
    */
   public accumulateWith(f: (acc: T, val: T) => T): NonEmptyList<T> {
-    return NonEmptyList.make(super.accumulateWith(f).toArray());
+    return NonEmptyList._make(super.accumulateWith(f).toArray());
   }
 
   /**
@@ -118,7 +118,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.group]]
    */
   public group(): NonEmptyList<NonEmptyList<T>> {
-    return NonEmptyList.make(super.group().toArray());
+    return NonEmptyList._make(super.group().toArray());
   }
 
   /**
@@ -131,7 +131,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.groupBy]]
    */
   public groupBy(eq: (x: T, y: T) => boolean): NonEmptyList<NonEmptyList<T>> {
-    return NonEmptyList.make(super.groupBy(eq).toArray());
+    return NonEmptyList._make(super.groupBy(eq).toArray());
   }
 
   /**
@@ -139,7 +139,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.inits]]
    */
   public inits(): NonEmptyList<List<T>> {
-    return NonEmptyList.make(super.inits().toArray());
+    return NonEmptyList._make(super.inits().toArray());
   }
 
   /**
@@ -149,7 +149,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.intersperse]]
    */
   public intersperse(x: T): NonEmptyList<T> {
-    return NonEmptyList.make(super.intersperse(x).toArray());
+    return NonEmptyList._make(super.intersperse(x).toArray());
   }
 
   /**
@@ -157,7 +157,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.map]]
    */
   public map<U>(f: (x: T) => U): NonEmptyList<U> {
-    return NonEmptyList.make(super.map(f).toArray());
+    return NonEmptyList._make(super.map(f).toArray());
   }
 
   /**
@@ -174,7 +174,7 @@ export class NonEmptyList<T> extends List<T> {
     init: R
   ): [R, NonEmptyList<S>] {
     const [val, xs] = super.mapAccum(f, init);
-    return [val, NonEmptyList.make(xs.toArray())];
+    return [val, NonEmptyList._make(xs.toArray())];
   }
 
   /**
@@ -192,7 +192,7 @@ export class NonEmptyList<T> extends List<T> {
     init: R
   ): [R, NonEmptyList<S>] {
     const [val, xs] = super.mapAccumRight(f, init);
-    return [val, NonEmptyList.make(xs.toArray())];
+    return [val, NonEmptyList._make(xs.toArray())];
   }
 
   /**
@@ -202,7 +202,7 @@ export class NonEmptyList<T> extends List<T> {
    */
   public max(ord: Ordering<T>): T {
     const maxFn = (x: T, y: T) => (ord(x, y) === 'LT' ? y : x);
-    return List.list(this.head, maxFn)(this.tail);
+    return this.tail.reduce(maxFn, this.head);
   }
 
   /**
@@ -219,7 +219,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.permutations]]
    */
   public permutations(): NonEmptyList<List<T>> {
-    return NonEmptyList.make(super.permutations().toArray());
+    return NonEmptyList._make(super.permutations().toArray());
   }
 
   /**
@@ -253,7 +253,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.replace]]
    */
   public replace(n: number, elt: T): NonEmptyList<T> {
-    return NonEmptyList.make(super.replace(n, elt).toArray());
+    return NonEmptyList._make(super.replace(n, elt).toArray());
   }
 
   /**
@@ -261,7 +261,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.reverse]]
    */
   public reverse(): NonEmptyList<T> {
-    return NonEmptyList.make(super.arr.slice(0).reverse());
+    return NonEmptyList._make(super.arr.slice(0).reverse());
   }
 
   /**
@@ -271,7 +271,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.sortOn]]
    */
   public sortOn(ord: Ordering<T>): NonEmptyList<T> {
-    return NonEmptyList.make(super.sortOn(ord).toArray());
+    return NonEmptyList._make(super.sortOn(ord).toArray());
   }
 
   /**
@@ -280,7 +280,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.subsequences]]
    */
   public subsequences(): NonEmptyList<List<T>> {
-    return NonEmptyList.make(super.subsequences().toArray());
+    return NonEmptyList._make(super.subsequences().toArray());
   }
 
   /**
@@ -288,7 +288,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.tails]]
    */
   public tails(): NonEmptyList<List<T>> {
-    return NonEmptyList.make(super.tails().toArray());
+    return NonEmptyList._make(super.tails().toArray());
   }
 
   /**
@@ -304,7 +304,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[AbstractList.toNonEmptyList]]
    */
   public toNonEmptyList(): NonEmptyList<T> {
-    return NonEmptyList.make(super.arr);
+    return NonEmptyList._make(super.arr);
   }
 
   /**
@@ -314,7 +314,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.uniques]]
    */
   public uniques(): NonEmptyList<T> {
-    return NonEmptyList.make(super.uniques().toArray());
+    return NonEmptyList._make(super.uniques().toArray());
   }
 
   /**
@@ -323,7 +323,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.uniquesBy]]
    */
   public uniquesBy(eq: (x: T, y: T) => boolean): NonEmptyList<T> {
-    return NonEmptyList.make(super.uniquesBy(eq).toArray());
+    return NonEmptyList._make(super.uniquesBy(eq).toArray());
   }
 
   /**
@@ -336,7 +336,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.union]]
    */
   public union(ys: AbstractList<T>): NonEmptyList<T> {
-    return NonEmptyList.make(super.union(ys).toArray());
+    return NonEmptyList._make(super.union(ys).toArray());
   }
 
   /**
@@ -350,7 +350,7 @@ export class NonEmptyList<T> extends List<T> {
     eq: (x: T, y: T) => boolean,
     ys: AbstractList<T>
   ): NonEmptyList<T> {
-    return NonEmptyList.make(super.unionBy(eq, ys).toArray());
+    return NonEmptyList._make(super.unionBy(eq, ys).toArray());
   }
 }
 
