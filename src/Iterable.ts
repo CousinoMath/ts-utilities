@@ -53,7 +53,7 @@ export function concatMap<S, T>(
  * @param n a positive integer
  */
 export function take(n: number): <T>(xs: Iterable<T>) => Iterable<T> {
-  if (!Number.isInteger(n) || n === 0) {
+  if (!Number.isInteger(n) || Math.abs(n) === 0) {
     return <T>(xs: Iterable<T>) => [];
   }
   if (n === Number.POSITIVE_INFINITY || n === Number.NEGATIVE_INFINITY) {

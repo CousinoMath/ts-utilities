@@ -5,6 +5,28 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const Functions_1 = require("./Functions");
 /**
+ * `bindLeft(f)(left(x)) = left(f(x))`
+ * `bindLeft(f)(right(y)) = right(y)`
+ * @summary Transforms the left half of `Either` values
+ * @see [[bindRight]]
+ * @see [[lift]]
+ */
+function bindLeft(f) {
+    return either(f, right);
+}
+exports.bindLeft = bindLeft;
+/**
+ * `bindRight(g)(left(x)) = left(x)`
+ * `bindRight(g)(right(y)) = right(g(y))`
+ * @summary Transforms the right half of `Either` values
+ * @see [[bindLeft]]
+ * @see [[lift]]
+ */
+function bindRight(g) {
+    return either(left, g);
+}
+exports.bindRight = bindRight;
+/**
  * Inductive rule for the `Either` type.
  * @summary Creates functions over `Either` values
  */
@@ -12,24 +34,6 @@ function either(f, g) {
     return (x) => (x.kind === 'left' ? f(x.value) : g(x.value));
 }
 exports.either = either;
-/**
- * Using left often means explicitly annotating types as
- * the type of the right values cannot be easily deduced.
- * @summary Creates the 'left half' of an `Either` value
- */
-function left(x) {
-    return { kind: 'left', value: x };
-}
-exports.left = left;
-/**
- * Using right often means explicitly annotating types as
- * the type of the left values cannot be easily deduced.
- * @summary Creates the 'right half' of an `Either` value
- */
-function right(y) {
-    return { kind: 'right', value: y };
-}
-exports.right = right;
 /**
  * `isLeft(left(_)) = true`
  * `isLeft(right(_)) = false`
@@ -48,6 +52,54 @@ function isRight(xe) {
     return either(Functions_1.constant(false), Functions_1.constant(true))(xe);
 }
 exports.isRight = isRight;
+/**
+ * Using left often means explicitly annotating types as
+ * the type of the right values cannot be easily deduced.
+ * @summary Creates the 'left half' of an `Either` value
+ */
+function left(x) {
+    return { kind: 'left', value: x };
+}
+exports.left = left;
+/**
+ * `leftDefault(d)(left(x)) = x`
+ * `leftDefault(d)(right(y)) = d`
+ * @summary Returns the left value if present, and a default otherwise.
+ * @param d default value
+ * @see [[rightDefault]]
+ */
+function leftDefault(d, xe) {
+    return either(Functions_1.ident, Functions_1.constant(d))(xe);
+}
+exports.leftDefault = leftDefault;
+/**
+ * `lefts([left(x), ...rest]) = [x, lefts(rest)]`
+ * `lefts([right(x), ...rest]) = lefts(rest)`
+ * @summary Returns an array consisting of the left values of `xes`.
+ * @see [[rights]]
+ * @see [[partition]]
+ */
+function lefts(xes) {
+    const leftsArr = [];
+    for (const xe of xes) {
+        if (xe.kind === 'left') {
+            leftsArr.push(xe.value);
+        }
+    }
+    return leftsArr;
+}
+exports.lefts = lefts;
+/**
+ * `lift(f, g)(left(x)) = left(f(x))`
+ * `lift(f, g)(right(y)) = right(g(y))`
+ * @summary Enables transformations on `Either` values
+ */
+function lift(f, g) {
+    const lf = Functions_1.compose(left, f);
+    const rg = Functions_1.compose(right, g);
+    return either(lf, rg);
+}
+exports.lift = lift;
 /**
  * `partition(xs) = [lefts(xs), rights(xs)]`
  * @summary Converts an array Eithers to a tuple of an array of left values and another of right values.
@@ -71,22 +123,25 @@ function partition(xes) {
 }
 exports.partition = partition;
 /**
- * `lefts([left(x), ...rest]) = [x, lefts(rest)]`
- * `lefts([right(x), ...rest]) = lefts(rest)`
- * @summary Returns an array consisting of the left values of `xes`.
- * @see [[rights]]
- * @see [[partition]]
+ * Using right often means explicitly annotating types as
+ * the type of the left values cannot be easily deduced.
+ * @summary Creates the 'right half' of an `Either` value
  */
-function lefts(xes) {
-    const leftsArr = [];
-    for (const xe of xes) {
-        if (xe.kind === 'left') {
-            leftsArr.push(xe.value);
-        }
-    }
-    return leftsArr;
+function right(y) {
+    return { kind: 'right', value: y };
 }
-exports.lefts = lefts;
+exports.right = right;
+/**
+ * `rightDefault(d)(left(x)) = d`
+ * `rightDefault(d)(right(y)) = y`
+ * @summary Returns the right value if present, and a default otherwise.
+ * @param d default value
+ * @see [[leftDefault]]
+ */
+function rightDefault(d, xe) {
+    return either(Functions_1.constant(d), Functions_1.ident)(xe);
+}
+exports.rightDefault = rightDefault;
 /**
  * `rights([left(x), ...rest]) = rights(rest)`
  * `rights([right(x), ...rest]) = [x, rights(rest)]`
@@ -104,59 +159,4 @@ function rights(xes) {
     return rightsArr;
 }
 exports.rights = rights;
-/**
- * `lift(f, g)(left(x)) = left(f(x))`
- * `lift(f, g)(right(y)) = right(g(y))`
- * @summary Enables transformations on `Either` values
- */
-function lift(f, g) {
-    const lf = Functions_1.compose(left, f);
-    const rg = Functions_1.compose(right, g);
-    return either(lf, rg);
-}
-exports.lift = lift;
-/**
- * `bindRight(g)(left(x)) = left(x)`
- * `bindRight(g)(right(y)) = right(g(y))`
- * @summary Transforms the right half of `Either` values
- * @see [[bindLeft]]
- * @see [[lift]]
- */
-function bindRight(g) {
-    return either(left, g);
-}
-exports.bindRight = bindRight;
-/**
- * `bindLeft(f)(left(x)) = left(f(x))`
- * `bindLeft(f)(right(y)) = right(y)`
- * @summary Transforms the left half of `Either` values
- * @see [[bindRight]]
- * @see [[lift]]
- */
-function bindLeft(f) {
-    return either(f, right);
-}
-exports.bindLeft = bindLeft;
-/**
- * `leftDefault(d)(left(x)) = x`
- * `leftDefault(d)(right(y)) = d`
- * @summary Returns the left value if present, and a default otherwise.
- * @param d default value
- * @see [[rightDefault]]
- */
-function leftDefault(d, xe) {
-    return either(Functions_1.ident, Functions_1.constant(d))(xe);
-}
-exports.leftDefault = leftDefault;
-/**
- * `rightDefault(d)(left(x)) = d`
- * `rightDefault(d)(right(y)) = y`
- * @summary Returns the right value if present, and a default otherwise.
- * @param d default value
- * @see [[leftDefault]]
- */
-function rightDefault(d, xe) {
-    return either(Functions_1.constant(d), Functions_1.ident)(xe);
-}
-exports.rightDefault = rightDefault;
 //# sourceMappingURL=Either.js.map

@@ -76,15 +76,24 @@ class List extends AbstractList_1.AbstractList {
      * @summary Returns an arithmetic sequence of numbers
      * @param start starting value
      * @param stop value to not exceed
+     * @param step change between elements, cannot be 0
+     * @throws RangeError if creating an array of invalid length (e.g. step = 0)
      */
     static range(start = 0, stop, step = 1) {
-        const spread = stop - start;
-        const len = step === 0 ? -1 : Math.floor(spread / step);
-        if (!AbstractList_1.AbstractList.isSafeLength(len)) {
-            throw new RangeError("Invalid list length encountered in call to List.range");
+        if (typeof stop === 'undefined') {
+            stop = start - 1;
+            start = 0;
         }
+        const spread = stop - start;
+        const len = Math.abs(step) === 0
+            ? -1
+            : Math.floor((spread + Math.sign(spread)) / step);
+        if (!AbstractList_1.AbstractList.isSafeLength(len)) {
+            throw new RangeError('Invalid list length encountered in call to List.range');
+        }
+        // Array constructor is -0 safe
         const arr = new Array(len);
-        for (let i = 0; i <= len; i++) {
+        for (let i = 0; i < len; i++) {
             arr.push(start + i * step);
         }
         return new List(arr);
@@ -94,8 +103,9 @@ class List extends AbstractList_1.AbstractList {
      */
     static repeat(n, elt) {
         if (!AbstractList_1.AbstractList.isSafeLength(n)) {
-            throw new RangeError("Invalid list length encountered in a call to List.repeat");
+            throw new RangeError('Invalid list length encountered in a call to List.repeat');
         }
+        // Array constructor is -0 safe
         return new List(new Array(n).fill(elt));
     }
     /**
@@ -291,6 +301,7 @@ class List extends AbstractList_1.AbstractList {
     delete(n) {
         const arr = this.arr.slice(0);
         if (this.isSafeIndex(n)) {
+            // splice is -0 safe
             arr.splice(n, 1);
         }
         return new List(arr);
@@ -346,7 +357,9 @@ class List extends AbstractList_1.AbstractList {
     drop(n) {
         if (Number.isInteger(n)) {
             const lastIdx = this.length - 1;
-            if (n >= 0) {
+            if (n >= -0) {
+                // Handle -0 case
+                n = Math.abs(n);
                 if (n > lastIdx) {
                     return new List([]);
                 }
@@ -499,8 +512,8 @@ class List extends AbstractList_1.AbstractList {
      */
     insert(n, elt) {
         const arr = this.arr.slice(0);
-        const len = this.length;
         if (this.isSafeIndex(n)) {
+            // splice is safe with -0
             arr.splice(n, 0, elt);
         }
         return new NonEmptyList_1.NonEmptyList(arr[0], arr.slice(1));
@@ -694,6 +707,7 @@ class List extends AbstractList_1.AbstractList {
      */
     nth(n) {
         if (this.isSafeIndex(n)) {
+            // array access is -0 safe
             return this.arr[n];
         }
         return null;
@@ -782,6 +796,7 @@ class List extends AbstractList_1.AbstractList {
     replace(n, elt) {
         const arr = this.arr.slice(0);
         if (this.isSafeIndex(n)) {
+            // array access is -0 safe
             arr[n] = elt;
         }
         return new List(arr);
@@ -800,48 +815,55 @@ class List extends AbstractList_1.AbstractList {
      * @see [[AbstractList.sortOn]]
      */
     sortOn(ord) {
-        const unsorted = [this.arr.slice(0)];
-        const sorted = [];
-        while (unsorted.length > 0) {
-            const arr = unsorted[0];
-            const len = arr.length;
-            unsorted.shift();
-            if (len > 1) {
-                const midIdx = Math.floor(len / 2);
-                unsorted.push(arr.slice(0, midIdx));
-                unsorted.push(arr.slice(midIdx));
-            }
-            else {
-                sorted.push(arr);
-            }
-        }
-        while (sorted.length > 1) {
-            const arr1 = sorted[0];
-            const arr2 = sorted[1];
-            const arr = [];
-            sorted.shift();
-            sorted.shift();
-            const len1 = arr1.length;
-            const len2 = arr2.length;
+        function merge(ys1, ys2) {
+            // PRE: ys1 and ys2 are sorted
+            // POST: returns the merge of ys1 and ys2
+            const len1 = ys1.length;
+            const len2 = ys2.length;
             let i1 = 0;
             let i2 = 0;
+            const ys = [];
             while (i1 < len1 && i2 < len2) {
-                if (ord(arr1[i1], arr2[i2]) === "GT") {
-                    arr.push(arr2[i2]);
+                if (ord(ys1[i1], ys2[i2]) === 'GT') {
+                    ys.push(ys2[i2]);
                     i2++;
                 }
                 else {
-                    arr.push(arr1[i1]);
+                    ys.push(ys1[i1]);
                     i1++;
                 }
             }
             if (i1 === len1) {
-                arr.push(...arr2.slice(i2));
+                ys.push(...ys2.slice(i2));
             }
             else {
-                arr.push(...arr1.slice(i1));
+                ys.push(...ys1.slice(i1));
             }
-            sorted.push(arr);
+            return ys;
+        }
+        let sorted = this.arr.map(x => [x]);
+        let results = [];
+        let sortLen = this.length;
+        while (sortLen > 1) {
+            if (sortLen % 2 === 1) {
+                const ys1 = sorted.pop();
+                const ys2 = sorted.pop();
+                if (typeof ys1 !== 'undefined' && typeof ys2 !== 'undefined') {
+                    sorted.push(merge(ys1, ys2));
+                }
+                sortLen--;
+            }
+            while (sorted.length > 1) {
+                const ys1 = sorted.shift();
+                const ys2 = sorted.shift();
+                sortLen -= 2;
+                if (typeof ys1 !== 'undefined' && typeof ys2 !== 'undefined') {
+                    results.push(merge(ys1, ys2));
+                }
+            }
+            sorted = results.concat(sorted);
+            sortLen = sorted.length;
+            results = [];
         }
         return new List(sorted[0]);
     }
@@ -854,6 +876,7 @@ class List extends AbstractList_1.AbstractList {
         if (!this.isSafeIndex(n)) {
             return [new List(this.arr.slice(0)), new List([])];
         }
+        // slice is -0 safe
         const arr1 = this.arr.slice(0, n);
         const arr2 = this.arr.slice(n);
         return [new List(arr1), new List(arr2)];
@@ -867,7 +890,7 @@ class List extends AbstractList_1.AbstractList {
         let subseqs = [new List([])];
         const len = this.length;
         if (!AbstractList_1.AbstractList.isSafeLength(Math.pow(2, len))) {
-            throw new RangeError("Invalid list length encountered in call to List.prototype.subsequences");
+            throw new RangeError('Invalid list length encountered in call to List.prototype.subsequences');
         }
         for (let i = 0; i < len; i--) {
             const elt = this.arr[i];
@@ -963,7 +986,6 @@ class List extends AbstractList_1.AbstractList {
      * @see [[AbstractList.uniquesBy]]
      */
     uniquesBy(eq) {
-        const len = this.length;
         const eqCurried = Functions_1.curry(eq);
         const arr = [];
         for (const x of this.arr) {
@@ -1007,5 +1029,5 @@ class List extends AbstractList_1.AbstractList {
 exports.List = List;
 /**
  * [SameValueZero]: (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness#Same-value-zero_equality).
- */ 
+ */
 //# sourceMappingURL=List.js.map

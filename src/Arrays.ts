@@ -77,6 +77,15 @@ export function findIndex<T>(xs: T[], f: (x: T) => boolean): number {
 }
 
 /**
+ * `first([]) = null`
+ * `first([x, ...rest]) = x`
+ * @summary Returns the first element of an array if it exists, and null otherwise.
+ */
+export function first<T>(xs: T[]): Maybe<T> {
+  return xs.length > 0 ? xs[0] : null;
+}
+
+/**
  * @summary Flatly maps an array-valued function over an input array
  */
 export function flatMap<R, S>(f: (x: R) => S[], xs: R[]): S[] {
@@ -108,6 +117,29 @@ export function from<T>(len: number, f: (idx: number) => T): T[] {
     arr[idx] = f(idx);
   }
   return arr;
+}
+
+/**
+ * `last([]) = null`
+ * `last([...rest, x]) = x`
+ * @summary Returns the last element of an array if it exists, and null otherwise.
+ */
+export function last<T>(xs: T[]): Maybe<T> {
+  const len = xs.length;
+  return len > 0 ? xs[len - 1] : null;
+}
+
+/**
+ * `nth([], _) = nth(_, 0.5) = nth(_, NaN) = nth(_, Infinity) = null`
+ * `nth([...firstNm1Elts, xn, ...rest], n) = xn`
+ * @summary Returns the nth element of an array if it exists, and null otherwise.
+ * @param n index of the element to return
+ */
+export function nth<T>(xs: T[], n: number): Maybe<T> {
+  const len = xs.length;
+  const inRange = len > 0 && Number.isInteger(n) && n >= -0 && n < len;
+  // arr[-0] === arr[0]
+  return inRange ? xs[n] : null;
 }
 
 /**
@@ -153,7 +185,11 @@ export function reduce<R, S>(
   return xs.reduce<S>(f, init);
 }
 
-export function sortBy<T>(ord: Ordering<T>, xs: T[]): T[] {
+/**
+ * @summary Returns a copy of given array sorted in ascending order. 
+ * @param ord ordering used to sort array
+ */
+export function sortOn<T>(ord: Ordering<T>, xs: T[]): T[] {
   function merge(ys1: T[], ys2: T[]): T[] {
     const len1 = ys1.length;
     const len2 = ys2.length;
@@ -201,6 +237,10 @@ export function sortBy<T>(ord: Ordering<T>, xs: T[]): T[] {
   return sorted[0];
 }
 
+/**
+ * @summary Returns a copy of the given array with duplicates removed.
+ * @param eq used to test equality between elements
+ */
 export function uniqueBy<T>(eq: (x: T, y: T) => boolean, xs: T[]): T[] {
   const ys = xs.slice(0);
   let len = ys.length;

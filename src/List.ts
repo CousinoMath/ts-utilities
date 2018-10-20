@@ -86,13 +86,17 @@ export class List<T> extends AbstractList<T> {
       stop = start - 1;
       start = 0;
     }
-    const spread = stop - start + 1;
-    const len = Math.abs(step) === 0 ? -1 : Math.floor(spread / step);
+    const spread = stop - start;
+    const len =
+      Math.abs(step) === 0
+        ? -1
+        : Math.floor((spread + Math.sign(spread)) / step);
     if (!AbstractList.isSafeLength(len)) {
       throw new RangeError(
         'Invalid list length encountered in call to List.range'
       );
     }
+    // Array constructor is -0 safe
     const arr: number[] = new Array(len);
     for (let i = 0; i < len; i++) {
       arr.push(start + i * step);
@@ -109,6 +113,7 @@ export class List<T> extends AbstractList<T> {
         'Invalid list length encountered in a call to List.repeat'
       );
     }
+    // Array constructor is -0 safe
     return new List(new Array(n).fill(elt));
   }
 
@@ -336,6 +341,7 @@ export class List<T> extends AbstractList<T> {
   public delete(n: number): List<T> {
     const arr = this.arr.slice(0);
     if (this.isSafeIndex(n)) {
+      // splice is -0 safe
       arr.splice(n, 1);
     }
     return new List(arr);
@@ -397,7 +403,9 @@ export class List<T> extends AbstractList<T> {
   public drop(n: number): List<T> {
     if (Number.isInteger(n)) {
       const lastIdx = this.length - 1;
-      if (n >= 0) {
+      if (n >= -0) {
+        // Handle -0 case
+        n = Math.abs(n);
         if (n > lastIdx) {
           return new List([]);
         }
@@ -559,8 +567,8 @@ export class List<T> extends AbstractList<T> {
    */
   public insert(n: number, elt: T): NonEmptyList<T> {
     const arr = this.arr.slice(0);
-    const len = this.length;
     if (this.isSafeIndex(n)) {
+      // splice is safe with -0
       arr.splice(n, 0, elt);
     }
     return new NonEmptyList(arr[0], arr.slice(1));
@@ -789,6 +797,7 @@ export class List<T> extends AbstractList<T> {
    */
   public nth(n: number): Maybe<T> {
     if (this.isSafeIndex(n)) {
+      // array access is -0 safe
       return this.arr[n];
     }
     return null;
@@ -882,6 +891,7 @@ export class List<T> extends AbstractList<T> {
   public replace(n: number, elt: T): List<T> {
     const arr = this.arr.slice(0);
     if (this.isSafeIndex(n)) {
+      // array access is -0 safe
       arr[n] = elt;
     }
     return new List(arr);
@@ -964,6 +974,7 @@ export class List<T> extends AbstractList<T> {
     if (!this.isSafeIndex(n)) {
       return [new List(this.arr.slice(0)), new List([])];
     }
+    // slice is -0 safe
     const arr1 = this.arr.slice(0, n);
     const arr2 = this.arr.slice(n);
     return [new List(arr1), new List(arr2)];
@@ -1085,7 +1096,6 @@ export class List<T> extends AbstractList<T> {
    * @see [[AbstractList.uniquesBy]]
    */
   public uniquesBy(eq: (x: T, y: T) => boolean): List<T> {
-    const len = this.length;
     const eqCurried = curry(eq);
     const arr: T[] = [];
     for (const x of this.arr) {

@@ -12,7 +12,9 @@
     // "strictFunctionTypes": true,
     // "strictPropertyInitialization": true,
     "target": "es2015",
-    "module": "es2015"
+    "module": "es2015",
+    "noUnusedLocals": true,
+    "noUnusedParameters": false
   },
   "compileOnSave": false,
   "include": ["src/index.ts"]

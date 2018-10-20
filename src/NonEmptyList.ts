@@ -7,6 +7,7 @@
  */
 
 import { AbstractList } from './AbstractList';
+import { flip } from './Functions';
 import { List } from './List';
 import { Ordering } from './Ordering';
 
@@ -210,7 +211,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[AbstractList.min]]
    */
   public min(ord: Ordering<T>): T {
-    return this.max((x, y) => ord(y, x));
+    return this.max(flip(ord));
   }
 
   /**

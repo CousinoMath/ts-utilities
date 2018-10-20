@@ -7,6 +7,7 @@
  * used interchangable with arrays, and with each other.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+const Functions_1 = require("./Functions");
 const List_1 = require("./List");
 /**
  * A specialized list subclass that encodes "non-emptiness" into
@@ -182,7 +183,7 @@ class NonEmptyList extends List_1.List {
      * @see [[AbstractList.min]]
      */
     min(ord) {
-        return this.max((x, y) => ord(y, x));
+        return this.max(Functions_1.flip(ord));
     }
     /**
      * @summary Returns a collection of all permutations of the current list.
@@ -310,5 +311,5 @@ class NonEmptyList extends List_1.List {
 exports.NonEmptyList = NonEmptyList;
 /**
  * [SameValueZero]: (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness#Same-value-zero_equality).
- */ 
+ */
 //# sourceMappingURL=NonEmptyList.js.map

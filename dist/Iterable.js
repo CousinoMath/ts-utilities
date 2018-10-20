@@ -49,7 +49,7 @@ exports.concatMap = concatMap;
  * @param n a positive integer
  */
 function take(n) {
-    if (!Number.isInteger(n) || n === 0) {
+    if (!Number.isInteger(n) || Math.abs(n) === 0) {
         return (xs) => [];
     }
     if (n === Number.POSITIVE_INFINITY || n === Number.NEGATIVE_INFINITY) {

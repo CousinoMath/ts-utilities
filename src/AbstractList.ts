@@ -6,6 +6,7 @@
  * used interchangable with arrays, and with each other.
  */
 
+import { flip } from './Functions';
 import { List } from './List';
 import { bind, Maybe } from './Maybe';
 import { NonEmptyList } from './NonEmptyList';
@@ -22,7 +23,7 @@ export abstract class AbstractList<T> implements Iterable<T> {
    * @summary Test whether a given length is valid for arrays.
    */
   protected static isSafeLength(n: number): boolean {
-    return Number.isInteger(n) && n >= 0 && Math.log2(n) < 32;
+    return Number.isInteger(n) && n >= -0 && Math.log2(n) < 32;
   }
 
   /**
@@ -589,7 +590,7 @@ export abstract class AbstractList<T> implements Iterable<T> {
    * @param ord ordering to use on the elements
    */
   public min(ord: Ordering<T>): Maybe<T> {
-    return this.max((y, x) => ord(x, y));
+    return this.max(flip(ord));
   }
 
   /**
@@ -713,7 +714,7 @@ export abstract class AbstractList<T> implements Iterable<T> {
   }
 
   protected isSafeIndex(n: number): boolean {
-    return Number.isInteger(n) && n >= 0 && n < this.length;
+    return Number.isInteger(n) && n >= -0 && n < this.length;
   }
 }
 

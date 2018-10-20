@@ -7,18 +7,26 @@
   "main": "./dist/index.js",
   "typings": "./dist/types/",
   "devDependencies": {
-    "typescript": "^3.1.1",
-    "typedoc": "^0.12.0",
+    "jasmine": "^3.2.0",
+    "nyc": "^13.1.0",
+    "prettier": "^1.14.3",
     "tslint": "^5.11.0",
-    "jasmine": "^3.2.0"
+    "tslint-config-prettier": "^1.15.0",
+    "typedoc": "^0.12.0",
+    "typescript": "^3.1.1"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
+    "build:test": "tsc -p tsconfig.json -m commonjs",
+    "coverage": "nyc jasmine",
     "lint": "tslint -p tsconfig.json",
-    "docs": "typedoc --out doc --mode modules --name \"CousinoMath Typescript Utilties\" --readme ./README.md src/index.ts",
-    "docs:json": "typedoc --json docs.json --mode modules --name \"CousinoMath Typescript Utilties\" --readme ./README.md src/index.ts",
+    "docs": "typedoc --options ./typedoc.json src/index.ts",
+    "docs:json": "typedoc --json docs.json --options ./typedoc.json src/index.ts",
     "test": "jasmine"
   },
   "author": "Andrew Cousino",
-  "description": ""
+  "description": "",
+  "nyc": {
+    "exclude": ["**/*.d.ts", "spec/*"]
+  }
 }

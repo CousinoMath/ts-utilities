@@ -76,6 +76,15 @@ function findIndex(xs, f) {
 }
 exports.findIndex = findIndex;
 /**
+ * `first([]) = null`
+ * `first([x, ...rest]) = x`
+ * @summary Returns the first element of an array if it exists, and null otherwise.
+ */
+function first(xs) {
+    return xs.length > 0 ? xs[0] : null;
+}
+exports.first = first;
+/**
  * @summary Flatly maps an array-valued function over an input array
  */
 function flatMap(f, xs) {
@@ -100,7 +109,7 @@ exports.flatten = flatten;
 function from(len, f) {
     if (len < 0 || Math.log2(len) >= 32) {
         // Math.log(0) = -Infinity < 32
-        throw new RangeError("Invalid array length.");
+        throw new RangeError('Invalid array length.');
     }
     const arr = new Array(len);
     for (let idx = 0; idx < len; idx++) {
@@ -109,6 +118,29 @@ function from(len, f) {
     return arr;
 }
 exports.from = from;
+/**
+ * `last([]) = null`
+ * `last([...rest, x]) = x`
+ * @summary Returns the last element of an array if it exists, and null otherwise.
+ */
+function last(xs) {
+    const len = xs.length;
+    return len > 0 ? xs[len - 1] : null;
+}
+exports.last = last;
+/**
+ * `nth([], _) = nth(_, 0.5) = nth(_, NaN) = nth(_, Infinity) = null`
+ * `nth([...firstNm1Elts, xn, ...rest], n) = xn`
+ * @summary Returns the nth element of an array if it exists, and null otherwise.
+ * @param n index of the element to return
+ */
+function nth(xs, n) {
+    const len = xs.length;
+    const inRange = len > 0 && Number.isInteger(n) && n >= -0 && n < len;
+    // arr[-0] === arr[0]
+    return inRange ? xs[n] : null;
+}
+exports.nth = nth;
 /**
  * Generates an array using an arithmetic sequence starting at `start`,
  * incrementing by `delta`, and stopping no later than `stop`
@@ -119,7 +151,7 @@ exports.from = from;
  * @returns [start, start + delta, ..., start + n * delta], where n = Math.floor((stop - start) / delta)
  */
 function range(start = 0, stop, delta = 1) {
-    if (typeof stop === "undefined") {
+    if (typeof stop === 'undefined') {
         return from(Math.max(start, 0), Functions_1.ident);
     }
     else {
@@ -148,7 +180,11 @@ function reduce(xs, f, init) {
     return xs.reduce(f, init);
 }
 exports.reduce = reduce;
-function sortBy(ord, xs) {
+/**
+ * @summary Returns a copy of given array sorted in ascending order.
+ * @param ord ordering used to sort array
+ */
+function sortOn(ord, xs) {
     function merge(ys1, ys2) {
         const len1 = ys1.length;
         const len2 = ys2.length;
@@ -156,7 +192,7 @@ function sortBy(ord, xs) {
         let i2 = 0;
         const ys = [];
         while (i1 < len1 && i2 < len2) {
-            if (ord(ys1[i1], ys2[i2]) === "GT") {
+            if (ord(ys1[i1], ys2[i2]) === 'GT') {
                 ys.push(ys2[i2]);
                 i2++;
             }
@@ -179,14 +215,14 @@ function sortBy(ord, xs) {
         if (sorted.length % 2 === 1) {
             const ys1 = sorted.pop();
             const ys2 = sorted.pop();
-            if (typeof ys1 !== "undefined" && typeof ys2 !== "undefined") {
+            if (typeof ys1 !== 'undefined' && typeof ys2 !== 'undefined') {
                 sorted.push(merge(ys1, ys2));
             }
         }
         while (sorted.length > 1) {
             const ys1 = sorted.shift();
             const ys2 = sorted.shift();
-            if (typeof ys1 !== "undefined" && typeof ys2 !== "undefined") {
+            if (typeof ys1 !== 'undefined' && typeof ys2 !== 'undefined') {
                 results.push(merge(ys1, ys2));
             }
         }
@@ -195,7 +231,11 @@ function sortBy(ord, xs) {
     }
     return sorted[0];
 }
-exports.sortBy = sortBy;
+exports.sortOn = sortOn;
+/**
+ * @summary Returns a copy of the given array with duplicates removed.
+ * @param eq used to test equality between elements
+ */
 function uniqueBy(eq, xs) {
     const ys = xs.slice(0);
     let len = ys.length;

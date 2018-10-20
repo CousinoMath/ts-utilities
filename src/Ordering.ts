@@ -19,6 +19,13 @@ export function preorder<S, T>(f: (x: S) => T, ord: Ordering<T>): Ordering<S> {
 }
 
 /**
+ * @summary A convenience Date ordering.
+ */
+export function dateOrd(x: Date, y: Date): Orderings {
+  return numberOrd(x.getTime() - y.getTime(), 0);
+}
+
+/**
  * This function treats all zeros (+0 = 0, -0) as equal and NaNs as equals.
  * If only one of x and y are NaN, `numberOrd(x, y) = numberOrd(y, x) = 'LT'`.
  * This is the one wart on this function.
@@ -61,14 +68,8 @@ export function stringOrd(x: string, y: string): Orderings {
 }
 
 /**
- * @summary A convenience Date ordering.
+ * @summary Converts a typical comparing function `f` into an `Ordering`.
  */
-export function dateOrd(x: Date, y: Date): Orderings {
-  if (x < y) {
-    return 'LT';
-  } else if (x === y) {
-    return 'EQ';
-  } else {
-    return 'GT';
-  }
+export function toOrdering<T>(f: (x: T, y: T) => number): Ordering<T> {
+  return (x, y) => numberOrd(f(x, y), 0);
 }

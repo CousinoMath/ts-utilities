@@ -1,3 +1,5 @@
+import { curry } from "./Functions";
+
 /**
  * Helpers for tuples
  */
@@ -14,16 +16,23 @@ export type Tuple<R, S> = [R, S];
  * `tuple(x, y) = [x, y]`
  * @summary Constructs a tuple
  */
-export function tuple<R, S>(x: R, y: S): [R, S] {
-  return [x, y];
-}
-
 /**
  * `curried(x)(y) = [x, y]`
  * @summary Curried construction of a tuple.
  */
 export function curried<R, S>(x: R): (y: S) => [R, S] {
-  return (y: S) => tuple(x, y);
+  return curry<R, S, [R, S]>(tuple)(x);
+}
+
+/**
+ * `map(f, g)([x, y]) = [f(x), g(y)]`
+ * @summary Maps two functions over a tuple
+ */
+export function map<R1, R2, T1, T2>(
+  f: (x: R1) => T1,
+  g: (y: R2) => T2
+): (xy: [R1, R2]) => [T1, T2] {
+  return xy => [f(xy[0]), g(xy[1])];
 }
 
 /**
@@ -41,55 +50,75 @@ export function product<R, T1, T2>(
  * `swap([x, y]) => [y, x]`
  * @summary Flips the order of a tuple
  */
-export function swap<R, S>(xy: [R, S]): [S, R] {
-  return [xy[1], xy[0]];
+export function swap<R, S>([x, y]: [R, S]): [S, R] {
+  return [y, x];
 }
 
 /**
- * `map(f, g)([x, y]) = [f(x), g(y)]`
- * @summary Maps two functions over a tuple
+ * @summary A convenience function for building tuples.
  */
-export function map<R1, R2, T1, T2>(
-  f: (x: R1) => T1,
-  g: (y: R2) => T2
-): (xy: [R1, R2]) => [T1, T2] {
-  return xy => [f(xy[0]), g(xy[1])];
+export function tuple<R, S>(x: R, y: S): [R, S] {
+  return [x, y];
 }
 
-export function to3Tuple<R, S, T>([[x, y], z]: [[R, S], T]): [R, S, T] {
-  return [x, y, z];
-}
+// /**
+//  * @summary A convenice function converting between 3-tuples.
+//  * @see [[to3Tuple]]
+//  */
+// export function from3Tuple<R, S, T>([x, y, z]: [R, S, T]): [[R, S], T] {
+//   return [[x, y], z];
+// }
 
-export function from3Tuple<R, S, T>([x, y, z]: [R, S, T]): [[R, S], T] {
-  return [[x, y], z];
-}
+// /**
+//  * @summary A convenice function converting between 4-tuples.
+//  * @see [[to4Tuple]]
+//  */
+// export function from4Tuple<Q, R, S, T>([w, x, y, z]: [Q, R, S, T]): [
+//   [[Q, R], S],
+//   T
+// ] {
+//   return [[[w, x], y], z];
+// }
 
-export function to4Tuple<Q, R, S, T>([[[w, x], y], z]: [[[Q, R], S], T]): [
-  Q,
-  R,
-  S,
-  T
-] {
-  return [w, x, y, z];
-}
+// /**
+//  * @summary A convenice function converting between 5-tuples.
+//  * @see [[to5Tuple]]
+//  */
+// export function from5Tuple<P, Q, R, S, T>([v, w, x, y, z]: [P, Q, R, S, T]): [
+//   [[[P, Q], R], S],
+//   T
+// ] {
+//   return [[[[v, w], x], y], z];
+// }
 
-export function from4Tuple<Q, R, S, T>([w, x, y, z]: [Q, R, S, T]): [
-  [[Q, R], S],
-  T
-] {
-  return [[[w, x], y], z];
-}
+// /**
+//  * @summary A convenice function converting between 3-tuples.
+//  * @see [[from3Tuple]]
+//  */
+// export function to3Tuple<R, S, T>([[x, y], z]: [[R, S], T]): [R, S, T] {
+//   return [x, y, z];
+// }
 
-export function to5Tuple<P, Q, R, S, T>([[[[v, w], x], y], z]: [
-  [[[P, Q], R], S],
-  T
-]): [P, Q, R, S, T] {
-  return [v, w, x, y, z];
-}
+// /**
+//  * @summary A convenice function converting between 4-tuples.
+//  * @see [[from4Tuple]]
+//  */
+// export function to4Tuple<Q, R, S, T>([[[w, x], y], z]: [[[Q, R], S], T]): [
+//   Q,
+//   R,
+//   S,
+//   T
+// ] {
+//   return [w, x, y, z];
+// }
 
-export function from5Tuple<P, Q, R, S, T>([v, w, x, y, z]: [P, Q, R, S, T]): [
-  [[[P, Q], R], S],
-  T
-] {
-  return [[[[v, w], x], y], z];
-}
+// /**
+//  * @summary A convenice function converting between 5-tuples.
+//  * @see [[from5Tuple]]
+//  */
+// export function to5Tuple<P, Q, R, S, T>([[[[v, w], x], y], z]: [
+//   [[[P, Q], R], S],
+//   T
+// ]): [P, Q, R, S, T] {
+//   return [v, w, x, y, z];
+// }

@@ -7,6 +7,7 @@
  * used interchangable with arrays, and with each other.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
+const Functions_1 = require("./Functions");
 const Maybe_1 = require("./Maybe");
 const NonEmptyList_1 = require("./NonEmptyList");
 const Objects_1 = require("./Objects");
@@ -28,7 +29,7 @@ class AbstractList {
      * @summary Test whether a given length is valid for arrays.
      */
     static isSafeLength(n) {
-        return Number.isInteger(n) && n >= 0 && Math.log2(n) < 32;
+        return Number.isInteger(n) && n >= -0 && Math.log2(n) < 32;
     }
     /**
      * @summary Returns true if and only if all elements are [truthy].
@@ -189,7 +190,7 @@ class AbstractList {
      * @param ord ordering to use on the elements
      */
     min(ord) {
-        return this.max((y, x) => ord(x, y));
+        return this.max(Functions_1.flip(ord));
     }
     /**
      * `[x_1, x_2, ..., x_n].accumulate(f, init) = y_n`
@@ -277,7 +278,7 @@ class AbstractList {
      * @summary Converts to a non-empty list, if possible, and null otherwise.
      */
     toNonEmptyList() {
-        const fn = (hd) => new NonEmptyList_1.NonEmptyList(hd, this.tail.toArray());
+        const fn = hd => new NonEmptyList_1.NonEmptyList(hd, this.tail.toArray());
         return Maybe_1.bind(fn)(this.head);
     }
     /**
@@ -300,12 +301,12 @@ class AbstractList {
         return this.unionBy(Objects_1.sameValueZero, ys);
     }
     isSafeIndex(n) {
-        return Number.isInteger(n) && n >= 0 && n < this.length;
+        return Number.isInteger(n) && n >= -0 && n < this.length;
     }
 }
 exports.AbstractList = AbstractList;
 /**
  * [SameValueZero]: (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness#Same-value-zero_equality).
  * [truthy]: https://developer.mozilla.org/en-US/docs/Glossary/Truthy
- */ 
+ */
 //# sourceMappingURL=AbstractList.js.map

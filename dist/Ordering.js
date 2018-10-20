@@ -10,6 +10,13 @@ function preorder(f, ord) {
 }
 exports.preorder = preorder;
 /**
+ * @summary A convenience Date ordering.
+ */
+function dateOrd(x, y) {
+    return numberOrd(x.getTime() - y.getTime(), 0);
+}
+exports.dateOrd = dateOrd;
+/**
  * This function treats all zeros (+0 = 0, -0) as equal and NaNs as equals.
  * If only one of x and y are NaN, `numberOrd(x, y) = numberOrd(y, x) = 'LT'`.
  * This is the one wart on this function.
@@ -57,18 +64,10 @@ function stringOrd(x, y) {
 }
 exports.stringOrd = stringOrd;
 /**
- * @summary A convenience Date ordering.
+ * @summary Converts a typical comparing function `f` into an `Ordering`.
  */
-function dateOrd(x, y) {
-    if (x < y) {
-        return 'LT';
-    }
-    else if (x === y) {
-        return 'EQ';
-    }
-    else {
-        return 'GT';
-    }
+function toOrdering(f) {
+    return (x, y) => numberOrd(f(x, y), 0);
 }
-exports.dateOrd = dateOrd;
+exports.toOrdering = toOrdering;
 //# sourceMappingURL=Ordering.js.map

@@ -1,0 +1,7 @@
+{
+    "mode": "modules",
+    "name": "CousinoMath Typescript Utilities",
+    "out": "./doc",
+    "readme": "./README.md",
+    "tsconfig": "./tsconfig.json"
+}
