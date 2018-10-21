@@ -140,13 +140,13 @@ export class NonEmptyList<T> extends List<T> {
     return NonEmptyList._make(super.groupBy(eq).toArray());
   }
 
-  /**
-   * @summary Returns a list of all prefixes of the current list.
-   * @see [[List.inits]]
-   */
-  public inits(): NonEmptyList<List<T>> {
-    return NonEmptyList._make(super.inits().toArray());
-  }
+  // /**
+  //  * @summary Returns a list of all prefixes of the current list.
+  //  * @see [[List.inits]]
+  //  */
+  // public inits(): NonEmptyList<List<T>> {
+  //   return NonEmptyList._make(super.inits().toArray());
+  // }
 
   /**
    * `[x_1, x_2, ..., x_n].intersperse(elt) = [x_1, elt, x_2, elt, ..., elt, x_n]`
@@ -289,13 +289,13 @@ export class NonEmptyList<T> extends List<T> {
     return NonEmptyList._make(super.subsequences().toArray());
   }
 
-  /**
-   * @summary Returns a list of all suffixes of the current list.
-   * @see [[List.tails]]
-   */
-  public tails(): NonEmptyList<List<T>> {
-    return NonEmptyList._make(super.tails().toArray());
-  }
+  // /**
+  //  * @summary Returns a list of all suffixes of the current list.
+  //  * @see [[List.tails]]
+  //  */
+  // public tails(): NonEmptyList<List<T>> {
+  //   return NonEmptyList._make(super.tails().toArray());
+  // }
 
   /**
    * @summary Converts any subclass to the base implementation.

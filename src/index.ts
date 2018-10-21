@@ -9,6 +9,7 @@ import * as Maybe from './Maybe';
 import { NonEmptyList } from './NonEmptyList';
 import * as Objects from './Objects';
 import * as Ordering from './Ordering';
+import * as Polyfills from './Polyfills';
 import * as Tuple from './Tuple';
 
 export {
@@ -24,5 +25,6 @@ export {
   NonEmptyList,
   Objects,
   Ordering,
+  Polyfills,
   Tuple
 };

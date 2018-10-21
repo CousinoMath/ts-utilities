@@ -160,8 +160,12 @@ export abstract class AbstractList<T> {
   ): AbstractList<T>;
 
   /**
+   * `[1, 2, 3, 4, 5].drop(1) = [2, 3, 4, 5]`
+   * `[1, 2, 3, 4, 5].drop(-1) = [1, 2, 3, 4]`
+   * `[1, 2, 3, 4, 5].drop(5) = []`
+   * `[1, 2, 3, 4, 5].drop(-5) = []`
    * @summary Returns a copy of the list with the first `n` elements dropped.
-   * @param n a nonnegative number of elements to be dropped
+   * @param n number of elements to be dropped
    */
   public abstract drop(n: number): AbstractList<T>;
 
@@ -216,7 +220,7 @@ export abstract class AbstractList<T> {
   /**
    * @summary Returns a list of all prefixes of the current list.
    */
-  public abstract inits(): AbstractList<AbstractList<T>>;
+  public abstract inits(): NonEmptyList<AbstractList<T>>;
 
   /**
    * If `n := xs.length`, then `n + 1` equals the length of
@@ -260,6 +264,12 @@ export abstract class AbstractList<T> {
     eq: (x: T, y: T) => boolean,
     larger: AbstractList<T>
   ): boolean;
+
+  /**
+   * @summary Concatenates elements of `items` interspersed with `sep`.
+   * @see [[intersperse]]
+   */
+  public abstract intercalate(ys: AbstractList<AbstractList<T>>): AbstractList<T>;
 
   /**
    * An element of `xs.intersectBy(eq, ys)` can repeat but
@@ -368,10 +378,15 @@ export abstract class AbstractList<T> {
   /**
    * @summary Returns a list of all suffixes of the current list.
    */
-  public abstract tails(): AbstractList<AbstractList<T>>;
+  public abstract tails(): NonEmptyList<AbstractList<T>>;
 
   /**
-   * @summary Returns a copy of the prefix of given length from the current list.
+   * `[1, 2, 3, 4, 5].take(4) = [1, 2, 3, 4]`
+   * `[1, 2, 3, 4, 5].take(-4) = [2, 3, 4, 5]`
+   * `[1, 2, 3, 4, 5].take(5) = [1, 2, 3, 4, 5]`
+   * `[1, 2, 3, 4, 5].take(-5) = [1, 2, 3, 4, 5]`
+   * @summary Returns a prefix of given length.
+   * @param n number of elements to take
    */
   public abstract take(n: number): AbstractList<T>;
 
@@ -384,6 +399,21 @@ export abstract class AbstractList<T> {
   public abstract takeDropWhile(
     pred: (x: T) => boolean
   ): [AbstractList<T>, AbstractList<T>];
+
+  /**
+   * `[x_1, x_2, ..., x_n].takeDropWhile(pred) = [[x_1, ..., x_k], [x_{k+1}, x_{n}]]`
+   * where `pred` is true on all the elements of the last
+   * list and false on `x_{k}`.
+   * @summary Splits the current array into two: largest suffix on which `pred` is true, and the rest.
+   */
+  public abstract takeDropTailWhile(
+    pred: (x: T) => boolean
+  ): [AbstractList<T>, AbstractList<T>];
+
+  /**
+   * @summary Returns the longest suffix on which `pred` is true.
+   */
+  public abstract takeTailWhile(pred: (x: T) => boolean): AbstractList<T>;
 
   /**
    * @summary Returns the longest prefix on which `pred` is true.

@@ -8,10 +8,18 @@
 
 import { AbstractList } from './AbstractList';
 import { curry, ident } from './Functions';
-import { bind, Maybe, make as makeMaybe, maybe, isNonNull, isNull, bottom } from './Maybe';
+import {
+  bind,
+  bottom,
+  isNonNull,
+  make as makeMaybe,
+  Maybe,
+  maybe
+} from './Maybe';
+import { NonEmptyList } from './NonEmptyList';
 import { sameValueZero } from './Objects';
 import { Ordering } from './Ordering';
-import { fill, isInteger, sign } from './Polyfills';
+import { fill, isInteger } from './Polyfills';
 
 // export { AbstractList };
 /**
@@ -38,21 +46,6 @@ export class List<T> extends AbstractList<T> {
   }
 
   /**
-   * @summary Concatenates elements of `items` interspersed with `sep`.
-   * @see [[intersperse]]
-   */
-  public static itercalate<A>(sep: List<A>, items: List<List<A>>): List<A> {
-    const len = items.length - 1;
-    const result: A[] = [];
-
-    for (let i = 0; i < len; i++) {
-      result.push(...items.arr[i].arr, ...sep.arr);
-    }
-    result.push(...maybe<List<A>, A[]>([], last => last.arr)(items.last));
-    return new List(result);
-  }
-
-  /**
    * @summary Convenient list factory
    */
   public static make<A>(...arr: A[]): List<A> {
@@ -71,6 +64,13 @@ export class List<T> extends AbstractList<T> {
    * Returns `[start, start + step, ..., start + n * step]`
    * where `n = Math.floor((stop - start) / step)`. So
    * `start + n * step <= stop < start + (n + 1) * step`.
+   * `List.range(3) = [0, 1, 2]`
+   * `List.range(0) = List.range(-1) = []`
+   * `List.range(0,3) = [0, 1, 2, 3]`
+   * `List.range(1, 1) = [1]`
+   * `List.range(1, 3, 2) = [1, 3]`
+   * `List.range(1, 4, 2) = [1, 3]`
+   * `List.range(4, 1, -2) = [4, 2]`
    * @summary Returns an arithmetic sequence of numbers
    * @param start starting value
    * @param stop value to not exceed
@@ -78,13 +78,19 @@ export class List<T> extends AbstractList<T> {
    * @throws RangeError if creating an array of invalid length (e.g. step = 0)
    */
   public static range(start = 0, stop: number, step = 1): List<number> {
+    let spread = 0;
+    let offset = 0;
     if (typeof stop === 'undefined') {
       stop = Math.max(0, start - 1);
+      spread = stop;
       start = 0;
+      offset = spread > 0 ? 1 : 0;
+    } else {
+      spread = stop - start;
+      offset = spread >= 0 ? 1 : -1;
     }
-    const spread = stop - start;
     const len =
-      Math.abs(step) === 0 ? -1 : Math.floor((spread + sign(spread)) / step);
+      Math.abs(step) === 0 ? -1 : Math.floor((spread + offset) / step);
     if (!AbstractList.isSafeLength(len)) {
       throw new RangeError(
         'Invalid list length encountered in call to List.range'
@@ -353,40 +359,33 @@ export class List<T> extends AbstractList<T> {
     ys: AbstractList<T>
   ): List<T> {
     const arr: T[] = this.arr.slice(0);
-    const len = this.length;
-    for (let i = 0; i < len; i++) {
-      const idxm = ys.findIndex(y => eq(arr[i], y));
+    let diffs = ys;
+    for (let i = 0; i < arr.length && diffs.length > 0; i++) {
       bind((idx: number) => {
         arr.splice(i, 1);
-        ys.delete(idx);
-      })(idxm);
+        diffs = diffs.delete(idx);
+        i--;
+      })(diffs.findIndex(y => eq(arr[i], y)));
     }
     return new List(arr);
   }
 
   /**
+   * `[1, 2, 3, 4, 5].drop(1) = [2, 3, 4, 5]`
+   * `[1, 2, 3, 4, 5].drop(-1) = [1, 2, 3, 4]`
+   * `[1, 2, 3, 4, 5].drop(5) = []`
+   * `[1, 2, 3, 4, 5].drop(-5) = []`
    * @summary Returns a copy of the list with the first `n` elements dropped.
-   * @param n a nonnegative number of elements to be dropped
+   * @param n number of elements to be dropped
    * @see [[take]]
    * @see [[Abstract.drop]]
    */
   public drop(n: number): List<T> {
     if (isInteger(n)) {
-      const lastIdx = this.length - 1;
       if (n >= -0) {
-        // Handle -0 case
-        n = Math.abs(n);
-        if (n > lastIdx) {
-          return new List([]);
-        }
-        return new List(this.arr.slice(n, lastIdx));
-      } else {
-        const endIdx = lastIdx - n;
-        if (endIdx < 0) {
-          return new List([]);
-        }
-        return new List(this.arr.slice(0, endIdx));
+        return new List(this.arr.slice(Math.abs(n)));
       }
+      return new List(this.arr.slice(0, Math.max(this.length + n)));
     }
     return new List(this.arr.slice(0));
   }
@@ -395,10 +394,10 @@ export class List<T> extends AbstractList<T> {
    * @summary Returns a copy of the list with the longest suffix on which `pred` is true.
    * @see [[AbstractList.dropTailWhile]]
    */
-  public dropTailWhile(f: (x: T) => boolean): List<T> {
+  public dropTailWhile(pred: (x: T) => boolean): List<T> {
     const arr = this.arr.slice(0);
     let i = this.length - 1;
-    while (i >= 0 && f(arr[i])) {
+    while (i >= 0 && pred(arr[i])) {
       arr.pop();
       i--;
     }
@@ -410,11 +409,11 @@ export class List<T> extends AbstractList<T> {
    * @see [[takeWhile]]
    * @see [[AbstractList.dropWhile]]
    */
-  public dropWhile(f: (x: T) => boolean): List<T> {
+  public dropWhile(pred: (x: T) => boolean): List<T> {
     const arr = this.arr.slice(0);
     const len = this.length;
     let i = 0;
-    while (i < len && f(arr[0])) {
+    while (i < len && pred(arr[0])) {
       arr.shift();
       i++;
     }
@@ -426,8 +425,8 @@ export class List<T> extends AbstractList<T> {
    * @see [[partition]]
    * @see [[AbstractList.filter]]
    */
-  public filter(f: (x: T) => boolean): List<T> {
-    return new List(this.arr.filter(f));
+  public filter(pred: (x: T) => boolean): List<T> {
+    return new List(this.arr.filter(pred));
   }
 
   /**
@@ -472,7 +471,7 @@ export class List<T> extends AbstractList<T> {
   public flatMap<S>(f: (x: T) => AbstractList<S>): List<S> {
     const arr: S[] = [];
     for (const x of this.arr) {
-      arr.concat(...f(x).toArray());
+      arr.push(...f(x).toArray());
     }
     return new List(arr);
   }
@@ -498,18 +497,19 @@ export class List<T> extends AbstractList<T> {
    */
   public groupBy(eq: (x: T, y: T) => boolean): List<NonEmptyList<T>> {
     const groups: Array<NonEmptyList<T>> = [];
+    let gLen = 0;
     for (const elt of this.arr) {
       let grouped = false;
-      for (const group of groups) {
-        const groupElt = group.arr[0];
+      for (let gIdx = 0; gIdx < gLen; gIdx++) {
+        const groupElt = groups[gIdx].arr[0];
         if (eq(groupElt, elt)) {
           grouped = true;
-          group.append(elt);
+          groups[gIdx] = groups[gIdx].append(elt);
           break;
         }
       }
       if (!grouped) {
-        groups.push(new NonEmptyList(elt, []));
+        gLen = groups.push(new NonEmptyList(elt, []));
       }
     }
     return new List(groups);
@@ -523,17 +523,32 @@ export class List<T> extends AbstractList<T> {
   // }
 
   /**
+   * `[1, 2, 3].inits() = [[], [1], [1,2], [1,2,3]]`
    * @summary Returns a list of all prefixes of the current list.
    * @see [[tails]]
    * @see [[AbstractList.inits]]
    */
-  public inits(): List<List<T>> {
-    const initArr: Array<List<T>> = [new List([])];
+  public inits(): NonEmptyList<List<T>> {
+    const initArr: Array<List<T>> = [];
     const len = this.length;
-    for (let i = 1; i < len; i++) {
+    for (let i = 1; i <= len; i++) {
       initArr.push(new List(this.arr.slice(0, i)));
     }
-    return new List(initArr);
+    return new NonEmptyList(new List([]), initArr);
+  }
+
+  /**
+   * @summary Concatenates elements of `items` interspersed with `sep`.
+   * @see [[intersperse]]
+   */
+  public intercalate(items: AbstractList<AbstractList<T>>): List<T> {
+    const result: T[] = [];
+
+    for (const item of items.toArray().slice(1)) {
+      result.push(...this.arr, ...item.toArray());
+    }
+    result.unshift(...maybe<AbstractList<T>, T[]>([], last => last.toArray())(items.head));
+    return new List(result);
   }
 
   /**
@@ -542,13 +557,13 @@ export class List<T> extends AbstractList<T> {
    * @summary Returns a copy of the current list with `elt` inserted at the index `n`.
    * @see [[AbstractList.insert]]
    */
-  public insert(n: number, elt: T): NonEmptyList<T> {
+  public insert(n: number, elt: T): List<T> {
     const arr = this.arr.slice(0);
-    if (this.isSafeIndex(n)) {
+    if (this.isSafeIndex(n) || n === this.length) {
       // splice is safe with -0
       arr.splice(n, 0, elt);
     }
-    return new NonEmptyList(arr[0], arr.slice(1));
+    return new List(arr);
   }
 
   /**
@@ -578,17 +593,9 @@ export class List<T> extends AbstractList<T> {
     ys: AbstractList<T>
   ): List<T> {
     const arr: T[] = [];
-    if (this.length < ys.length) {
-      for (const x of this.arr) {
-        if (ys.hasBy(eq, x)) {
-          arr.push(x);
-        }
-      }
-    } else {
-      for (const y of ys.toArray()) {
-        if (this.hasBy(eq, y)) {
-          arr.push(y);
-        }
+    for (const x of this.arr) {
+      if (ys.hasBy(eq, x)) {
+        arr.push(x);
       }
     }
     return new List(arr);
@@ -629,7 +636,11 @@ export class List<T> extends AbstractList<T> {
       if (isNonNull(largerElt1) && eq(largerElt1, this.arr[0])) {
         let j = 0;
         let largerElt2 = larger.nth(i + j);
-        while (j < len && isNonNull(largerElt2) && eq(largerElt2, this.arr[j])) {
+        while (
+          j < len &&
+          isNonNull(largerElt2) &&
+          eq(largerElt2, this.arr[j])
+        ) {
           j++;
           largerElt2 = larger.nth(i + j);
         }
@@ -981,24 +992,37 @@ export class List<T> extends AbstractList<T> {
   }
 
   /**
+   * `[1, 2, 3].tails() = [[1, 2, 3], [2, 3], [3], []]`
    * @summary Returns a list of all suffixes of the current list.
    * @see [[AbstractList.tails]]
    */
-  public tails(): List<List<T>> {
+  public tails(): NonEmptyList<List<T>> {
     const tailArr: Array<List<T>> = [new List([])];
     const len = this.arr.length;
     for (let i = len - 1; i >= 0; i--) {
       tailArr.unshift(new List(this.arr.slice(i, len)));
     }
-    return new List(tailArr);
+    return new NonEmptyList(tailArr[0], tailArr.slice(1));
   }
 
   /**
-   * @summary Returns a copy of the prefix of given length from the current list.
-   * @see [[AbstractList.take]]
+   * `[1, 2, 3, 4, 5].take(4) = [1, 2, 3, 4]`
+   * `[1, 2, 3, 4, 5].take(-4) = [2, 3, 4, 5]`
+   * `[1, 2, 3, 4, 5].take(5) = [1, 2, 3, 4, 5]`
+   * `[1, 2, 3, 4, 5].take(-5) = [1, 2, 3, 4, 5]`
+   * @summary Returns a prefix of given length.
+   * @param n number of elements to take
+   * @see [[drop]]
+   * @see [[Abstract.take]]
    */
   public take(n: number): List<T> {
-    return new List(this.arr.slice(0, n));
+    if (isInteger(n)) {
+      if (n >= -0) {
+        return new List(this.arr.slice(0, Math.abs(n)));
+      }
+      return new List(this.arr.slice(Math.max(0, this.length + n)));
+    }
+    return new List(this.arr.slice(0));
   }
 
   /**
@@ -1006,14 +1030,15 @@ export class List<T> extends AbstractList<T> {
    * where `pred` is true on all the elements of the first
    * list and false on `x_{k+1}`.
    * @summary Splits the current array into two: largest prefix on which `pred` is true, and the rest.
+   * @see [[takeDropTailWhile]]
    * @see [[AbstractList.takeDropWhile]]
    */
-  public takeDropWhile(f: (x: T) => boolean): [List<T>, List<T>] {
+  public takeDropWhile(pred: (x: T) => boolean): [List<T>, List<T>] {
     const prefix: T[] = [];
     const suffix = this.arr.slice(0);
     const len = this.length;
     let i = 0;
-    while (i < len && f(suffix[0])) {
+    while (i < len && pred(suffix[0])) {
       prefix.push(suffix[0]);
       suffix.shift();
       i++;
@@ -1022,17 +1047,54 @@ export class List<T> extends AbstractList<T> {
   }
 
   /**
+   * `[x_1, x_2, ..., x_n].takeDropTailWhile(pred) = [[x_1, ..., x_k], [x_{k+1}, x_{n}]]`
+   * where `pred` is true on all the elements of the last
+   * list and false on `x_{k}`.
+   * @summary Splits the current array into two: largest suffix on which `pred` is true, and the rest.
+   * @see [[takeDropWhile]]
+   * @see [[AbstractList.takeDropTailWhile]]
+   */
+  public takeDropTailWhile(pred: (x: T) => boolean): [List<T>, List<T>] {
+    const prefix = this.arr.slice(0);
+    const suffix: T[] = [];
+    let i = this.length - 1;
+
+    while (i >= 0 && pred(prefix[i])) {
+      suffix.unshift(prefix[i]);
+      prefix.pop();
+      i--;
+    }
+    return [new List(prefix), new List(suffix)];
+  }
+
+  /**
    * @summary Returns the longest prefix on which `pred` is true.
    * @see [[AbstractList.takeWhile]]
    */
-  public takeWhile(f: (x: T) => boolean): List<T> {
+  public takeWhile(pred: (x: T) => boolean): List<T> {
     const arr: T[] = [];
     const len = this.length;
     let i = 0;
 
-    while (i < len && f(this.arr[i])) {
+    while (i < len && pred(this.arr[i])) {
       arr.push(this.arr[i]);
       i++;
+    }
+    return new List(arr);
+  }
+
+  /**
+   * @summary Returns the longest suffix on which `pred` is true.
+   * @see [[AbstractList.takeTailWhile]]
+   */
+  public takeTailWhile(pred: (x: T) => boolean): List<T> {
+    const arr: T[] = [];
+    const len = this.length;
+    let i = len - 1;
+
+    while (i >= 0 && pred(this.arr[i])) {
+      arr.unshift(this.arr[i]);
+      i--;
     }
     return new List(arr);
   }
@@ -1101,10 +1163,8 @@ export class List<T> extends AbstractList<T> {
    */
   public unionBy(eq: (x: T, y: T) => boolean, ys: AbstractList<T>): List<T> {
     const arr = this.arr.slice(0);
-    const len = this.length;
-    for (let j = 0; j < len; j++) {
-      const elt = this.arr[j];
-      if (isNull(ys.findIndex(x => eq(x, elt)))) {
+    for (const elt of ys.toArray()) {
+      if (arr.findIndex(x => eq(x, elt)) < 0) {
         arr.push(elt);
       }
     }
@@ -1150,8 +1210,6 @@ export function list<S, T>(
 ): (xs: List<S>) => T {
   return xs => xs.reduce(f, nil);
 }
-
-import { NonEmptyList } from './NonEmptyList';
 
 /**
  * [SameValueZero]: (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness#Same-value-zero_equality).
