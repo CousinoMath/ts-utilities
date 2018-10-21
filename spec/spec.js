@@ -1,5 +1,6 @@
 describe('Array suite', () => {
-  const Arrays = require('../dist/Arrays');
+  // const Arrays = require('../dist/Arrays');
+  const Arrays = require('../dist/es5/Arrays');
   it('accumulate', () => {
     const arrIn = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55];
     const arrOut = [1, 2, 4, 7, 12, 20, 33, 54, 88, 143];
@@ -57,16 +58,12 @@ describe('Array suite', () => {
   it('from', () => {
     const arrOut = [1, 1, 4, 27, 256];
     expect(Arrays.from(5, x => Math.pow(x, x))).toEqual(arrOut);
-    try {
-      expect(Arrays.from(-1, x => Math.sqrt(-1))).toThrowError(
-        'Invalid array length.'
-      );
-    } catch (err) {}
-    try {
-      expect(Arrays.from(Number.MAX_SAFE_INTEGER, x => 1 / 0)).toThrowError(
-        'Invalid array length.'
-      );
-    } catch (err) {}
+    expect(() => Arrays.from(-1, x => Math.sqrt(-1))).toThrowError(
+      'Invalid array length.'
+    );
+    expect(() => Arrays.from(Number.MAX_SAFE_INTEGER, x => 1 / 0)).toThrowError(
+      'Invalid array length.'
+    );
   });
   it('range', () => {
     expect(Arrays.range(10)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
@@ -144,7 +141,8 @@ describe('Array suite', () => {
 });
 
 describe('Booleans suite', () => {
-  const Booleans = require('../dist/Booleans');
+  // const Booleans = require('../dist/Booleans');
+  const Booleans = require('../dist/es5/Booleans');
   it('bool inductive rule', () => {
     expect(Booleans.bool(0, 1)(true)).toBe(0);
     expect(Booleans.bool(0, 1)(false)).toBe(1);
@@ -156,7 +154,8 @@ describe('Booleans suite', () => {
 });
 
 describe('Either suite', () => {
-  const Either = require('../dist/Either');
+  // const Either = require('../dist/Either');
+  const Either = require('../dist/es5/Either');
   it('bindLeft/bindRight', () => {
     const leftFn = Either.bindLeft(
       x =>
@@ -225,7 +224,8 @@ describe('Either suite', () => {
 });
 
 describe('Functions suite', () => {
-  const Functions = require('../dist/Functions');
+  // const Functions = require('../dist/Functions');
+  const Functions = require('../dist/es5/Functions');
   it('ident', () => {
     expect(Functions.ident(0)).toBe(0);
     expect(Functions.ident(Functions.ident)('string')).toBe('string');
@@ -272,9 +272,12 @@ describe('Functions suite', () => {
 });
 
 describe('List suite', () => {
-  const { List, list } = require('../dist/List');
-  const empty = new List([]);
+  // const { List, list } = require('../dist/List');
+  const { AbstractList } = require('../dist/es5/AbstractList');
+  const { List, list } = require('../dist/es5/List');
+  const { NonEmptyList } = require('../dist/es5/NonEmptyList');
   const make = List.make;
+  const empty = make();
   it('and / or', () => {
     expect(List.and(empty)).toBe(true);
     expect(List.and(make(true, true, true))).toBe(true);
@@ -286,25 +289,30 @@ describe('List suite', () => {
     expect(List.or(make(false, false, true))).toBe(true);
   });
   it('concat', () => {
-    expect(List.concat([])).toEqual(empty);
-    expect(List.concat([empty, empty])).toEqual(empty);
-    expect(List.concat([make(1, 2, 3)])).toEqual(make(1, 2, 3));
-    expect(List.concat([make(1), make(2), make(3)])).toEqual(make(1, 2, 3));
+    expect(List.concat()).toEqual(empty);
+    expect(List.concat(empty, empty)).toEqual(empty);
+    expect(List.concat(make(1, 2, 3))).toEqual(make(1, 2, 3));
+    expect(List.concat(make(1), make(2), make(3))).toEqual(make(1, 2, 3));
   });
   it('itercalate', () => {
     expect(List.itercalate(make(',', ' '), empty)).toEqual(empty);
-    expect(List.itercalate(make(',', ' '), make('well'))).toEqual(make('well'));
+    expect(List.itercalate(make(',', ' '), make(make('well')))).toEqual(
+      make('well')
+    );
     expect(
-      List.itercalate(make(',', ' '), make('well', "you're", 'a'))
+      List.itercalate(
+        make(',', ' '),
+        make(make('well'), make("you're"), make('a'))
+      )
     ).toEqual(make('well', ',', ' ', "you're", ',', ' ', 'a'));
   });
   it('list', () => {
     expect(list(0, (accum, val) => accum + val)(empty)).toBe(0);
-    expect(list(0, (accum, val) => accum + val)(make(1, 2, 3, 4, 5))).toBe(10);
+    expect(list(0, (accum, val) => accum + val)(make(1, 2, 3, 4, 5))).toBe(15);
   });
   it('make', () => {
-    expect(make()).toEqual(empty);
-    expect(make(1, 2, 3, 4, 5)).toEqual(new List([1, 2, 3, 4, 5]));
+    expect(List.make()).toEqual(empty);
+    expect(List.make(1, 2, 3, 4, 5)).toEqual(new List([1, 2, 3, 4, 5]));
   });
   it('range', () => {
     expect(List.range(10)).toEqual(make(0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
@@ -313,28 +321,82 @@ describe('List suite', () => {
     expect(List.range(1, 10)).toEqual(make(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
     expect(List.range(1, 10, 2)).toEqual(make(1, 3, 5, 7, 9));
     expect(List.range(10, 1, -2)).toEqual(make(10, 8, 6, 4, 2));
-    expect(List.range(1, 10, 0)).toEqual(empty);
-    expect(List.range(1, 10, -1)).toEqual(empty);
+    expect(() => List.range(1, 10, 0)).toThrowError(
+      'Invalid list length encountered in call to List.range'
+    );
+    expect(() => List.range(1, 10, -1)).toThrowError(
+      'Invalid list length encountered in call to List.range'
+    );
   });
   it('repeat', () => {
     expect(List.repeat(0, '')).toEqual(empty);
     expect(List.repeat(1, '')).toEqual(make(''));
     expect(List.repeat(5, '')).toEqual(make('', '', '', '', ''));
-    try {
-      expect(List.repeat(-1, '')).toThrowError(
-        'Invalid list length encountered in a call to List.repeat'
-      );
-    } catch (err) {}
-    try {
-      expect(List.repeat(Math.pow(2, 32), '')).toThrowError(
-        'Invalid list length encountered in a call to List.repeat'
-      );
-    } catch (err) {}
+    expect(() => List.repeat(-1, '')).toThrowError(
+      'Invalid list length encountered in a call to List.repeat'
+    );
+    expect(() => List.repeat(Math.pow(2, 32), '')).toThrowError(
+      'Invalid list length encountered in a call to List.repeat'
+    );
+  });
+  it('zip / unzip', () => {
+    const strs = make('cat', 'is', 'suffering', 'from', 'what', 'we', 'vets');
+    const nums = make(0, -1, 2, -3, 4, -5, 6, -7);
+    const xs = List.unzip(List.unzip(strs.zip(nums.take(5)))[0].zip(nums));
+    expect(strs.zip(nums.take(5))).toEqual(
+      make(['cat', 0], ['is', -1], ['suffering', 2], ['from', -3], ['what', 4])
+    );
+    expect(List.unzip(strs.zip(nums.take(5)))).toEqual([
+      strs.take(5),
+      nums.take(5)
+    ]);
+  });
+  it('zipWith', () => {
+    const nums1 = make(1, 1, 2, 3, 5, 8, 13, 21, 34, 55);
+    const nums2 = make(2, 1, 3, 4, 7, 11, 18, 29, 47, 76);
+    expect(nums1.take(5).zipWith((x, y) => y - x, nums2)).toEqual(
+      make(1, 0, 1, 1, 2)
+    );
+    expect(nums1.zipWith((x, y) => y - x, nums2.take(6))).toEqual(
+      make(1, 0, 1, 1, 2, 3)
+    );
+  });
+  it('head / last, isEmpty, tail / init, length / size', () => {
+    const nums = make(1, 2, 3, 4, 5);
+    expect(empty.head).toBeNull();
+    expect(nums.head).toBe(1);
+    expect(empty.last).toBeNull();
+    expect(nums.last).toBe(5);
+    expect(empty.isEmpty).toBe(true);
+    expect(nums.isEmpty).toBe(false);
+    expect(empty.tail).toEqual(empty);
+    expect(nums.tail).toEqual(make(2, 3, 4, 5));
+    expect(empty.init).toEqual(empty);
+    expect(nums.init).toEqual(make(1, 2, 3, 4));
+    expect(empty.length).toBe(0);
+    expect(nums.length).toBe(5);
+    expect(empty.size).toBe(0);
+    expect(nums.size).toBe(5);
+  });
+  it('accumulate(Right)?(With)?', () => {
+    const nums = make(1, 3, 5, 7, 9);
+    const plus = (x, y) => x + y;
+    expect(nums.accumulate(plus, 0)).toEqual(make(0, 1, 4, 9, 16, 25));
+    expect(empty.accumulate(plus, 0)).toEqual(make(0));
+    expect(nums.accumulateRight(plus, 0)).toEqual(make(0, 9, 16, 21, 24, 25));
+    expect(empty.accumulateRight(plus, 0)).toEqual(make(0));
+    expect(nums.accumulateRightWith(plus)).toEqual(make(9, 16, 21, 24, 25));
+    expect(empty.accumulateRightWith(plus)).toEqual(empty);
+    expect(make(1).accumulateRightWith(plus)).toEqual(make(1));
+    expect(nums.accumulateWith(plus)).toEqual(make(1, 4, 9, 16, 25));
+    expect(empty.accumulateWith(plus)).toEqual(empty);
+    expect(make(1).accumulateWith(plus)).toEqual(make(1));
   });
 });
 
 describe('Maybe suite', () => {
-  const Maybe = require('../dist/Maybe');
+  // const Maybe = require('../dist/Maybe');
+  const Maybe = require('../dist/es5/Maybe');
   it('bind', () => {
     const head = x => (x.length === 0 ? null : x[0]);
     expect(Maybe.bind(head)()).toBeNull();
@@ -346,15 +408,15 @@ describe('Maybe suite', () => {
     const head = x => (x.length === 0 ? null : x[0]);
     expect(Maybe.bindToArray(head)([])).toEqual([]);
     expect(Maybe.bindToArray(head)(['One', '', 'day'])).toEqual(['O', 'd']);
-    expect(Maybe.bindToSet(head)(new Set())).toEqual(new Set());
-    expect(Maybe.bindToSet(head)(new Set(['One', '', 'day']))).toEqual(
-      new Set(['O', 'd'])
-    );
-    const mapHead = ([x, y]) => (y.length === 0 ? null : [x, y[0]]);
-    expect(Maybe.bindToMap(mapHead)(new Map())).toEqual(new Map());
-    expect(
-      Maybe.bindToMap(mapHead)(new Map([[0, 'One'], [1, ''], [2, 'day']]))
-    ).toEqual(new Map([[0, 'O'], [2, 'd']]));
+    // expect(Maybe.bindToSet(head)(new Set())).toEqual(new Set());
+    // expect(Maybe.bindToSet(head)(new Set(['One', '', 'day']))).toEqual(
+    //   new Set(['O', 'd'])
+    // );
+    // const mapHead = ([x, y]) => (y.length === 0 ? null : [x, y[0]]);
+    // expect(Maybe.bindToMap(mapHead)(new Map())).toEqual(new Map());
+    // expect(
+    //   Maybe.bindToMap(mapHead)(new Map([[0, 'One'], [1, ''], [2, 'day']]))
+    // ).toEqual(new Map([[0, 'O'], [2, 'd']]));
   });
   it('concatMaybes', () => {
     expect(Maybe.concatMaybes([null, 1, null, 2, , 3, null])).toEqual([
@@ -384,6 +446,10 @@ describe('Maybe suite', () => {
     expect(Maybe.lift(x => x.length)([])).toBe(0);
     expect(Maybe.lift(x => x.length)([0])).toBe(1);
   });
+  it('make', () => {
+    expect(Maybe.make(true, () => 1)).toBe(1);
+    expect(Maybe.make(false, () => 1)).toBeNull();
+  });
   it('maybe', () => {
     expect(Maybe.maybe(0, x => x * x + 1)()).toBe(0);
     expect(Maybe.maybe(0, x => x * x + 1)(null)).toBe(0);
@@ -392,7 +458,8 @@ describe('Maybe suite', () => {
 });
 
 describe('Objects suite', () => {
-  const Objects = require('../dist/Objects');
+  // const Objects = require('../dist/Objects');
+  const Objects = require('../dist/es5/Objects');
 
   it('equality', () => {
     const bools = [true, false];
@@ -422,7 +489,8 @@ describe('Objects suite', () => {
 });
 
 describe('Ordering suite', () => {
-  const Ordering = require('../dist/Ordering');
+  // const Ordering = require('../dist/Ordering');
+  const Ordering = require('../dist/es5/Ordering');
   it('dateOrd', () => {
     const d1 = new Date(2014, 2, 28);
     const d2 = new Date(2014, 3, 2);
@@ -459,7 +527,8 @@ describe('Ordering suite', () => {
 });
 
 describe('Tuple suite', () => {
-  const Tuple = require('../dist/Tuple');
+  // const Tuple = require('../dist/Tuple');
+  const Tuple = require('../dist/es5/Tuple');
   it('curried', () => {
     expect(Tuple.curried(0)(1)).toEqual([0, 1]);
   });

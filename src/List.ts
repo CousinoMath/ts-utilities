@@ -8,11 +8,12 @@
 
 import { AbstractList } from './AbstractList';
 import { curry, ident } from './Functions';
-import { bind, Maybe, maybe } from './Maybe';
-import { NonEmptyList } from './NonEmptyList';
+import { bind, Maybe, make as makeMaybe, maybe, isNonNull, isNull, bottom } from './Maybe';
 import { sameValueZero } from './Objects';
 import { Ordering } from './Ordering';
+import { fill, isInteger, sign } from './Polyfills';
 
+// export { AbstractList };
 /**
  * Basic array-backed list class
  */
@@ -28,10 +29,10 @@ export class List<T> extends AbstractList<T> {
   /**
    * @summary Concatenates a collection of lists.
    */
-  public static concat<A>(xss: Iterable<List<A>>): List<A> {
+  public static concat<A>(...xss: Array<List<A>>): List<A> {
     const arr: A[] = [];
     for (const xs of xss) {
-      arr.concat(...xs.arr);
+      arr.push(...xs.arr);
     }
     return new List(arr);
   }
@@ -42,13 +43,13 @@ export class List<T> extends AbstractList<T> {
    */
   public static itercalate<A>(sep: List<A>, items: List<List<A>>): List<A> {
     const len = items.length - 1;
-    const arr: A[] = [];
+    const result: A[] = [];
 
     for (let i = 0; i < len; i++) {
-      arr.concat(...items.arr[i].arr, ...sep.arr);
+      result.push(...items.arr[i].arr, ...sep.arr);
     }
-    arr.concat(...maybe<List<A>, A[]>([], last => last.arr)(items.last));
-    return new List(arr);
+    result.push(...maybe<List<A>, A[]>([], last => last.arr)(items.last));
+    return new List(result);
   }
 
   /**
@@ -78,14 +79,12 @@ export class List<T> extends AbstractList<T> {
    */
   public static range(start = 0, stop: number, step = 1): List<number> {
     if (typeof stop === 'undefined') {
-      stop = start - 1;
+      stop = Math.max(0, start - 1);
       start = 0;
     }
     const spread = stop - start;
     const len =
-      Math.abs(step) === 0
-        ? -1
-        : Math.floor((spread + Math.sign(spread)) / step);
+      Math.abs(step) === 0 ? -1 : Math.floor((spread + sign(spread)) / step);
     if (!AbstractList.isSafeLength(len)) {
       throw new RangeError(
         'Invalid list length encountered in call to List.range'
@@ -94,7 +93,7 @@ export class List<T> extends AbstractList<T> {
     // Array constructor is -0 safe
     const arr: number[] = new Array(len);
     for (let i = 0; i < len; i++) {
-      arr.push(start + i * step);
+      arr[i] = start + i * step;
     }
     return new List(arr);
   }
@@ -109,7 +108,7 @@ export class List<T> extends AbstractList<T> {
       );
     }
     // Array constructor is -0 safe
-    return new List(new Array(n).fill(elt));
+    return new List(fill(new Array(n), elt));
   }
 
   /**
@@ -122,41 +121,10 @@ export class List<T> extends AbstractList<T> {
     const arrB = new Array<B>(len);
     for (let i = 0; i < len; i++) {
       const xy = xys.arr[i];
-      arrA.push(xy[0]);
-      arrB.push(xy[1]);
+      arrA[i] = xy[0];
+      arrB[i] = xy[1];
     }
     return [new List(arrA), new List(arrB)];
-  }
-
-  /**
-   * The returned list is as long as the shortest list.
-   * @summary Zips a pair of lists into a list of tuples.
-   * @see [[unzip]]
-   */
-  public static zip<A, B>(xs: List<A>, ys: List<B>): List<[A, B]> {
-    const arr: Array<[A, B]> = [];
-    const len = Math.min(xs.length, ys.length);
-    for (let i = 0; i < len; i++) {
-      arr.push([xs.arr[i], ys.arr[i]]);
-    }
-    return new List(arr);
-  }
-
-  /**
-   * `List.zipWith(f, xs, ys) = List.zip(xs, ys).map(xy => f(...xy))`
-   * @summary Zips a pair of lists using a custom zipper.
-   */
-  public static zipWith<A, B, C>(
-    f: (x: A, y: B) => C,
-    xs: List<A>,
-    ys: List<B>
-  ): List<C> {
-    const arr: C[] = [];
-    const len = Math.min(xs.length, ys.length);
-    for (let i = 0; i < len; i++) {
-      arr.push(f(xs.arr[i], ys.arr[i]));
-    }
-    return new List(arr);
   }
 
   /**
@@ -170,12 +138,12 @@ export class List<T> extends AbstractList<T> {
   }
 
   /**
-   * @summary Returns the first element of the list, if it exists, and null otherwise.
+   * @summary Returns the first element of the list, if it exists, and ⊥ otherwise.
    * @see [[AbstractList.head]]
    * @see [[tail]]
    */
   public get head(): Maybe<T> {
-    return this.isEmpty ? null : this.arr[0];
+    return makeMaybe(!this.isEmpty, () => this.arr[0]);
   }
 
   /**
@@ -195,11 +163,11 @@ export class List<T> extends AbstractList<T> {
   }
 
   /**
-   * @summary Returns the last element of the list, if it exists, and null otherwise.
+   * @summary Returns the last element of the list, if it exists, and ⊥ otherwise.
    * @see [[AbstractList.last]]
    */
   public get last(): Maybe<T> {
-    return this.isEmpty ? null : this.arr[this.length - 1];
+    return makeMaybe(!this.isEmpty, () => this.arr[this.length - 1]);
   }
 
   /**
@@ -233,17 +201,17 @@ export class List<T> extends AbstractList<T> {
    * Allows lists to be iterated over in `for of` loops and spread/rest
    * syntax.
    */
-  public [Symbol.iterator](): Iterator<T> {
-    const arr = this.arr.slice(0);
-    return arr[Symbol.iterator]();
-  }
+  // public [Symbol.iterator](): Iterator<T> {
+  //   const arr = this.arr.slice(0);
+  //   return arr[Symbol.iterator]();
+  // }
 
   /**
    * Always converts to an array.
    */
-  public [Symbol.toPrimitive](hint: string): T[] {
-    return this.arr.slice(0);
-  }
+  // public [Symbol.toPrimitive](hint: string): T[] {
+  //   return this.arr.slice(0);
+  // }
 
   /**
    * `[x_1, x_2, ..., x_n].accumulate(f, init) = [y_1, y_2, ..., y_n]`
@@ -255,11 +223,11 @@ export class List<T> extends AbstractList<T> {
    * @see [[AbstractList.accumulate]]
    */
   public accumulate<U>(f: (acc: U, val: T) => U, init: U): List<U> {
-    const arr = [init];
-    let val = init;
-    for (const x of this.arr) {
-      val = f(val, x);
-      arr.push(val);
+    const len = this.length;
+    const arr: U[] = new Array(len + 1);
+    arr[0] = init;
+    for (let i = 0; i < len; i++) {
+      arr[i + 1] = f(arr[i], this.arr[i]);
     }
     return new List(arr);
   }
@@ -274,11 +242,11 @@ export class List<T> extends AbstractList<T> {
    * @see [[AbstractList.accumulateRight]]
    */
   public accumulateRight<U>(f: (acc: U, val: T) => U, init: U): List<U> {
-    let val = init;
-    const arr = [init];
-    for (const x of this.reverse()) {
-      val = f(val, x);
-      arr.push(val);
+    const len = this.length;
+    const arr: U[] = new Array(len + 1);
+    arr[0] = init;
+    for (let i = 0; i < len; i++) {
+      arr[i + 1] = f(arr[i], this.arr[len - i - 1]);
     }
     return new List(arr);
   }
@@ -292,7 +260,15 @@ export class List<T> extends AbstractList<T> {
    * @see [[AbstractList.accumulateRightWith]]
    */
   public accumulateRightWith(f: (acc: T, val: T) => T): List<T> {
-    return this.reverse().accumulateWith(f);
+    const len = this.length;
+    const arr: T[] = new Array(len);
+    if (len > 0) {
+      arr[0] = this.arr[len - 1];
+      for (let i = 1; i < len; i++) {
+        arr[i] = f(arr[i - 1], this.arr[len - i - 1]);
+      }
+    }
+    return new List(arr);
   }
 
   /**
@@ -304,13 +280,12 @@ export class List<T> extends AbstractList<T> {
    * @see [[AbstractList.accumulateWith]]
    */
   public accumulateWith(f: (acc: T, val: T) => T): List<T> {
-    const arr: T[] = [];
-    if (this.arr.length > 0) {
-      let val = this.arr[0];
-      arr.push(val);
-      for (const x of this.arr.slice(1)) {
-        val = f(val, x);
-        arr.push(val);
+    const len = this.length;
+    const arr: T[] = new Array(len);
+    if (len > 0) {
+      arr[0] = this.arr[0];
+      for (let i = 1; i < len; i++) {
+        arr[i] = f(arr[i - 1], this.arr[i]);
       }
     }
     return new List(arr);
@@ -396,7 +371,7 @@ export class List<T> extends AbstractList<T> {
    * @see [[Abstract.drop]]
    */
   public drop(n: number): List<T> {
-    if (Number.isInteger(n)) {
+    if (isInteger(n)) {
       const lastIdx = this.length - 1;
       if (n >= -0) {
         // Handle -0 case
@@ -460,30 +435,30 @@ export class List<T> extends AbstractList<T> {
    * `pred(x_i)` is true and `pred(x_k)` is false for every
    * `k < i`.
    *
-   * `xs.findIndex(pred) = null` means that no element of
+   * `xs.findIndex(pred) = ⊥` means that no element of
    * `xs` makes `pred` true.
    * @summary Returns the first index in the list whose corresponding element makes `pred` true.
    * @see [[AbstractList.findIndex]]
    */
-  public findIndex(f: (x: T) => boolean): Maybe<number> {
+  public findIndex(pred: (x: T) => boolean): Maybe<number> {
     const len = this.length;
     for (let i = 0; i < len; i++) {
-      if (f(this.arr[i])) {
+      if (pred(this.arr[i])) {
         return i;
       }
     }
-    return null;
+    return bottom;
   }
 
   /**
    * @summary Returns a list of all indices whose corresponding elements make `pred` true.
    * @see [[AbstractList.findIndices]]
    */
-  public findIndices(f: (x: T) => boolean): List<number> {
+  public findIndices(pred: (x: T) => boolean): List<number> {
     const arr: number[] = [];
     const len = this.length;
     for (let i = 0; i < len; i++) {
-      if (f(this.arr[i])) {
+      if (pred(this.arr[i])) {
         arr.push(i);
       }
     }
@@ -539,6 +514,13 @@ export class List<T> extends AbstractList<T> {
     }
     return new List(groups);
   }
+
+  // /**
+  //  * @summary A type guard for lists to be non-empty
+  //  */
+  // public isNonEmpty(): this is NonEmptyList<T> {
+  //   return !this.isEmpty;
+  // }
 
   /**
    * @summary Returns a list of all prefixes of the current list.
@@ -603,7 +585,7 @@ export class List<T> extends AbstractList<T> {
         }
       }
     } else {
-      for (const y of ys) {
+      for (const y of ys.toArray()) {
         if (this.hasBy(eq, y)) {
           arr.push(y);
         }
@@ -644,10 +626,10 @@ export class List<T> extends AbstractList<T> {
     }
     for (let i = 0; i <= largerLen - len; i++) {
       const largerElt1 = larger.nth(i);
-      if (largerElt1 != null && eq(largerElt1, this.arr[0])) {
+      if (isNonNull(largerElt1) && eq(largerElt1, this.arr[0])) {
         let j = 0;
         let largerElt2 = larger.nth(i + j);
-        while (j < len && largerElt2 != null && eq(largerElt2, this.arr[j])) {
+        while (j < len && isNonNull(largerElt2) && eq(largerElt2, this.arr[j])) {
           j++;
           largerElt2 = larger.nth(i + j);
         }
@@ -674,7 +656,7 @@ export class List<T> extends AbstractList<T> {
     }
     for (let i = 0; i < len; i++) {
       const largerElt = larger.nth(i);
-      if (largerElt != null && !eq(this.arr[i], largerElt)) {
+      if (isNonNull(largerElt) && !eq(this.arr[i], largerElt)) {
         return false;
       }
     }
@@ -703,7 +685,7 @@ export class List<T> extends AbstractList<T> {
         largerOffset++
       ) {
         const largerElt = larger.nth(largerIdx + largerOffset);
-        if (largerElt != null && eq(largerElt, this.arr[thisIdx])) {
+        if (isNonNull(largerElt) && eq(largerElt, this.arr[thisIdx])) {
           thisIdx++;
         }
       }
@@ -730,7 +712,7 @@ export class List<T> extends AbstractList<T> {
     }
     const largerElt = larger.last;
     for (let i = 0; i < len; i++) {
-      if (largerElt != null && !eq(this.arr[len - i], largerElt)) {
+      if (isNonNull(largerElt) && !eq(this.arr[len - i], largerElt)) {
         return false;
       }
     }
@@ -791,11 +773,7 @@ export class List<T> extends AbstractList<T> {
    * @see [[AbstractList.nth]]
    */
   public nth(n: number): Maybe<T> {
-    if (this.isSafeIndex(n)) {
-      // array access is -0 safe
-      return this.arr[n];
-    }
-    return null;
+    return makeMaybe(this.isSafeIndex(n), () => this.arr[n]);
   }
 
   /**
@@ -1020,7 +998,7 @@ export class List<T> extends AbstractList<T> {
    * @see [[AbstractList.take]]
    */
   public take(n: number): List<T> {
-    return new List(this.arr.slice(n));
+    return new List(this.arr.slice(0, n));
   }
 
   /**
@@ -1126,26 +1104,54 @@ export class List<T> extends AbstractList<T> {
     const len = this.length;
     for (let j = 0; j < len; j++) {
       const elt = this.arr[j];
-      if (ys.findIndex(x => eq(x, elt)) == null) {
+      if (isNull(ys.findIndex(x => eq(x, elt)))) {
         arr.push(elt);
       }
     }
     return new List(arr);
   }
-}
 
   /**
-   * The inductive rule for lists.
-   * @summary Creates a recursive function over lists.
-   * @see [[reduce]]
+   * The returned list is as long as the shortest list.
+   * @summary Zips a pair of lists into a list of tuples.
+   * @see [[unzip]]
    */
-export function list<S, T>(
-    nil: T,
-    f: (accum: T, val: S) => T
-  ): (xs: List<S>) => T {
-    return xs => xs.reduce(f, nil);
+  public zip<U>(ys: List<U>): List<[T, U]> {
+    const len = Math.min(this.length, ys.length);
+    const arr: Array<[T, U]> = new Array(len);
+    for (let i = 0; i < len; i++) {
+      arr[i] = [this.arr[i], ys.arr[i]];
+    }
+    return new List(arr);
   }
 
+  /**
+   * `List.zipWith(f, xs, ys) = List.zip(xs, ys).map(xy => f(...xy))`
+   * @summary Zips a pair of lists using a custom zipper.
+   */
+  public zipWith<U, V>(f: (x: T, y: U) => V, ys: List<U>): List<V> {
+    const len = Math.min(this.length, ys.length);
+    const arr: V[] = new Array(len);
+    for (let i = 0; i < len; i++) {
+      arr[i] = f(this.arr[i], ys.arr[i]);
+    }
+    return new List(arr);
+  }
+}
+
+/**
+ * The inductive rule for lists.
+ * @summary Creates a recursive function over lists.
+ * @see [[reduce]]
+ */
+export function list<S, T>(
+  nil: T,
+  f: (accum: T, val: S) => T
+): (xs: List<S>) => T {
+  return xs => xs.reduce(f, nil);
+}
+
+import { NonEmptyList } from './NonEmptyList';
 
 /**
  * [SameValueZero]: (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness#Same-value-zero_equality).

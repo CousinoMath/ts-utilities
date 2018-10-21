@@ -1,4 +1,5 @@
 import { numberOrd } from './Ordering';
+import { is } from './Polyfills';
 
 /**
  * @summary A convenience function for `(x, y) => x == y`
@@ -19,7 +20,7 @@ export function equals3<T>(x: T, y: T): boolean {
  * @summary A convenience function for `(x, y) => Object.is(x, y)`
  */
 export function sameValue<T>(x: T, y: T): boolean {
-  return Object.is(x, y);
+  return is(x, y);
 }
 
 /**

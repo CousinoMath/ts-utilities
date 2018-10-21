@@ -18,8 +18,14 @@ import { Ordering } from './Ordering';
  */
 export class NonEmptyList<T> extends List<T> {
   /**
-   * A convenience to build instances from arrays, which
-   * should obviously be non-empty.
+   * @summary A convenience to build instances from arrays.
+   */
+  public static make<A>(val: A, ...arr: A[]): NonEmptyList<A> {
+    return new NonEmptyList(val, arr);
+  }
+
+  /**
+   * @summary A convenience to build instances from arrays, which should obviously be non-empty.
    */
   private static _make<A>(arr: A[]): NonEmptyList<A> {
     return new NonEmptyList(arr[0], arr.slice(1));
@@ -35,7 +41,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.head]]
    */
   public get head(): T {
-    return super.arr[0];
+    return this.arr[0];
   }
 
   /**
@@ -44,7 +50,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.isEmpty]]
    */
   public get isEmpty(): boolean {
-    if (super.length === 0) {
+    if (this.length === 0) {
       throw new Error('A non-empty list was found to be empty');
     }
     return false;
@@ -55,7 +61,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.last]]
    */
   public get last(): T {
-    return super.arr[super.length - 1];
+    return this.arr[this.length - 1];
   }
 
   /**
@@ -243,7 +249,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[AbstractList.reduceWith]]
    */
   public reduceWith(f: (acc: T, elt: T) => T): T {
-    return super.arr.slice(1).reduce(f, this.head);
+    return this.arr.slice(1).reduce(f, this.head);
   }
 
   /**
@@ -261,7 +267,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.reverse]]
    */
   public reverse(): NonEmptyList<T> {
-    return NonEmptyList._make(super.arr.slice(0).reverse());
+    return NonEmptyList._make(this.arr.slice(0).reverse());
   }
 
   /**
@@ -296,7 +302,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[List.toList]]
    */
   public toList(): List<T> {
-    return new List(super.arr);
+    return new List(this.arr);
   }
 
   /**
@@ -304,7 +310,7 @@ export class NonEmptyList<T> extends List<T> {
    * @see [[AbstractList.toNonEmptyList]]
    */
   public toNonEmptyList(): NonEmptyList<T> {
-    return NonEmptyList._make(super.arr);
+    return NonEmptyList._make(this.arr);
   }
 
   /**

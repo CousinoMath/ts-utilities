@@ -3,8 +3,9 @@
  */
 
 import { ident } from './Functions';
-import { Maybe } from './Maybe';
+import { Maybe, make as makeMaybe, bottom } from './Maybe';
 import { Ordering } from './Ordering';
+import { isInteger, log2, sign } from './Polyfills';
 
 /**
  * `xs => [xs[0], f(xs[0], xs[1]), f(f(xs[0], xs[1]), xs[2]), ...]`
@@ -51,7 +52,7 @@ export function cumSum(xs: number[]): number[] {
 /**
  * @deprecated since ES6 introduced this to the Array prototype
  * @summary Searches an array with a predicate returning the first element on which the predicate is true
- * @returns either returns the first element of `xs` that makes `f` true or returns null
+ * @returns either returns the first element of `xs` that makes `f` true or returns ⊥
  */
 export function find<T>(xs: T[], f: (x: T) => boolean): Maybe<T> {
   for (const x of xs) {
@@ -59,7 +60,7 @@ export function find<T>(xs: T[], f: (x: T) => boolean): Maybe<T> {
       return x;
     }
   }
-  return null;
+  return bottom;
 }
 
 /**
@@ -77,12 +78,12 @@ export function findIndex<T>(xs: T[], f: (x: T) => boolean): number {
 }
 
 /**
- * `first([]) = null`
+ * `first([]) = ⊥`
  * `first([x, ...rest]) = x`
- * @summary Returns the first element of an array if it exists, and null otherwise.
+ * @summary Returns the first element of an array if it exists, and ⊥ otherwise.
  */
 export function first<T>(xs: T[]): Maybe<T> {
-  return xs.length > 0 ? xs[0] : null;
+  return makeMaybe(xs.length > 0, () => xs[0]);
 }
 
 /**
@@ -108,7 +109,7 @@ export function flatten<T>(xss: T[][]): T[] {
  * @throws `RangeError` when array length is invalid, i.e. at least `2^32` or negative.
  */
 export function from<T>(len: number, f: (idx: number) => T): T[] {
-  if (len < 0 || Math.log2(len) >= 32) {
+  if (len < 0 || log2(len) >= 32) {
     // Math.log(0) = -Infinity < 32
     throw new RangeError('Invalid array length.');
   }
@@ -120,26 +121,26 @@ export function from<T>(len: number, f: (idx: number) => T): T[] {
 }
 
 /**
- * `last([]) = null`
+ * `last([]) = ⊥`
  * `last([...rest, x]) = x`
- * @summary Returns the last element of an array if it exists, and null otherwise.
+ * @summary Returns the last element of an array if it exists, and ⊥ otherwise.
  */
 export function last<T>(xs: T[]): Maybe<T> {
   const len = xs.length;
-  return len > 0 ? xs[len - 1] : null;
+  return makeMaybe(len > 0, () => xs[len - 1]);
 }
 
 /**
- * `nth([], _) = nth(_, 0.5) = nth(_, NaN) = nth(_, Infinity) = null`
+ * `nth([], _) = nth(_, 0.5) = nth(_, NaN) = nth(_, Infinity) = ⊥`
  * `nth([...firstNm1Elts, xn, ...rest], n) = xn`
- * @summary Returns the nth element of an array if it exists, and null otherwise.
+ * @summary Returns the nth element of an array if it exists, and ⊥ otherwise.
  * @param n index of the element to return
  */
 export function nth<T>(xs: T[], n: number): Maybe<T> {
   const len = xs.length;
-  const inRange = len > 0 && Number.isInteger(n) && n >= -0 && n < len;
+  const inRange = len > 0 && isInteger(n) && n >= -0 && n < len;
   // arr[-0] === arr[0]
-  return inRange ? xs[n] : null;
+  return makeMaybe(inRange, () => xs[n]);
 }
 
 /**
@@ -157,7 +158,7 @@ export function range(start = 0, stop: number, delta = 1): number[] {
   } else {
     const rng = stop - start;
     const len =
-      Math.abs(delta) === 0 ? 0 : Math.floor((rng + Math.sign(rng)) / delta);
+      Math.abs(delta) === 0 ? 0 : Math.floor((rng + sign(rng)) / delta);
     return from(Math.max(len, 0), idx => start + idx * delta);
   }
 }
@@ -186,7 +187,7 @@ export function reduce<R, S>(
 }
 
 /**
- * @summary Returns a copy of given array sorted in ascending order. 
+ * @summary Returns a copy of given array sorted in ascending order.
  * @param ord ordering used to sort array
  */
 export function sortOn<T>(ord: Ordering<T>, xs: T[]): T[] {

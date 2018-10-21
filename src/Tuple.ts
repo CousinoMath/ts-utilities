@@ -1,4 +1,4 @@
-import { curry } from "./Functions";
+import { curry } from './Functions';
 
 /**
  * Helpers for tuples

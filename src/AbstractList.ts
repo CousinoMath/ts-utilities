@@ -7,23 +7,23 @@
  */
 
 import { flip } from './Functions';
-import { List } from './List';
-import { bind, Maybe } from './Maybe';
-import { NonEmptyList } from './NonEmptyList';
+import { bind, Maybe, bottom } from './Maybe';
 import { sameValueZero } from './Objects';
 import { Ordering } from './Ordering';
+import { isInteger, log2 } from './Polyfills';
 
 /**
  * This is an abstract class which abstracts the basics of lists and
  * implements some of the more higher level operations.
  */
-export abstract class AbstractList<T> implements Iterable<T> {
+// export abstract class AbstractList<T> implements Iterable<T> {
+export abstract class AbstractList<T> {
   /**
    * In Javascript, arrays cannot be length 2^32 or longer.
    * @summary Test whether a given length is valid for arrays.
    */
   protected static isSafeLength(n: number): boolean {
-    return Number.isInteger(n) && n >= -0 && Math.log2(n) < 32;
+    return isInteger(n) && n >= -0 && log2(n) < 32;
   }
 
   /**
@@ -34,7 +34,7 @@ export abstract class AbstractList<T> implements Iterable<T> {
   protected arr: T[] = [];
 
   /**
-   * @summary Returns the first element of the list, if it exists, and null otherwise.
+   * @summary Returns the first element of the list, if it exists, and ⊥ otherwise.
    * @see [[tail]]
    */
   public abstract get head(): Maybe<T>;
@@ -52,7 +52,7 @@ export abstract class AbstractList<T> implements Iterable<T> {
   public abstract get init(): AbstractList<T>;
 
   /**
-   * @summary Returns the last element of the list, if it exists, and null otherwise.
+   * @summary Returns the last element of the list, if it exists, and ⊥ otherwise.
    */
   public abstract get last(): Maybe<T>;
 
@@ -78,12 +78,12 @@ export abstract class AbstractList<T> implements Iterable<T> {
    * Allows lists to be iterated over in `for of` loops and spread/rest
    * syntax.
    */
-  public abstract [Symbol.iterator](): Iterator<T>;
+  // public abstract [Symbol.iterator](): Iterator<T>;
 
   /**
    * Always converts to an array.
    */
-  public abstract [Symbol.toPrimitive](hint: string): T[];
+  // public abstract [Symbol.toPrimitive](hint: string): T[];
 
   /**
    * `[x_1, x_2, ..., x_n].accumulate(f, init) = [y_1, y_2, ..., y_n]`
@@ -185,7 +185,7 @@ export abstract class AbstractList<T> implements Iterable<T> {
    * `pred(x_i)` is true and `pred(x_k)` is false for every
    * `k < i`.
    *
-   * `xs.findIndex(pred) = null` means that no element of
+   * `xs.findIndex(pred) = ⊥` means that no element of
    * `xs` makes `pred` true.
    * @summary Returns the first index in the list whose corresponding element makes `pred` true.
    */
@@ -345,7 +345,7 @@ export abstract class AbstractList<T> implements Iterable<T> {
   /**
    * @summary Returns a copy of the current list with elements reverse.
    */
-  public abstract reverse(): List<T>;
+  public abstract reverse(): AbstractList<T>;
 
   /**
    * This should be a stable sort.
@@ -391,9 +391,14 @@ export abstract class AbstractList<T> implements Iterable<T> {
   public abstract takeWhile(pred: (x: T) => boolean): AbstractList<T>;
 
   /**
-   * @summary Converts any subclass to the base implementation.
+   * @summary Converts to a standard Array.
    */
-  public abstract toList(): List<T>;
+  public abstract toArray(): T[];
+
+  // /**
+  //  * @summary Converts any subclass to the base implementation.
+  //  */
+  // public abstract toList(): List<T>;
 
   /**
    * @summary Returns a list of elements of the current list with duplicates removed.
@@ -440,7 +445,7 @@ export abstract class AbstractList<T> implements Iterable<T> {
    * @summary Returns true if and only if `pred` is true on all elements.
    */
   public every(pred: (x: T) => boolean): boolean {
-    for (const x of this) {
+    for (const x of this.toArray()) {
       if (!pred(x)) {
         return false;
       }
@@ -449,15 +454,15 @@ export abstract class AbstractList<T> implements Iterable<T> {
   }
 
   /**
-   * @summary Returns the first value on which `pred` is true, and null otherwise.
+   * @summary Returns the first value on which `pred` is true, and ⊥ otherwise.
    */
   public find(pred: (x: T) => boolean): Maybe<T> {
-    for (const x of this) {
+    for (const x of this.toArray()) {
       if (pred(x)) {
         return x;
       }
     }
-    return null;
+    return bottom;
   }
 
   /**
@@ -483,7 +488,7 @@ export abstract class AbstractList<T> implements Iterable<T> {
    * @param eq test for equality
    */
   public hasBy(eq: (x: T, y: T) => boolean, elt: T): boolean {
-    for (const x of this) {
+    for (const x of this.toArray()) {
       if (eq(x, elt)) {
         return true;
       }
@@ -575,7 +580,7 @@ export abstract class AbstractList<T> implements Iterable<T> {
   }
 
   /**
-   * @summary Returns the largest element of the current list, or null when empty.
+   * @summary Returns the largest element of the current list, or ⊥ when empty.
    * @param ord ordering to use on the elements
    */
   public max(ord: Ordering<T>): Maybe<T> {
@@ -586,7 +591,7 @@ export abstract class AbstractList<T> implements Iterable<T> {
   }
 
   /**
-   * @summary Returns the smallest element of the current list, or null when empty.
+   * @summary Returns the smallest element of the current list, or ⊥ when empty.
    * @param ord ordering to use on the elements
    */
   public min(ord: Ordering<T>): Maybe<T> {
@@ -603,7 +608,7 @@ export abstract class AbstractList<T> implements Iterable<T> {
    */
   public reduce<U>(f: (acc: U, elt: T) => U, init: U): U {
     let val = init;
-    for (const x of this) {
+    for (const x of this.toArray()) {
       val = f(val, x);
     }
     return val;
@@ -619,7 +624,7 @@ export abstract class AbstractList<T> implements Iterable<T> {
    */
   public reduceRight<U>(f: (acc: U, elt: T) => U, init: U): U {
     let val = init;
-    for (const x of this.reverse()) {
+    for (const x of this.reverse().toArray()) {
       val = f(val, x);
     }
     return val;
@@ -628,7 +633,7 @@ export abstract class AbstractList<T> implements Iterable<T> {
   /**
    * `[x_1, x_2, ..., x_n].accumulate(f, init) = y_1`
    * where `y_n := x_n` and `y_{k - 1} := f(y_k, x_{k - 1})`
-   * @summary Reduces the current list with `f`, or returns null when empty.
+   * @summary Reduces the current list with `f`, or returns ⊥ when empty.
    * @param f the function used to accumulate over the array
    * @see [[accumulateRightWith]]
    */
@@ -639,7 +644,7 @@ export abstract class AbstractList<T> implements Iterable<T> {
   /**
    * `[x_1, x_2, ..., x_n].accumulate(f, init) = y_n`
    * where `y_1 := x_1` and `y_{k + 1} := f(y_k, x_{k + 1})`
-   * @summary Reduces the current list with `f`, or returns null when empty.
+   * @summary Reduces the current list with `f`, or returns ⊥ when empty.
    * @param f the function used to accumulate over the array
    * @see [[accumulateWith]]
    */
@@ -661,7 +666,7 @@ export abstract class AbstractList<T> implements Iterable<T> {
    * @summary Returns true if and only if `pred` is true on some element of the current list.
    */
   public some(pred: (x: T) => boolean): boolean {
-    for (const x of this) {
+    for (const x of this.toArray()) {
       if (pred(x)) {
         return true;
       }
@@ -677,14 +682,7 @@ export abstract class AbstractList<T> implements Iterable<T> {
   }
 
   /**
-   * @summary Converts to a standard Array.
-   */
-  public toArray(): T[] {
-    return [...this];
-  }
-
-  /**
-   * @summary Converts to a non-empty list, if possible, and null otherwise.
+   * @summary Converts to a non-empty list, if possible, and ⊥ otherwise.
    */
   public toNonEmptyList(): Maybe<NonEmptyList<T>> {
     const fn: (hd: T) => NonEmptyList<T> = hd =>
@@ -714,9 +712,12 @@ export abstract class AbstractList<T> implements Iterable<T> {
   }
 
   protected isSafeIndex(n: number): boolean {
-    return Number.isInteger(n) && n >= -0 && n < this.length;
+    return isInteger(n) && n >= -0 && n < this.length;
   }
 }
+
+// import { List } from './List';
+import { NonEmptyList } from './NonEmptyList';
 
 /**
  * [SameValueZero]: (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness#Same-value-zero_equality).

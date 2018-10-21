@@ -1,4 +1,5 @@
 import { on } from './Functions';
+import { isNaN } from './Polyfills';
 
 /**
  * @summary Union of literal types 'LT', 'EQ', and 'GT'
@@ -32,8 +33,8 @@ export function dateOrd(x: Date, y: Date): Orderings {
  * @summary Total ordering on number type. (excepting on NaNs)
  */
 export function numberOrd(x: number, y: number): Orderings {
-  const xNan = Number.isNaN(x);
-  const yNan = Number.isNaN(y);
+  const xNan = isNaN(x);
+  const yNan = isNaN(y);
   if (xNan || yNan) {
     return xNan && yNan ? 'EQ' : 'LT';
   }
