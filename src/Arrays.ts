@@ -1,11 +1,16 @@
 /**
  * A collection of Array utility functions.
  */
-
-import { ident } from './Functions';
-import { Maybe, make as makeMaybe, bottom } from './Maybe';
-import { Ordering } from './Ordering';
-import { isInteger, log2, sign } from './Polyfills';
+import {
+  bottom,
+  identity,
+  isInteger,
+  log2,
+  makeMaybe,
+  Maybe,
+  Ordering,
+  sign
+} from './internal';
 
 /**
  * `xs => [xs[0], f(xs[0], xs[1]), f(f(xs[0], xs[1]), xs[2]), ...]`
@@ -47,6 +52,16 @@ export function array<R, S>(init: S, ind: (x: R, ys: S) => S): (xs: R[]) => S {
  */
 export function cumSum(xs: number[]): number[] {
   return accumulate((x: number, y: number) => x + y, xs);
+}
+
+/**
+ * @summary A polyfill for [Array.fill](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill)
+ */
+export function fill<T>(arr: T[], val: T, start = 0, stop = arr.length): T[] {
+  for (let i = start; i < stop; i++) {
+    arr[i] = val;
+  }
+  return arr;
 }
 
 /**
@@ -97,7 +112,7 @@ export function flatMap<R, S>(f: (x: R) => S[], xs: R[]): S[] {
  * @summary Flattens an array of arrays
  */
 export function flatten<T>(xss: T[][]): T[] {
-  return flatMap<T[], T>(ident, xss);
+  return flatMap<T[], T>(identity, xss);
 }
 
 /**
@@ -154,7 +169,7 @@ export function nth<T>(xs: T[], n: number): Maybe<T> {
  */
 export function range(start = 0, stop: number, delta = 1): number[] {
   if (typeof stop === 'undefined') {
-    return from(Math.max(start, 0), ident);
+    return from(Math.max(start, 0), identity);
   } else {
     const rng = stop - start;
     const len =

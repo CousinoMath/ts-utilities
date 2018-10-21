@@ -1,5 +1,4 @@
-import { numberOrd } from './Ordering';
-import { is } from './Polyfills';
+import { is, numberOrd } from './internal';
 
 /**
  * @summary A convenience function for `(x, y) => x == y`

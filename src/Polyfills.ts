@@ -1,21 +1,13 @@
 /**
- * @summary A polyfill for [Array.fill](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill)
- */
-export function fill<T>(arr: T[], val: T, start = 0, stop = arr.length): T[] {
-  for (let i = start; i < stop; i++) {
-    arr[i] = val;
-  }
-  return arr;
-}
-
-/**
  * @summary A polyfill for [Object.is](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is)
  */
 export function is(x: any, y: any): boolean {
   if (x === y) {
     return x !== 0 || 1 / x === 1 / y;
   } else {
-    return typeof x === 'number' && typeof y === 'number' && isNaN(x) && isNaN(y);
+    return (
+      typeof x === 'number' && typeof y === 'number' && isNaN(x) && isNaN(y)
+    );
   }
 }
 
@@ -44,7 +36,5 @@ export function log2(x: number): number {
  * @summary A polyfill for [Math.sign](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sign)
  */
 export function sign(value: number): any {
-  // (value > 0) - (value < 0) || +value
-  // return (value > 0 ? 1 : 0) + (value < 0 ? -1 : 0) + (isNaN(value) ? NaN : 0);
   return Number(value > 0) - Number(value < 0) || +value;
 }

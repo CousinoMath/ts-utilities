@@ -1,15 +1,18 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
     "declaration": true,
-    "declarationDir": "./dist/es2015/types/",
-    "module": "es2015",
+    "declarationDir": "./dist/es5/types/",
+    "importHelpers": true,
+    "module": "commonjs",
+    "moduleResolution": "Node",
     "noUnusedLocals": true,
     "noUnusedParameters": false,
-    "outDir": "./dist/es2015",
+    "outDir": "./dist/es5",
     "sourceMap": true,
     "strict": true,
-    "target": "es2015"
+    "target": "es5"
   },
-  "compileOnSave": false,
-  "include": ["src/index.ts"]
+  "exclude": ["./**/*.spec.ts", "./src/archive/*.ts"],
+  "files": ["./src/index.ts"]
 }

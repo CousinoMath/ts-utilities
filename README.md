@@ -1,28 +1,28 @@
-# CousinoMath Utilities #
+# CousinoMath Utilities
 
 This is a [Haskell](https://www.haskell.org/) inspired utility
 library for TypeScript. It's designed to provide some handy tools
-from the world of functional programming, without being "*overly*"
+from the world of functional programming, without being "_overly_"
 functional.
 
-## Contents ##
+## Contents
 
-### Types ###
+### Types
 
 New types and aliases introduced by this library.
 
-* [[Either]] is a generic discrimated union, useful for functional
+- [[Either]] is a generic discrimated union, useful for functional
   style error error tracking
-* [[Maybe]] an alias for nullable types, which can be useful when
+- [[Maybe]] an alias for nullable types, which can be useful when
   using the compiler options `strict` or `strictNullChecks`
 
-### Other Files ###
+### Other Files
 
-* `src/index.ts` reexports everything
-* `src/Array.ts` various utilities for arrays
-* `src/Function.ts` functional style programming utilities
+- `src/index.ts` reexports everything
+- `src/Array.ts` various utilities for arrays
+- `src/Function.ts` functional style programming utilities
 
-## Either ##
+## Either
 
 The type `Either<R, S>` is similar to Typescript's union type
 `R | S` in that the values can either be of type `R` or of type
@@ -55,7 +55,7 @@ value they've been given is a successful result or an error. This
 allows them to continue to operate on arrays when successful or to
 deal the erroneous result.
 
-## Maybe ##
+## Maybe
 
 The `Maybe<T>` type is an alias for nullable types, i.e.
 `T | null`. This is handy when working under the compiler options
@@ -65,9 +65,8 @@ so that they can deal with maybes. There is one subtle distinction
 to be made regarding functions with optional parameters, e.g.
 `(x?: T) => S`. These optional parameters are not the same as
 having a parameter with a maybe type. For example, any function
-`f: (x?: T) => S` can be called as `f(x)` for some `x: T` *or* it
+`f: (x?: T) => S` can be called as `f(x)` for some `x: T` _or_ it
 can be called as `f()` which no arguments, in effect making `x`
 `undefined`. Whereas, calling any function `f: (x: Maybe<T>) => S`
 as `f()` will result in compiler errors, because such a function
 must take exactly one argument.
-

@@ -6,22 +6,24 @@
  * used interchangable with arrays, and with each other.
  */
 
-import { AbstractList } from './AbstractList';
-import { curry, ident } from './Functions';
 import {
-  bind,
+  AbstractList,
+  bindMaybe,
   bottom,
+  curry,
+  fill,
+  findIndex,
+  identity,
+  isInteger,
   isNonNull,
-  make as makeMaybe,
+  makeMaybe,
   Maybe,
-  maybe
-} from './Maybe';
-import { NonEmptyList } from './NonEmptyList';
-import { sameValueZero } from './Objects';
-import { Ordering } from './Ordering';
-import { fill, isInteger } from './Polyfills';
+  maybe,
+  NonEmptyList,
+  Ordering,
+  sameValueZero
+} from './internal';
 
-// export { AbstractList };
 /**
  * Basic array-backed list class
  */
@@ -31,7 +33,7 @@ export class List<T> extends AbstractList<T> {
    * @see [[or]]
    */
   public static and(xs: List<boolean>): boolean {
-    return xs.every(ident);
+    return xs.every(identity);
   }
 
   /**
@@ -57,7 +59,7 @@ export class List<T> extends AbstractList<T> {
    * @see [[and]]
    */
   public static or(xs: List<boolean>): boolean {
-    return xs.some(ident);
+    return xs.some(identity);
   }
 
   /**
@@ -361,7 +363,7 @@ export class List<T> extends AbstractList<T> {
     const arr: T[] = this.arr.slice(0);
     let diffs = ys;
     for (let i = 0; i < arr.length && diffs.length > 0; i++) {
-      bind((idx: number) => {
+      bindMaybe((idx: number) => {
         arr.splice(i, 1);
         diffs = diffs.delete(idx);
         i--;
@@ -515,12 +517,12 @@ export class List<T> extends AbstractList<T> {
     return new List(groups);
   }
 
-  // /**
-  //  * @summary A type guard for lists to be non-empty
-  //  */
-  // public isNonEmpty(): this is NonEmptyList<T> {
-  //   return !this.isEmpty;
-  // }
+  /**
+   * @summary A type guard for lists to be non-empty
+   */
+  public isNonEmpty(): this is NonEmptyList<T> {
+    return !this.isEmpty;
+  }
 
   /**
    * `[1, 2, 3].inits() = [[], [1], [1,2], [1,2,3]]`
@@ -547,7 +549,9 @@ export class List<T> extends AbstractList<T> {
     for (const item of items.toArray().slice(1)) {
       result.push(...this.arr, ...item.toArray());
     }
-    result.unshift(...maybe<AbstractList<T>, T[]>([], last => last.toArray())(items.head));
+    result.unshift(
+      ...maybe<AbstractList<T>, T[]>([], last => last.toArray())(items.head)
+    );
     return new List(result);
   }
 
@@ -649,7 +653,7 @@ export class List<T> extends AbstractList<T> {
         }
       }
     }
-    return false;
+    return len === 0;
   }
 
   /**
@@ -721,8 +725,8 @@ export class List<T> extends AbstractList<T> {
     if (len > largerLen) {
       return false;
     }
-    const largerElt = larger.last;
-    for (let i = 0; i < len; i++) {
+    for (let i = 1; i <= len; i++) {
+      const largerElt = larger.nth(largerLen - i);
       if (isNonNull(largerElt) && !eq(this.arr[len - i], largerElt)) {
         return false;
       }
@@ -896,6 +900,9 @@ export class List<T> extends AbstractList<T> {
    * @see [[AbstractList.sortOn]]
    */
   public sortOn(ord: Ordering<T>): List<T> {
+    if (this.length === 0) {
+      return new List([]);
+    }
     function merge(ys1: T[], ys2: T[]): T[] {
       // PRE: ys1 and ys2 are sorted
       // POST: returns the merge of ys1 and ys2
@@ -1164,7 +1171,7 @@ export class List<T> extends AbstractList<T> {
   public unionBy(eq: (x: T, y: T) => boolean, ys: AbstractList<T>): List<T> {
     const arr = this.arr.slice(0);
     for (const elt of ys.toArray()) {
-      if (arr.findIndex(x => eq(x, elt)) < 0) {
+      if (findIndex(arr, x => eq(x, elt)) < 0) {
         arr.push(elt);
       }
     }

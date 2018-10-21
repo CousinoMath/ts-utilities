@@ -11,6 +11,6 @@ export function bool<T>(trueRes: T, falseRes: T): (b: boolean) => T {
  * @param trueRes returned when `cond` is true
  * @param falseRes returned when `cond` is false
  */
-export function ifte<T>(cond: boolean, trueRes: T, falseRes: T): T {
+export function ifThenElse<T>(cond: boolean, trueRes: T, falseRes: T): T {
   return cond ? trueRes : falseRes;
 }

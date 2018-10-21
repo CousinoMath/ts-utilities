@@ -1,8 +1,8 @@
-import { curry } from './Functions';
-
 /**
  * Helpers for tuples
  */
+
+import { curry } from './internal';
 
 /**
  * @deprecated since Typescript 2.7 implemented them natively
@@ -20,10 +20,10 @@ export function curried<R, S>(x: R): (y: S) => [R, S] {
 }
 
 /**
- * `map(f, g)([x, y]) = [f(x), g(y)]`
+ * `mapTuple(f, g)([x, y]) = [f(x), g(y)]`
  * @summary Maps two functions over a tuple
  */
-export function map<R1, R2, T1, T2>(
+export function mapTuple<R1, R2, T1, T2>(
   f: (x: R1) => T1,
   g: (y: R2) => T2
 ): (xy: [R1, R2]) => [T1, T2] {
@@ -57,65 +57,3 @@ export function swap<R, S>([x, y]: [R, S]): [S, R] {
 export function tuple<R, S>(x: R, y: S): [R, S] {
   return [x, y];
 }
-
-// /**
-//  * @summary A convenice function converting between 3-tuples.
-//  * @see [[to3Tuple]]
-//  */
-// export function from3Tuple<R, S, T>([x, y, z]: [R, S, T]): [[R, S], T] {
-//   return [[x, y], z];
-// }
-
-// /**
-//  * @summary A convenice function converting between 4-tuples.
-//  * @see [[to4Tuple]]
-//  */
-// export function from4Tuple<Q, R, S, T>([w, x, y, z]: [Q, R, S, T]): [
-//   [[Q, R], S],
-//   T
-// ] {
-//   return [[[w, x], y], z];
-// }
-
-// /**
-//  * @summary A convenice function converting between 5-tuples.
-//  * @see [[to5Tuple]]
-//  */
-// export function from5Tuple<P, Q, R, S, T>([v, w, x, y, z]: [P, Q, R, S, T]): [
-//   [[[P, Q], R], S],
-//   T
-// ] {
-//   return [[[[v, w], x], y], z];
-// }
-
-// /**
-//  * @summary A convenice function converting between 3-tuples.
-//  * @see [[from3Tuple]]
-//  */
-// export function to3Tuple<R, S, T>([[x, y], z]: [[R, S], T]): [R, S, T] {
-//   return [x, y, z];
-// }
-
-// /**
-//  * @summary A convenice function converting between 4-tuples.
-//  * @see [[from4Tuple]]
-//  */
-// export function to4Tuple<Q, R, S, T>([[[w, x], y], z]: [[[Q, R], S], T]): [
-//   Q,
-//   R,
-//   S,
-//   T
-// ] {
-//   return [w, x, y, z];
-// }
-
-// /**
-//  * @summary A convenice function converting between 5-tuples.
-//  * @see [[from5Tuple]]
-//  */
-// export function to5Tuple<P, Q, R, S, T>([[[[v, w], x], y], z]: [
-//   [[[P, Q], R], S],
-//   T
-// ]): [P, Q, R, S, T] {
-//   return [v, w, x, y, z];
-// }

@@ -2,7 +2,7 @@
  * A generic, discriminated union type and helpers
  */
 
-import { compose, constant, ident } from './Functions';
+import { compose, constant, identity } from './internal';
 
 /**
  * @summary Left half of the discriminated union
@@ -99,7 +99,7 @@ export function left<R, S>(x: R): Either<R, S> {
  * @see [[rightDefault]]
  */
 export function leftDefault<R, S>(d: R, xe: Either<R, S>): R {
-  return either<R, S, R>(ident, constant(d))(xe);
+  return either<R, S, R>(identity, constant(d))(xe);
 }
 
 /**
@@ -120,11 +120,11 @@ export function lefts<R, S>(xes: Array<Either<R, S>>): R[] {
 }
 
 /**
- * `lift(f, g)(left(x)) = left(f(x))`
- * `lift(f, g)(right(y)) = right(g(y))`
+ * `liftEither(f, g)(left(x)) = left(f(x))`
+ * `liftEither(f, g)(right(y)) = right(g(y))`
  * @summary Enables transformations on `Either` values
  */
-export function lift<R, S, T, U>(
+export function liftEither<R, S, T, U>(
   f: (x: R) => T,
   g: (y: S) => U
 ): (xe: Either<R, S>) => Either<T, U> {
@@ -179,7 +179,7 @@ export function right<R, S>(y: S): Either<R, S> {
  * @see [[leftDefault]]
  */
 export function rightDefault<R, S>(d: S, xe: Either<R, S>): S {
-  return either<R, S, S>(constant(d), ident)(xe);
+  return either<R, S, S>(constant(d), identity)(xe);
 }
 
 /**

@@ -1,5 +1,4 @@
-import { on } from './Functions';
-import { isNaN } from './Polyfills';
+import { isNaN, on } from './internal';
 
 /**
  * @summary Union of literal types 'LT', 'EQ', and 'GT'

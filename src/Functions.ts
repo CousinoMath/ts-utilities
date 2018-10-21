@@ -38,7 +38,7 @@ export function flip<R, S, T>(f: (x: R, y: S) => T): (y: S, x: R) => T {
  * `ident(x) = x`
  * @summary Identity function
  */
-export function ident<T>(x: T): T {
+export function identity<T>(x: T): T {
   return x;
 }
 

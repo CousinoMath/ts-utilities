@@ -5,18 +5,23 @@
  * lists are lightweight wrappers of arrays which are carefully crafted to be
  * used interchangable with arrays, and with each other.
  */
-
-import { flip } from './Functions';
-import { bind, Maybe, bottom } from './Maybe';
-import { sameValueZero } from './Objects';
-import { Ordering } from './Ordering';
-import { isInteger, log2 } from './Polyfills';
+import {
+  bindMaybe,
+  bottom,
+  flip,
+  isInteger,
+  List,
+  log2,
+  Maybe,
+  NonEmptyList,
+  Ordering,
+  sameValueZero
+} from './internal';
 
 /**
  * This is an abstract class which abstracts the basics of lists and
  * implements some of the more higher level operations.
  */
-// export abstract class AbstractList<T> implements Iterable<T> {
 export abstract class AbstractList<T> {
   /**
    * In Javascript, arrays cannot be length 2^32 or longer.
@@ -42,13 +47,11 @@ export abstract class AbstractList<T> {
   /**
    * @summary Returns true if and only if the list is empty.
    */
-
   public abstract get isEmpty(): boolean;
 
   /**
    * @summary Returns a copy of the list with the last element removed.
    */
-
   public abstract get init(): AbstractList<T>;
 
   /**
@@ -269,7 +272,9 @@ export abstract class AbstractList<T> {
    * @summary Concatenates elements of `items` interspersed with `sep`.
    * @see [[intersperse]]
    */
-  public abstract intercalate(ys: AbstractList<AbstractList<T>>): AbstractList<T>;
+  public abstract intercalate(
+    ys: AbstractList<AbstractList<T>>
+  ): AbstractList<T>;
 
   /**
    * An element of `xs.intersectBy(eq, ys)` can repeat but
@@ -428,7 +433,7 @@ export abstract class AbstractList<T> {
   // /**
   //  * @summary Converts any subclass to the base implementation.
   //  */
-  // public abstract toList(): List<T>;
+  public abstract toList(): List<T>;
 
   /**
    * @summary Returns a list of elements of the current list with duplicates removed.
@@ -617,7 +622,7 @@ export abstract class AbstractList<T> {
     const hd = this.head;
     const maxFn = (x: T, y: T) => (ord(x, y) === 'LT' ? y : x);
     const hdFn = (x: T) => this.tail.reduce(maxFn, x);
-    return bind(hdFn)(hd);
+    return bindMaybe(hdFn)(hd);
   }
 
   /**
@@ -679,7 +684,7 @@ export abstract class AbstractList<T> {
    * @see [[accumulateWith]]
    */
   public reduceWith(f: (acc: T, elt: T) => T): Maybe<T> {
-    return bind<T, Maybe<T>>(hd => this.tail.reduce(f, hd))(this.head);
+    return bindMaybe<T, Maybe<T>>(hd => this.tail.reduce(f, hd))(this.head);
   }
 
   /**
@@ -717,7 +722,7 @@ export abstract class AbstractList<T> {
   public toNonEmptyList(): Maybe<NonEmptyList<T>> {
     const fn: (hd: T) => NonEmptyList<T> = hd =>
       new NonEmptyList(hd, this.tail.toArray());
-    return bind<T, NonEmptyList<T>>(fn)(this.head);
+    return bindMaybe<T, NonEmptyList<T>>(fn)(this.head);
   }
 
   /**
@@ -745,9 +750,6 @@ export abstract class AbstractList<T> {
     return isInteger(n) && n >= -0 && n < this.length;
   }
 }
-
-// import { List } from './List';
-import { NonEmptyList } from './NonEmptyList';
 
 /**
  * [SameValueZero]: (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness#Same-value-zero_equality).
