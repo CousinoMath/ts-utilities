@@ -1,8 +1,8 @@
+import { defaultTo, List, list, NonEmptyList } from '../src/index';
 describe('List suites', () => {
-  const { List, list, NonEmptyList } = require('../dist/es5/index');
   const make = List.make;
   const neMake = NonEmptyList.make;
-  const empty = make();
+  const empty: List<any> = make();
   describe('static methods', () => {
     it('and|or', () => {
       expect(List.and(empty)).toBe(true);
@@ -25,9 +25,9 @@ describe('List suites', () => {
       expect(List.make(1, 2, 3, 4, 5)).toEqual(new List([1, 2, 3, 4, 5]));
     });
     it('range', () => {
-      expect(List.range(10)).toEqual(make(0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
-      expect(List.range(0)).toEqual(empty);
-      expect(List.range(-1)).toEqual(empty);
+      // expect(List.range(10)).toEqual(make(0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
+      // expect(List.range(0)).toEqual(empty);
+      // expect(List.range(-1)).toEqual(empty);
       expect(List.range(1, 1)).toEqual(make(1));
       expect(List.range(1, 10)).toEqual(make(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
       expect(List.range(1, 10, 2)).toEqual(make(1, 3, 5, 7, 9));
@@ -53,9 +53,8 @@ describe('List suites', () => {
     it('(un)?zip', () => {
       const strs = make('cat', 'is', 'suffering', 'from', 'what', 'we', 'vets');
       const nums = make(0, -1, 2, -3, 4, -5, 6, -7);
-      const xs = List.unzip(List.unzip(strs.zip(nums.take(5)))[0].zip(nums));
       expect(strs.zip(nums.take(5))).toEqual(
-        make(
+        make<[string, number]>(
           ['cat', 0],
           ['is', -1],
           ['suffering', 2],
@@ -101,7 +100,7 @@ describe('List suites', () => {
   describe('methods', () => {
     it('accumulate(Right)?(With)?', () => {
       const nums = make(1, 3, 5, 7, 9);
-      const plus = (x, y) => x + y;
+      const plus = (x: number, y: number) => x + y;
       expect(nums.accumulate(plus, 0)).toEqual(make(0, 1, 4, 9, 16, 25));
       expect(empty.accumulate(plus, 0)).toEqual(make(0));
       expect(nums.accumulateRight(plus, 0)).toEqual(make(0, 9, 16, 21, 24, 25));
@@ -213,18 +212,18 @@ describe('List suites', () => {
       const xs = make(1, 2, 4, 8, 16, 32, 64, 32, 16, 8, 4, 2, 1);
       expect(xs.takeWhile(() => false)).toEqual(empty);
       expect(xs.takeWhile(() => true)).toEqual(xs);
-      expect(xs.takeWhile(n => n < 10)).toEqual(make(1, 2, 4, 8));
+      expect(xs.takeWhile((n: number) => n < 10)).toEqual(make(1, 2, 4, 8));
       expect(xs.takeTailWhile(() => false)).toEqual(empty);
       expect(xs.takeTailWhile(() => true)).toEqual(xs);
-      expect(xs.takeTailWhile(n => n < 10)).toEqual(make(8, 4, 2, 1));
+      expect(xs.takeTailWhile((n: number) => n < 10)).toEqual(make(8, 4, 2, 1));
       expect(xs.dropWhile(() => false)).toEqual(xs);
       expect(xs.dropWhile(() => true)).toEqual(empty);
-      expect(xs.dropWhile(n => n < 10)).toEqual(
+      expect(xs.dropWhile((n: number) => n < 10)).toEqual(
         make(16, 32, 64, 32, 16, 8, 4, 2, 1)
       );
       expect(xs.dropTailWhile(() => false)).toEqual(xs);
       expect(xs.dropTailWhile(() => true)).toEqual(empty);
-      expect(xs.dropTailWhile(n => n < 10)).toEqual(
+      expect(xs.dropTailWhile((n: number) => n < 10)).toEqual(
         make(1, 2, 4, 8, 16, 32, 64, 32, 16)
       );
       expect(xs.takeDropWhile(n => n < 10)).toEqual([
@@ -241,11 +240,13 @@ describe('List suites', () => {
       expect(empty.filter(() => true)).toEqual(empty);
       expect(xs.filter(() => false)).toEqual(empty);
       expect(xs.filter(() => true)).toEqual(xs);
-      expect(xs.filter(x => x < 5)).toEqual(make(1, 1, 2, 3, 3, 2, 1, 1, 2, 3));
+      expect(xs.filter((x: number) => x < 5)).toEqual(
+        make(1, 1, 2, 3, 3, 2, 1, 1, 2, 3)
+      );
       expect(empty.partition(() => true)).toEqual([empty, empty]);
       expect(xs.partition(() => false)).toEqual([empty, xs]);
       expect(xs.partition(() => true)).toEqual([xs, empty]);
-      expect(xs.partition(x => x < 5)).toEqual([
+      expect(xs.partition((x: number) => x < 5)).toEqual([
         make(1, 1, 2, 3, 3, 2, 1, 1, 2, 3),
         make(5, 8, 13, 8, 5, 5)
       ]);
@@ -254,20 +255,21 @@ describe('List suites', () => {
       const xs = make(1, 1, 2, 3, 5, 8, 13, 21, 34);
       expect(xs.find(() => false)).toBeNull();
       expect(xs.find(() => true)).toBe(1);
-      expect(xs.find(x => x % 2 === 0)).toBe(2);
+      expect(xs.find((x: number) => x % 2 === 0)).toBe(2);
       expect(xs.findIndex(() => false)).toBeNull();
       expect(xs.findIndex(() => true)).toBe(0);
-      expect(xs.findIndex(x => x % 2 === 0)).toBe(2);
+      expect(xs.findIndex((x: number) => x % 2 === 0)).toBe(2);
       expect(xs.findIndices(() => false)).toEqual(empty);
       expect(xs.findIndices(() => true)).toEqual(List.range(0, xs.length - 1));
-      expect(xs.findIndices(x => x % 2 === 0)).toEqual(make(2, 5, 8));
+      expect(xs.findIndices((x: number) => x % 2 === 0)).toEqual(make(2, 5, 8));
     });
     it('flatMap', () => {
-      const factors = n => List.range(1, n).filter(d => n % d === 0);
+      const factors = (n: number) =>
+        List.range(1, n).filter((d: number) => n % d === 0);
       const xs = make(1, 2, 3, 4, 5);
       expect(xs.flatMap(factors)).toEqual(make(1, 1, 2, 1, 3, 1, 2, 4, 1, 5));
       expect(xs.flatMap(() => empty)).toEqual(empty);
-      expect(xs.flatMap(x => make(x))).toEqual(xs);
+      expect(xs.flatMap((x: number) => make(x))).toEqual(xs);
     });
     it('group(By)?', () => {
       const xs = make(1, 1, 2, 3, 5, 8, 2, 1, 3, 4, 7, 11);
@@ -284,8 +286,10 @@ describe('List suites', () => {
           neMake(11)
         )
       );
-      expect(xs.groupBy(() => false)).toEqual(xs.map(x => neMake(x)));
-      expect(xs.groupBy(() => true)).toEqual(make(neMake(...xs.toArray())));
+      expect(xs.groupBy(() => false)).toEqual(xs.map((x: number) => neMake(x)));
+      expect(xs.groupBy(() => true)).toEqual(
+        make(defaultTo(neMake(-1), xs.toNonEmptyList()))
+      );
       const neXs = neMake(1, 1, 2, 3, 5, 8, 2, 1, 3, 4, 7, 11);
       expect(neXs.group()).toEqual(
         neMake(
@@ -299,10 +303,10 @@ describe('List suites', () => {
           neMake(11)
         )
       );
-      expect(neXs.groupBy(() => false)).toEqual(neXs.map(x => neMake(x)));
-      expect(neXs.groupBy(() => true)).toEqual(
-        neMake(neMake(...neXs.toArray()))
+      expect(neXs.groupBy(() => false)).toEqual(
+        neXs.map((x: number) => neMake(x))
       );
+      expect(neXs.groupBy(() => true)).toEqual(neMake(neXs.toNonEmptyList()));
     });
     it('inits|tails', () => {
       const xs = make(1, 2, 3);
@@ -366,20 +370,25 @@ describe('List suites', () => {
     it('mapAccum(Right)?', () => {
       const xs = List.range(1, 5);
       expect(empty.mapAccum(() => [1, 1], 0)).toEqual([0, empty]);
-      expect(xs.mapAccum((accum, val) => [accum + 1, String(val)], 0)).toEqual([
-        5,
-        make('1', '2', '3', '4', '5')
-      ]);
+      expect(
+        xs.mapAccum((accum: number, val) => [accum + 1, String(val)], 0)
+      ).toEqual([5, make('1', '2', '3', '4', '5')]);
       expect(empty.mapAccumRight(() => [1, 1], 0)).toEqual([0, empty]);
       expect(
-        xs.mapAccumRight((accum, val) => [accum + 1, String(val)], 0)
+        xs.mapAccumRight((accum: number, val) => [accum + 1, String(val)], 0)
       ).toEqual([5, make('5', '4', '3', '2', '1')]);
       const neXs = neMake(1, 2, 3, 4, 5);
       expect(
-        neXs.mapAccum((accum, val) => [2 * accum, accum + val], 1)
+        neXs.mapAccum(
+          (accum: number, val: number) => [2 * accum, accum + val],
+          1
+        )
       ).toEqual([32, neMake(2, 4, 7, 12, 21)]);
       expect(
-        neXs.mapAccumRight((accum, val) => [2 * accum, accum + val], 1)
+        neXs.mapAccumRight(
+          (accum: number, val: number) => [2 * accum, accum + val],
+          1
+        )
       ).toEqual([32, neMake(6, 6, 7, 10, 17)]);
     });
     it('permutations|sub(sequences|strings)', () => {
@@ -413,11 +422,14 @@ describe('List suites', () => {
       ];
       expect(empty.permutations()).toEqual(neMake(empty));
       expect(xs.permutations()).toEqual(
-        neMake(...perms.map(perm => make(...perm)))
+        neMake(make(...perms[0]), ...perms.slice(1).map(perm => make(...perm)))
       );
-      expect(() => List.range(13).permutations()).toThrowError();
+      expect(() => List.range(0, 12).permutations()).toThrowError();
       expect(neMake(1, 2, 3, 4).permutations()).toEqual(
-        neMake(...perms.map(perm => neMake(...perm)))
+        neMake(
+          neMake(perms[0][0], ...perms[0].slice(1)),
+          ...perms.slice(1).map(perm => neMake(perm[0], ...perm.slice(1)))
+        )
       );
       expect(empty.subsequences()).toEqual(neMake(empty));
       expect(xs.subsequences()).toEqual(
@@ -440,7 +452,7 @@ describe('List suites', () => {
           make(1, 2, 3, 4)
         )
       );
-      expect(() => List.range(32).subsequences()).toThrowError();
+      expect(() => List.range(0, 31).subsequences()).toThrowError();
       expect(empty.substrings()).toEqual(neMake(empty));
       expect(xs.substrings()).toEqual(
         neMake(
@@ -457,16 +469,16 @@ describe('List suites', () => {
           make(1, 2, 3, 4)
         )
       );
-      expect(() => List.range(92682).substrings()).toThrowError();
+      expect(() => List.range(1, 92682).substrings()).toThrowError();
     });
     it('remove(By)?', () => {
       const xs = make(1, 2, 3, 5, 8, 5, 3, 2, 1);
       expect(empty.remove(0)).toEqual(empty);
       expect(xs.remove(1)).toEqual(xs.drop(1));
       expect(xs.remove(5)).toEqual(xs.delete(3));
-      expect(xs.removeBy(() => false)).toEqual(xs);
-      expect(xs.removeBy(() => true)).toEqual(xs.drop(1));
-      expect(xs.removeBy(x => x % 4 === 0)).toEqual(xs.delete(4));
+      expect(xs.removeBy(() => false, 11)).toEqual(xs);
+      expect(xs.removeBy(() => true, 11)).toEqual(xs.drop(1));
+      expect(xs.removeBy((x, y) => x % 4 === y % 4, 8)).toEqual(xs.delete(4));
     });
     it('reverse', () => {
       expect(empty.reverse()).toEqual(empty);
@@ -477,9 +489,10 @@ describe('List suites', () => {
     });
     it('sortOn|uniques(By)?', () => {
       const xs = make(-5, 4, -3, 2, -1, 1, -2, 3, -4, 5);
-      const numOrd = (x, y) => (x < y ? 'LT' : x > y ? 'GT' : 'EQ');
-      const cmp1 = (x, y) => numOrd(x * x, y * y);
-      const cmp2 = (x, y) => cmp1(y, x);
+      const numOrd = (x: number, y: number) =>
+        x < y ? 'LT' : x > y ? 'GT' : 'EQ';
+      const cmp1 = (x: number, y: number) => numOrd(x * x, y * y);
+      const cmp2 = (x: number, y: number) => cmp1(y, x);
       expect(empty.sortOn(() => 'EQ')).toEqual(empty);
       expect(xs.sortOn(numOrd)).toEqual(List.range(-5, 5).remove(0));
       expect(xs.sortOn(cmp1)).toEqual(make(-1, 1, 2, -2, -3, 3, 4, -4, -5, 5));
@@ -526,7 +539,7 @@ describe('List suites', () => {
       expect(empty.toList()).toEqual(empty);
       expect(make(...xs).toArray()).toEqual(xs);
       expect(make(...xs).toList()).toEqual(make(...xs));
-      expect(neMake(...xs).toList()).toEqual(make(...xs));
+      expect(neMake(xs[0], ...xs.slice(1)).toList()).toEqual(make(...xs));
     });
     it('zipWith', () => {
       const nums1 = make(1, 1, 2, 3, 5, 8, 13, 21, 34, 55);
@@ -541,12 +554,14 @@ describe('List suites', () => {
   });
   it('list', () => {
     // inductive rule
-    expect(list(0, (accum, val) => accum + val)(empty)).toBe(0);
-    expect(list(0, (accum, val) => accum + val)(make(1, 2, 3, 4, 5))).toBe(15);
+    expect(list<number, number>(0, (accum, val) => accum + val)(empty)).toBe(0);
+    expect(
+      list<number, number>(0, (accum, val) => accum + val)(make(1, 2, 3, 4, 5))
+    ).toBe(15);
     const len = list(0, accum => accum + 1);
     expect(len(empty)).toBe(0);
     expect(len(make(1, 2, 3))).toBe(3);
-    const evens = list(
+    const evens = list<number, number[]>(
       [],
       (accum, value) => (value % 2 === 0 ? accum.concat(value) : accum)
     );
@@ -569,23 +584,24 @@ describe('List suites', () => {
     it('(has|includes)(By)?', () => {
       const xs = make(1, 2, 3, 4, 5);
       expect(empty.has(0)).toBe(false);
-      expect(empty.hasBy(() => true)).toBe(false);
+      expect(empty.hasBy(() => true, 11)).toBe(false);
       expect(empty.includes(0)).toBe(false);
-      expect(empty.includesBy(() => true)).toBe(false);
+      expect(empty.includesBy(() => true, 11)).toBe(false);
       expect(xs.has(5)).toBe(true);
       expect(xs.has(0)).toBe(false);
-      expect(xs.hasBy(() => false)).toBe(false);
-      expect(xs.hasBy(() => true)).toBe(true);
+      expect(xs.hasBy(() => false, 11)).toBe(false);
+      expect(xs.hasBy(() => true, 11)).toBe(true);
       expect(xs.includes(5)).toBe(true);
       expect(xs.includes(0)).toBe(false);
-      expect(xs.includesBy(() => false)).toBe(false);
-      expect(xs.includesBy(() => true)).toBe(true);
+      expect(xs.includesBy(() => false, 11)).toBe(false);
+      expect(xs.includesBy(() => true, 11)).toBe(true);
     });
     it('max|min', () => {
       // List and NonEmptyList
       const xs = make(1, -1, 5, -5, 2, -2, 4, -4, 3, -3);
       const neXs = neMake(1, -1, 5, -5, 2, -2, 4, -4, 3, -3);
-      const numOrd = (x, y) => (x < y ? 'LT' : x > y ? 'GT' : 'EQ');
+      const numOrd = (x: number, y: number) =>
+        x < y ? 'LT' : x > y ? 'GT' : 'EQ';
       expect(empty.max(numOrd)).toBeNull();
       expect(empty.min(numOrd)).toBeNull();
       expect(xs.max(numOrd)).toBe(5);
@@ -604,17 +620,21 @@ describe('List suites', () => {
       expect(xs.reduce((accum, val) => 2 * accum + val, 0)).toBe(57);
       expect(xs.reduceRight((accum, val) => 2 * accum + val, 0)).toBe(129);
       expect(xs.reduceRightWith((accum, val) => 2 * accum + val)).toBe(129);
-      expect(xs.reduceWith((accum, val) => 2 * accum + val, 0)).toBe(57);
+      expect(xs.reduceWith((accum, val) => 2 * accum + val)).toBe(57);
       expect(neXs.reduce((accum, val) => 2 * accum + val, 0)).toBe(57);
       expect(neXs.reduceRight((accum, val) => 2 * accum + val, 0)).toBe(129);
       expect(neXs.reduceRightWith((accum, val) => 2 * accum + val)).toBe(129);
-      expect(neXs.reduceWith((accum, val) => 2 * accum + val, 0)).toBe(57);
+      expect(neXs.reduceWith((accum, val) => 2 * accum + val)).toBe(57);
     });
     it('toNonEmptyList', () => {
       const xs = [1, 2, 3];
       expect(empty.toNonEmptyList()).toBeNull();
-      expect(make(...xs).toNonEmptyList()).toEqual(neMake(...xs));
-      expect(neMake(...xs).toNonEmptyList()).toEqual(neMake(...xs));
+      expect(make(...xs).toNonEmptyList()).toEqual(
+        neMake(xs[0], ...xs.slice(1))
+      );
+      expect(neMake(xs[0], ...xs.slice(1)).toNonEmptyList()).toEqual(
+        neMake(xs[0], ...xs.slice(1))
+      );
     });
   });
 });

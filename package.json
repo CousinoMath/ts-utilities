@@ -7,10 +7,13 @@
   "main": "./dist/es5/index.js",
   "typings": "./dist/es5/types/",
   "devDependencies": {
+    "@types/jasmine": "^2.8.9",
     "jasmine": "^3.2.0",
+    "jasmine-ts": "^0.3.0",
     "nyc": "^13.1.0",
     "prettier": "^1.14.3",
     "source-map-support": "^0.5.9",
+    "ts-node": "^7.0.1",
     "tslib": "^1.9.3",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
@@ -30,16 +33,21 @@
   "author": "Andrew Cousino",
   "description": "",
   "nyc": {
+    "all": true,
     "extension": [
-      ".ts"
+      ".ts",
+      ".tsx"
     ],
     "exclude": [
       "**/*.d.ts",
-      "coverage",
-      "doc",
-      "spec/",
       "src/archive"
     ],
-    "all": true
+    "include": [
+      "src/**/*.ts",
+      "src/**/*.tsx"
+    ],
+    "instrument": true,
+    "require": ["ts-node/register"],
+    "sourceMap": true
   }
 }
