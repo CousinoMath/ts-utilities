@@ -6,6 +6,7 @@
  * used interchangable with arrays, and with each other.
  */
 
+import { range } from './Arrays';
 import {
   AbstractList,
   bindMaybe,
@@ -755,14 +756,14 @@ export class List<T> extends AbstractList<T> {
     f: (accum: R, val: T) => [R, S],
     init: R
   ): [R, List<S>] {
-    let val = init;
+    let accum = init;
     const arr: S[] = [];
     for (const x of this.arr) {
-      const result = f(val, x);
-      val = result[0];
+      const result = f(accum, x);
+      accum = result[0];
       arr.push(result[1]);
     }
-    return [val, new List(arr)];
+    return [accum, new List(arr)];
   }
 
   /**
@@ -779,7 +780,14 @@ export class List<T> extends AbstractList<T> {
     f: (accum: R, val: T) => [R, S],
     init: R
   ): [R, List<S>] {
-    return this.reverse().mapAccum(f, init);
+    let accum = init;
+    const arr: S[] = [];
+    for (let i = this.length - 1; i >= 0; i--) {
+      const result = f(accum, this.arr[i]);
+      accum = result[0];
+      arr.push(result[1]);
+    }
+    return [accum, new List(arr)];
   }
 
   /**
@@ -817,23 +825,43 @@ export class List<T> extends AbstractList<T> {
    * @summary Returns a collection of all permutations of the current list.
    * @see [[AbstractList.permutations]]
    */
-  public permutations(): List<List<T>> {
-    let perms: Array<List<T>> = [new List([])];
-    const stack = this.arr.slice(0);
-
-    while (stack.length > 0) {
-      const elt = stack[stack.length - 1];
-      stack.pop();
-      const results: Array<List<T>> = [];
-      for (const xs of perms) {
-        const len = xs.length;
-        for (let i = 0; i < len; i++) {
-          results.push(new List(xs.insert(i, elt).toArray()));
-        }
-      }
-      perms = results;
+  public permutations(): NonEmptyList<List<T>> {
+    // Quick and dirty factorial
+    const numPerms = range(1, this.length).reduce<number>(
+      (accum, val, idx) => accum * (idx + 1),
+      1
+    );
+    if (!AbstractList.isSafeLength(numPerms)) {
+      // Amounts to this.length < 13
+      throw new RangeError(
+        'Invalid list length in call to List.prototype.permutations.'
+      );
     }
-    return new List(perms);
+    const queue: Array<[T[], T[]]> = [[[], this.arr.slice(0)]];
+    const perms: Array<List<T>> = [];
+
+    while (queue.length > 0) {
+      /* Invariant: each element of `queue`, is [perm, rest] where perm is a 
+       *   permutation of some of the elements, and rest, a collection of the
+       *   remaining elements.
+       */
+
+      const [perm, rest] = queue[0];
+      queue.shift();
+      const restLen = rest.length;
+      if (restLen > 0) {
+        for (let i = 0; i < restLen; i++) {
+          // Extract the `i`th element of `rest` and append it to `perm`
+          const newPerm = [...perm, rest[i]];
+          const newRest = [...rest.slice(0, i), ...rest.slice(i + 1)];
+          queue.push([newPerm, newRest]);
+        }
+      } else {
+        // No remaining elements to permute, `rest` is a valid permutation
+        perms.push(new List(perm));
+      }
+    }
+    return new NonEmptyList(perms[0], perms.slice(1));
   }
 
   /**
@@ -976,26 +1004,54 @@ export class List<T> extends AbstractList<T> {
    * @throws RangeError if the number of subsequences exceeds the limit on array lengths.
    * @see [[AbstractList.subsequences]]
    */
-  public subsequences(): List<List<T>> {
-    let subseqs: Array<List<T>> = [new List([])];
+  public subsequences(): NonEmptyList<List<T>> {
     const len = this.length;
     if (!AbstractList.isSafeLength(Math.pow(2, len))) {
       throw new RangeError(
         'Invalid list length encountered in call to List.prototype.subsequences'
       );
     }
-    for (let i = 0; i < len; i--) {
-      const elt = this.arr[i];
-      const results: Array<List<T>> = new Array(2 * subseqs.length);
-      while (subseqs.length > 0) {
-        const subseq = subseqs[0];
-        subseqs.shift();
-        results.push(subseq);
-        results.push(subseq.append(elt).toList());
+    const queue: Array<[T[], T[]]> = [[[], this.arr.slice(0)]];
+    const subseqs: Array<List<T>> = [];
+    while (queue.length > 0) {
+      /* Invariant: elements of `queue` consist of [subseq, rest] where subseq
+       *   is a valid subsequence of some prefix and `rest` is the corresponding
+       *   suffix.
+       */
+      const [subseq, rest] = queue[0];
+      const restLen = rest.length;
+      queue.shift();
+      // Dropping the suffix results in a valid subsequence
+      subseqs.push(new List(subseq));
+      for (let i = 0; i < restLen; i++) {
+        /* Drop longer and longer prefixes from `rest`, appending the last
+         * element of each drop to `subseq`.
+         */
+        queue.push([[...subseq, rest[i]], rest.slice(i + 1)]);
       }
-      subseqs = results;
     }
-    return new List(subseqs);
+    return new NonEmptyList(subseqs[0], subseqs.slice(1));
+  }
+
+  /**
+   * @summary Generates a list of contiguous subsequences, or substrings.
+   * @see [[AbstractList.substrings]]
+   */
+  public substrings(): NonEmptyList<List<T>> {
+    const len = this.length;
+    const numSubstrs = (len * (len + 1)) / 2;
+    if (!AbstractList.isSafeLength(numSubstrs)) {
+      throw new RangeError(
+        'Invalid list length encountered in call to List.prototype.subsequences'
+      );
+    }
+    const substrs: Array<List<T>> = [new List([])];
+    for (let substrLen = 1; substrLen <= len; substrLen++) {
+      for (let i = 0; i + substrLen <= len; i++) {
+        substrs.push(new List(this.arr.slice(i, i + substrLen)));
+      }
+    }
+    return new NonEmptyList(substrs[0], substrs.slice(1));
   }
 
   /**

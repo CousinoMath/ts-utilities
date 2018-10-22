@@ -213,8 +213,8 @@ export class NonEmptyList<T> extends List<T> {
    * @summary Returns a collection of all permutations of the current list.
    * @see [[List.permutations]]
    */
-  public permutations(): NonEmptyList<List<T>> {
-    return NonEmptyList._make(super.permutations().toArray());
+  public permutations(): NonEmptyList<NonEmptyList<T>> {
+    return super.permutations().map(perm => NonEmptyList._make(perm.toArray()));
   }
 
   /**
@@ -270,20 +270,11 @@ export class NonEmptyList<T> extends List<T> {
   }
 
   /**
-   * @summary Returns a list of all subsequences of the current list.
-   * @throws RangeError if the number of subsequences exceeds the limit on array lengths.
-   * @see [[List.subsequences]]
-   */
-  public subsequences(): NonEmptyList<List<T>> {
-    return NonEmptyList._make(super.subsequences().toArray());
-  }
-
-  /**
    * @summary Converts any subclass to the base implementation.
    * @see [[List.toList]]
    */
   public toList(): List<T> {
-    return new List(this.arr);
+    return new List(this.arr.slice(0));
   }
 
   /**

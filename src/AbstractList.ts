@@ -334,7 +334,7 @@ export abstract class AbstractList<T> {
   /**
    * @summary Returns a collection of all permutations of the current list.
    */
-  public abstract permutations(): AbstractList<AbstractList<T>>;
+  public abstract permutations(): NonEmptyList<AbstractList<T>>;
 
   /**
    * @summary Returns a copy of the current list with the given element prepended.
@@ -378,7 +378,12 @@ export abstract class AbstractList<T> {
   /**
    * @summary Returns a list of all subsequences of the current list.
    */
-  public abstract subsequences(): AbstractList<AbstractList<T>>;
+  public abstract subsequences(): NonEmptyList<AbstractList<T>>;
+
+  /**
+   * @summary Generates a list of contiguous subsequences, or substrings.
+   */
+  public abstract substrings(): NonEmptyList<AbstractList<T>>;
 
   /**
    * @summary Returns a list of all suffixes of the current list.

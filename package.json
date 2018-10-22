@@ -10,27 +10,36 @@
     "jasmine": "^3.2.0",
     "nyc": "^13.1.0",
     "prettier": "^1.14.3",
+    "source-map-support": "^0.5.9",
     "tslib": "^1.9.3",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
-    "typedoc": "^0.12.0",
+    "typedoc": "^0.13.0",
     "typescript": "^3.1.1"
   },
   "scripts": {
     "build:es2015": "tsc -p ts-es2015.json",
     "build": "tsc -p tsconfig.json",
     "coverage": "nyc jasmine",
-    "lint": "tslint -p tsconfig.json",
     "docs": "typedoc --options ./typedoc.json src/index.ts",
     "docs:json": "typedoc --json docs.json --options ./typedoc.json src/index.ts",
-    "test": "jasmine"
+    "lint": "tslint -p tsconfig.json",
+    "test": "jasmine",
+    "watch": "tsc -w -p tsconfig.json"
   },
   "author": "Andrew Cousino",
   "description": "",
   "nyc": {
+    "extension": [
+      ".ts"
+    ],
     "exclude": [
       "**/*.d.ts",
-      "spec/"
-    ]
+      "coverage",
+      "doc",
+      "spec/",
+      "src/archive"
+    ],
+    "all": true
   }
 }
