@@ -89,7 +89,9 @@ export abstract class AbstractList<T> {
   // public abstract [Symbol.toPrimitive](hint: string): T[];
 
   /**
-   * `[x_1, x_2, ..., x_n].accumulate(f, init) = [y_1, y_2, ..., y_n]`
+   * ```typescript
+   * [x_1, x_2, …, x_n].accumulate(f, init) = [y_1, y_2, …, y_n]
+   * ```
    * where `y_1 := init` and `y_{k + 1} := f(y_k, x_k)`
    * @summary Returns a collection of running "total" from a reduction.
    * @see [[reduce]]
@@ -102,7 +104,9 @@ export abstract class AbstractList<T> {
   ): AbstractList<U>;
 
   /**
-   * `[x_1, x_2, ..., x_n].accumulateRight(f, init) = [y_1, y_2, ..., y_n]`
+   * ```typescript
+   * [x_1, x_2, …, x_n].accumulateRight(f, init) = [y_1, y_2, …, y_n]
+   * ```
    * where `y_n := init` and `y_{k - 1} := f(y_k, x_k)`
    * @summary Returns a collection of running "total" from a right reduction.
    * @see [[reduceRight]]
@@ -115,7 +119,9 @@ export abstract class AbstractList<T> {
   ): AbstractList<U>;
 
   /**
-   * `[x_1, x_2, ..., x_n].accumulate(f, init) = [y_1, y_2, ..., y_{n}]`
+   * ```typescript
+   * [x_1, x_2, …, x_n].accumulate(f, init) = [y_1, y_2, …, y_{n}]
+   * ```
    * where `y_1 := x_n` and `y_{k - 1} := f(y_k, x_{k - 1})`
    * @summary Returns a collection of running "total" from a right reduction.
    * @see [[reduceRightWith]]
@@ -126,7 +132,9 @@ export abstract class AbstractList<T> {
   ): AbstractList<T>;
 
   /**
-   * `[x_1, x_2, ..., x_n].accumulate(f, init) = [y_1, y_2, ..., y_{n}]`
+   * ```typescript
+   * [x_1, x_2, …, x_n].accumulate(f, init) = [y_1, y_2, …, y_{n}]
+   * ```
    * where `y_1 := x_1` and `y_{k + 1} := f(y_k, x_{k + 1})`
    * @summary Returns a collection of running "total" from a reduction.
    * @see [[reduceWith]]
@@ -163,10 +171,12 @@ export abstract class AbstractList<T> {
   ): AbstractList<T>;
 
   /**
-   * `[1, 2, 3, 4, 5].drop(1) = [2, 3, 4, 5]`
-   * `[1, 2, 3, 4, 5].drop(-1) = [1, 2, 3, 4]`
-   * `[1, 2, 3, 4, 5].drop(5) = []`
-   * `[1, 2, 3, 4, 5].drop(-5) = []`
+   * ```typescript
+   * [1, 2, 3, 4, 5].drop(1) = [2, 3, 4, 5]
+   * [1, 2, 3, 4, 5].drop(-1) = [1, 2, 3, 4]
+   * [1, 2, 3, 4, 5].drop(5) = []
+   * [1, 2, 3, 4, 5].drop(-5) = []
+   * ```
    * @summary Returns a copy of the list with the first `n` elements dropped.
    * @param n number of elements to be dropped
    */
@@ -188,7 +198,7 @@ export abstract class AbstractList<T> {
   public abstract filter(pred: (x: T) => boolean): AbstractList<T>;
 
   /**
-   * `[x_1, x_2, ..., x_n].findIndex(pred) = i` means that
+   * `[x_1, x_2, …, x_n].findIndex(pred) = i` means that
    * `pred(x_i)` is true and `pred(x_k)` is false for every
    * `k < i`.
    *
@@ -209,7 +219,7 @@ export abstract class AbstractList<T> {
   public abstract flatMap<U>(f: (x: T) => AbstractList<U>): AbstractList<U>;
 
   /**
-   * `xs.groupBy(eq) = [ys_1, ys_2, ..., ys_n]` where each
+   * `xs.groupBy(eq) = [ys_1, ys_2, …, ys_n]` where each
    * ys_k is the largest sublist of `xs` whose elements are
    * "equal" by `eq`. This means, for example, that if `y_1`
    * is in `ys_1` and `y_2` is in `ys_2`, then `eq(y_1, y_2)`
@@ -289,9 +299,11 @@ export abstract class AbstractList<T> {
   ): AbstractList<T>;
 
   /**
-   * `[x_1, x_2, ..., x_n].intersperse(elt) = [x_1, elt, x_2, elt, ..., elt, x_n]`
-   * `[x_1].intersperse(elt) = [x_1]`
-   * `[].intersperse(elt) = []`
+   * ```typescript
+   * [x_1, x_2, …, x_n].intersperse(elt) = [x_1, elt, x_2, elt, …, elt, x_n]
+   * [x_1].intersperse(elt) = [x_1]
+   * [].intersperse(elt) = []
+   * ```
    * @summary Returns a copy of the current list with `x` interspersed between the element.
    */
   public abstract intersperse(x: T): AbstractList<T>;
@@ -302,7 +314,9 @@ export abstract class AbstractList<T> {
   public abstract map<U>(f: (x: T) => U): AbstractList<U>;
 
   /**
-   * `[x_1, x_2, ..., x_n].mapAccum(f, init) = [accum_n, [y_1, y_2, ..., y_n]]`
+   * ```typescript
+   * [x_1, x_2, …, x_n].mapAccum(f, init) = [accum_n, [y_1, y_2, …, y_n]]
+   * ```
    * where `[accum_1, y_1] = f(init, x_1)` and
    * `[accum_{n + 1}, y_{n + 1}] = f(accum_n, x_n)`
    * @summary This function acts like a joint @see [[map]] and @see [[reduce]].
@@ -370,7 +384,9 @@ export abstract class AbstractList<T> {
   public abstract sortOn(ord: Ordering<T>): AbstractList<T>;
 
   /**
-   * `[x_0, x_1, ..., x_n].splitAt(k) = [[x_0, ..., x_{k-1}], [x_k, ..., x_n]]`
+   * ```typescript
+   * [x_0, x_1, …, x_n].splitAt(k) = [[x_0, …, x_{k-1}], [x_k, …, x_n]]
+   * ```
    * @summary Splits the current list into two at the given index.
    */
   public abstract splitAt(n: number): [AbstractList<T>, AbstractList<T>];
@@ -391,17 +407,21 @@ export abstract class AbstractList<T> {
   public abstract tails(): NonEmptyList<AbstractList<T>>;
 
   /**
-   * `[1, 2, 3, 4, 5].take(4) = [1, 2, 3, 4]`
-   * `[1, 2, 3, 4, 5].take(-4) = [2, 3, 4, 5]`
-   * `[1, 2, 3, 4, 5].take(5) = [1, 2, 3, 4, 5]`
-   * `[1, 2, 3, 4, 5].take(-5) = [1, 2, 3, 4, 5]`
+   * ```typescript
+   * [1, 2, 3, 4, 5].take(4) = [1, 2, 3, 4]
+   * [1, 2, 3, 4, 5].take(-4) = [2, 3, 4, 5]
+   * [1, 2, 3, 4, 5].take(5) = [1, 2, 3, 4, 5]
+   * [1, 2, 3, 4, 5].take(-5) = [1, 2, 3, 4, 5]
+   * ```
    * @summary Returns a prefix of given length.
    * @param n number of elements to take
    */
   public abstract take(n: number): AbstractList<T>;
 
   /**
-   * `[x_1, x_2, ..., x_n].takeDropWhile(pred) = [[x_1, ..., x_k], [x_{k+1}, x_{n}]]`
+   * ```typescript
+   * [x_1, x_2, …, x_n].takeDropWhile(pred) = [[x_1, …, x_k], [x_{k+1}, x_{n}]]
+   * ```
    * where `pred` is true on all the elements of the first
    * list and false on `x_{k+1}`.
    * @summary Splits the current array into two: largest prefix on which `pred` is true, and the rest.
@@ -411,9 +431,11 @@ export abstract class AbstractList<T> {
   ): [AbstractList<T>, AbstractList<T>];
 
   /**
-   * `[x_1, x_2, ..., x_n].takeDropWhile(pred) = [[x_1, ..., x_k], [x_{k+1}, x_{n}]]`
-   * where `pred` is true on all the elements of the last
-   * list and false on `x_{k}`.
+   * ```typescript
+   * [x_1, x_2, …, x_n].takeDropWhile(pred) = [[x_1, …, x_k], [x_{k+1}, x_{n}]]
+   * ```
+   * where `pred` is true on all the elements of the last list and false on 
+   * `x_{k}`.
    * @summary Splits the current array into two: largest suffix on which `pred` is true, and the rest.
    */
   public abstract takeDropTailWhile(
@@ -435,9 +457,9 @@ export abstract class AbstractList<T> {
    */
   public abstract toArray(): T[];
 
-  // /**
-  //  * @summary Converts any subclass to the base implementation.
-  //  */
+  /**
+   * @summary Converts any subclass to the base implementation.
+   */
   public abstract toList(): List<T>;
 
   /**
@@ -458,7 +480,7 @@ export abstract class AbstractList<T> {
   ): AbstractList<T>;
 
   /**
-   * @summary Returns true if and only if all elements are [truthy].
+   * @summary Returns true if and only if all elements are [truthy][truthy].
    */
   public allTruthy(): boolean {
     return this.every(Boolean);
@@ -471,7 +493,7 @@ export abstract class AbstractList<T> {
    * Otherwise, when `x` is "not equal" to any element of `ys`, the
    * call returns `[x, ...xs.difference(ys)]`.
    *
-   * Here equality is [[SameValueZero]].
+   * Here equality is [SameValueZero][SameValueZero].
    * @summary Returns the "set" difference between two lists.
    * @param ys list of elements to remove from current list
    */
@@ -506,7 +528,7 @@ export abstract class AbstractList<T> {
   }
 
   /**
-   * Here equality is [[SameValueZero]]
+   * Here equality is [SameValueZero][SameValueZero]
    * @summary Returns a list formed partitions the current list according to `eq`.
    * @see [[groupBy]]
    */
@@ -515,7 +537,7 @@ export abstract class AbstractList<T> {
   }
 
   /**
-   * Here equality is [[SameValueZero]]
+   * Here equality is [SameValueZero][SameValueZero]
    * @summary Returns true if and only if the given value equals that of some element.
    * @see [[hasBy]] @see [[includes]] @see [[includesBy]]
    */
@@ -537,7 +559,7 @@ export abstract class AbstractList<T> {
   }
 
   /**
-   * Here equality is [[SameValueZero]]
+   * Here equality is [SameValueZero][SameValueZero]
    * @summary Returns true if and only if the given value equals that of some element.
    * @see [[hasBy]] @see [[has]] @see [[includesBy]]
    */
@@ -559,7 +581,7 @@ export abstract class AbstractList<T> {
    * will only appear as many times it occurs in `xs` or
    * `ys`, whichever is smaller.
    *
-   * Here equality is [[SameValueZero]]
+   * Here equality is [SameValueZero][SameValueZero]
    * @summary Returns the "set" intersection between the current list and the given list.
    * @see [[intersectBy]]
    */
@@ -568,7 +590,7 @@ export abstract class AbstractList<T> {
   }
 
   /**
-   * Here equality is [[SameValueZero]]
+   * Here equality is [SameValueZero][SameValueZero]
    * @summary Returns true if and only if the current list is a "substring" of the given list.
    * @see [[isInfixOfBy]]
    */
@@ -577,7 +599,7 @@ export abstract class AbstractList<T> {
   }
 
   /**
-   * Here equality is [[SameValueZero]]
+   * Here equality is [SameValueZero][SameValueZero]
    * @summary Returns true if and only if the current list is a prefix of the given list.
    * @see [[isPrefixOfBy]]
    */
@@ -586,7 +608,7 @@ export abstract class AbstractList<T> {
   }
 
   /**
-   * Here equality is [[SameValueZero]]
+   * Here equality is [SameValueZero][SameValueZero]
    * @summary Returns true if and only if the current list is a subsequence of the given list.
    * @see [[isSubsequenceOfBy]]
    */
@@ -595,7 +617,7 @@ export abstract class AbstractList<T> {
   }
 
   /**
-   * Here equality is [[SameValueZero]]
+   * Here equality is [SameValueZero][SameValueZero]
    * @summary Returns true if and only if the current list is a suffix of the given list.
    * @see [[isSuffixOfBy]]
    */
@@ -604,7 +626,9 @@ export abstract class AbstractList<T> {
   }
 
   /**
-   * `[x_1, x_2, ..., x_n].mapAccum(f, init) = [accum_1, [y_1, y_2, ..., y_n]]`
+   * ```typescript
+   * [x_1, x_2, …, x_n].mapAccum(f, init) = [accum_1, [y_1, y_2, …, y_n]]
+   * ```
    * where `[accum_n, y_n] = f(init, x_n)` and
    * `[accum_{n - 1}, y_{n - 1}] = f(accum_n, x_n)`
    * @summary This function acts like a joint @see [[map]] and @see [[reduce]].
@@ -639,7 +663,7 @@ export abstract class AbstractList<T> {
   }
 
   /**
-   * `[x_1, x_2, ..., x_n].accumulate(f, init) = y_n`
+   * `[x_1, x_2, …, x_n].reduce(f, init) = y_n`
    * where `y_1 := init` and `y_{k + 1} := f(y_k, x_k)`
    * @summary Reduces the current list with `f` using the seed value `init`.
    * @param f the function used to accumulate over the array
@@ -655,7 +679,7 @@ export abstract class AbstractList<T> {
   }
 
   /**
-   * `[x_1, x_2, ..., x_n].accumulate(f, init) = y_1`
+   * `[x_1, x_2, …, x_n].reduceRight(f, init) = y_1`
    * where `y_n := init` and `y_{k - 1} := f(y_k, x_k)`
    * @summary Reduces the current list with `f` using the seed value `init`.
    * @param f the function used to accumulate over the array
@@ -671,7 +695,7 @@ export abstract class AbstractList<T> {
   }
 
   /**
-   * `[x_1, x_2, ..., x_n].accumulate(f, init) = y_1`
+   * `[x_1, x_2, …, x_n].reduceRightWith(f, init) = y_1`
    * where `y_n := x_n` and `y_{k - 1} := f(y_k, x_{k - 1})`
    * @summary Reduces the current list with `f`, or returns ⊥ when empty.
    * @param f the function used to accumulate over the array
@@ -682,7 +706,7 @@ export abstract class AbstractList<T> {
   }
 
   /**
-   * `[x_1, x_2, ..., x_n].accumulate(f, init) = y_n`
+   * `[x_1, x_2, …, x_n].reduceWith(f, init) = y_n`
    * where `y_1 := x_1` and `y_{k + 1} := f(y_k, x_{k + 1})`
    * @summary Reduces the current list with `f`, or returns ⊥ when empty.
    * @param f the function used to accumulate over the array
@@ -693,7 +717,7 @@ export abstract class AbstractList<T> {
   }
 
   /**
-   * Here equality is [[SameValueZero]]
+   * Here equality is [SameValueZero][SameValueZero]
    * @summary Returns a copy of the current list with the first occurence of the given value removed.
    * @see [[removeBy]]
    */
@@ -715,7 +739,7 @@ export abstract class AbstractList<T> {
   }
 
   /**
-   * @summary Returns true if and only if some element is [truthy].
+   * @summary Returns true if and only if some element is [truthy][].
    */
   public someTruthy(): boolean {
     return this.some(Boolean);
@@ -731,7 +755,7 @@ export abstract class AbstractList<T> {
   }
 
   /**
-   * Here equality is [[SameValueZero]]
+   * Here equality is [SameValueZero][]
    * @summary Returns a copy with duplicates removed.
    * @see [[uniquesBy]]
    */
@@ -743,7 +767,7 @@ export abstract class AbstractList<T> {
    * This ignores duplicates in `ys` but will keep any
    * duplicates of the current list.
    *
-   * Here equality is [[SameValueZero]]
+   * Here equality is [SameValueZero][]
    * @summary Returns the "set" union between lists.
    * @see [[unionBy]]
    */
@@ -757,6 +781,6 @@ export abstract class AbstractList<T> {
 }
 
 /**
- * [SameValueZero]: (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness#Same-value-zero_equality).
+ * [SameValueZero]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness#Same-value-zero_equality
  * [truthy]: https://developer.mozilla.org/en-US/docs/Glossary/Truthy
  */
