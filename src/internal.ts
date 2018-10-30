@@ -70,4 +70,5 @@ export {
   toOrdering
 } from './Ordering';
 export { is, isInteger, isNaN, log2, sign } from './Polyfills';
+// export { Rope } from './Rope';
 export { curried, mapTuple, product, swap, tuple } from './Tuple';
