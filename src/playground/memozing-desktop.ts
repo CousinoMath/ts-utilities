@@ -125,8 +125,8 @@ function _store(
 }
 
 const ackermann: (m: number, n: number) => number = (function() {
-  const ackFns: Array<(n: number) => number> = [n => n + 1];
-  const numAckFns = ackFns.length;
+  // const ackFns: Array<(n: number) => number> = [n => n + 1];
+  // const numAckFns = ackFns.length;
   const acks: Map<number, Map<number, number>> = new Map();
   const ackLimit = 5000;
 
@@ -134,7 +134,7 @@ const ackermann: (m: number, n: number) => number = (function() {
     // PRE: m >= acks.size, and so we cannot have computed A(m, n) yet
     // POST: return a stack of inputs that must be computed in order to compute
     //   a value for A(m, n). Top of the outputed stack will be [acks.size-1, 1]
-    const acksSize = acks.size + numAckFns;
+    const acksSize = acks.size;
     const results: Array<[number, number]> = [];
     if (n > 0) {
       // A(m, n) = A(m - 1, A(m, n - 1))
@@ -192,10 +192,6 @@ const ackermann: (m: number, n: number) => number = (function() {
       // throw out invalid inputs
       return -1;
     }
-    if (m < numAckFns) {
-      // throw out trivial cases
-      return ackFns[m](n);
-    }
     const inputs: Array<[number, number]> = [[m, n]];
     let inLen = 1;
     let iterCount = 0;
@@ -212,7 +208,7 @@ const ackermann: (m: number, n: number) => number = (function() {
        *       defined.
        */
       let [j, k] = inputs[inLen - 1];
-      const acksSize = acks.size + numAckFns;
+      const acksSize = acks.size;
       if (j >= acksSize) {
         inLen = inputs.push(...nextInputsMTooLarge(m, n));
         // Resest (j, k) to reflect new top of inputs
@@ -274,7 +270,6 @@ const ackermann: (m: number, n: number) => number = (function() {
           inputs.pop();
           [j, k] = inputs[--inLen - 1];
         }
-      } else if (j < numAckFns) {
       }
     }
     if (iterCount >= ackLimit) {

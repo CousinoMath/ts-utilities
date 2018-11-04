@@ -16,8 +16,7 @@ const ackermann: (m: number, n: number) => number = (() => {
   const acks: Map<number, Map<number, number>> = new Map([
     [0, new Map([[0, 1]])]
   ]);
-  const ackLimit = 1000;
-  return (m: number, n: number) => {
+  return (m: number, n: number, ackLimit = 1000) => {
     if (m < 0 || n < 0) {
       return -1;
     }
