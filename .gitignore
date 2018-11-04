@@ -1,0 +1,6 @@
+doc
+coverage
+dist
+.nyc_output
+docs.json
+yarn.lock
