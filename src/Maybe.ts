@@ -7,8 +7,8 @@ import { constant, identity } from './internal';
 /**
  * @summary A type alias that extends a type to be nullable.
  */
-export const bottom = null;
-export type Maybe<T> = T | null;
+export const bottom = undefined;
+export type Maybe<T> = T | null | undefined;
 
 /**
  * `bindMaybe(f)(⊥) = ⊥`
@@ -70,7 +70,7 @@ export function isNonNull<T>(xm: Maybe<T>): xm is T {
  * `isNull(x) === true` if and only if `x == ⊥`
  * @summary Tests if a nullable value is ⊥
  */
-export function isNull<T>(xm: Maybe<T>): xm is null {
+export function isNull<T>(xm: Maybe<T>): xm is null | undefined {
   return maybe(true, constant(false))(xm);
 }
 

@@ -1,4 +1,4 @@
-const fibonacci: (n: number) => number = (() => {
+const fibonacciLaptop: (n: number) => number = (() => {
   const fibs: number[] = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233];
   return (n: number) => {
     if (n < 0) {
@@ -12,7 +12,7 @@ const fibonacci: (n: number) => number = (() => {
   };
 })();
 
-const ackermann: (m: number, n: number) => number = (() => {
+const ackermannLaptop: (m: number, n: number) => number = (() => {
   const acks: Map<number, Map<number, number>> = new Map([
     [0, new Map([[0, 1]])]
   ]);
@@ -110,8 +110,8 @@ const ackermann: (m: number, n: number) => number = (() => {
   };
 })();
 
-console.log(`A(1, 1) = ${ackermann(1, 1)}`);
-console.log(`A(2, 2) = ${ackermann(2, 2)}`);
+console.log(`A(1, 1) = ${ackermannLaptop(1, 1)}`);
+console.log(`A(2, 2) = ${ackermannLaptop(2, 2)}`);
 
 /* A(0)(n) = n + 1, A(1)(n) = n + 2, A(2)(n) = 2 n + 3, A(3)(n) = 2^(n+3)-3
  * [4,4] [4,3] [4,2] [4,1] [4,0]=[3,1]=[2, 5]=[1, 11]=[0, 12]=13

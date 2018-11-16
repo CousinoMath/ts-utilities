@@ -3,10 +3,11 @@
   "extends": ["tslint:latest", "tslint-config-prettier"],
   "jsRules": {},
   "rules": {
-    "no-console": {
-      "severity": "warning",
-      "options": ["assert", "time", "timeEnd", "log", "group"]
-    }
+    "no-console": [true, "warning"],
+    "no-empty": [true, "warning"],
+    "no-null-keyword": true,
+    "radix": true,
+    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"]
   },
   "rulesDirectory": []
 }

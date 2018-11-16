@@ -71,9 +71,9 @@ describe('List suites', () => {
   it('head|last|is(Non)?Empty|tail|init|length|size|nth', () => {
     // readonly properties + nth
     const nums = make(1, 2, 3, 4, 5);
-    expect(empty.head).toBeNull();
+    expect(empty.head).toBeUndefined();
     expect(nums.head).toBe(1);
-    expect(empty.last).toBeNull();
+    expect(empty.last).toBeUndefined();
     expect(nums.last).toBe(5);
     expect(empty.isEmpty).toBe(true);
     expect(nums.isEmpty).toBe(false);
@@ -87,11 +87,11 @@ describe('List suites', () => {
     expect(nums.length).toBe(5);
     expect(empty.size).toBe(0);
     expect(nums.size).toBe(5);
-    expect(empty.nth(0)).toBeNull();
+    expect(empty.nth(0)).toBeUndefined();
     expect(nums.nth(0)).toBe(1);
     expect(nums.nth(4)).toBe(5);
-    expect(nums.nth(-1)).toBeNull();
-    expect(nums.nth(5)).toBeNull();
+    expect(nums.nth(-1)).toBeUndefined();
+    expect(nums.nth(5)).toBeUndefined();
     const neNums = neMake(1, 2, 3, 4, 5);
     expect(neNums.head).toBe(1);
     expect(neNums.last).toBe(5);
@@ -253,10 +253,10 @@ describe('List suites', () => {
     });
     it('find(Index|Indices)?', () => {
       const xs = make(1, 1, 2, 3, 5, 8, 13, 21, 34);
-      expect(xs.find(() => false)).toBeNull();
+      expect(xs.find(() => false)).toBeUndefined();
       expect(xs.find(() => true)).toBe(1);
       expect(xs.find((x: number) => x % 2 === 0)).toBe(2);
-      expect(xs.findIndex(() => false)).toBeNull();
+      expect(xs.findIndex(() => false)).toBeUndefined();
       expect(xs.findIndex(() => true)).toBe(0);
       expect(xs.findIndex((x: number) => x % 2 === 0)).toBe(2);
       expect(xs.findIndices(() => false)).toEqual(empty);
@@ -602,8 +602,8 @@ describe('List suites', () => {
       const neXs = neMake(1, -1, 5, -5, 2, -2, 4, -4, 3, -3);
       const numOrd = (x: number, y: number) =>
         x < y ? 'LT' : x > y ? 'GT' : 'EQ';
-      expect(empty.max(numOrd)).toBeNull();
-      expect(empty.min(numOrd)).toBeNull();
+      expect(empty.max(numOrd)).toBeUndefined();
+      expect(empty.min(numOrd)).toBeUndefined();
       expect(xs.max(numOrd)).toBe(5);
       expect(xs.min(numOrd)).toBe(-5);
       expect(neXs.max((x, y) => numOrd(1 / x, 1 / y))).toBe(1);
@@ -615,8 +615,8 @@ describe('List suites', () => {
       const neXs = neMake(1, 2, 3, 4, 5);
       expect(empty.reduce((accum, val) => 7, 0)).toBe(0);
       expect(empty.reduceRight((accum, val) => 7, 0)).toBe(0);
-      expect(empty.reduceRightWith((accum, val) => 7)).toBeNull();
-      expect(empty.reduceWith((accum, val) => 7)).toBeNull();
+      expect(empty.reduceRightWith((accum, val) => 7)).toBeUndefined();
+      expect(empty.reduceWith((accum, val) => 7)).toBeUndefined();
       expect(xs.reduce((accum, val) => 2 * accum + val, 0)).toBe(57);
       expect(xs.reduceRight((accum, val) => 2 * accum + val, 0)).toBe(129);
       expect(xs.reduceRightWith((accum, val) => 2 * accum + val)).toBe(129);
@@ -628,7 +628,7 @@ describe('List suites', () => {
     });
     it('toNonEmptyList', () => {
       const xs = [1, 2, 3];
-      expect(empty.toNonEmptyList()).toBeNull();
+      expect(empty.toNonEmptyList()).toBeUndefined();
       expect(make(...xs).toNonEmptyList()).toEqual(
         neMake(xs[0], ...xs.slice(1))
       );

@@ -1,4 +1,4 @@
-import { isNonNull, isNull, Maybe } from './internal';
+import { bottom, isNonNull, isNull, Maybe } from './internal';
 
 function isString(x: any): x is string {
   return typeof x === 'string';
@@ -50,10 +50,10 @@ export class Rope {
 
   private length = 0;
   private height = 0;
-  private left: Maybe<Rope> = null;
-  private right: Maybe<Rope> = null;
-  private parent: Maybe<Rope> = null;
-  private substr: Maybe<string> = null;
+  private left: Maybe<Rope> = bottom;
+  private right: Maybe<Rope> = bottom;
+  private parent: Maybe<Rope> = bottom;
+  private substr: Maybe<string> = bottom;
 
   // tslint:disable-next-line
   constructor() {}

@@ -48,21 +48,21 @@ describe('Array suite', () => {
   it('find(Index)?', () => {
     const arrIn = [1, -1 / 2, 1 / 3, -1 / 4, 1 / 5, -1 / 6, 1 / 7];
     expect(find(arrIn, x => 0 < x && 3 * x < 1)).toBe(1 / 5);
-    expect(find(arrIn, x => 0 < x && 10 * x < 1)).toBeNull();
+    expect(find(arrIn, x => 0 < x && 10 * x < 1)).toBeUndefined();
     expect(findIndex(arrIn, x => 0 < x && 3 * x < 1)).toBe(4);
     expect(findIndex(arrIn, x => 0 < x && 10 * x < 1)).toBe(-1);
   });
   it('first|last|nth', () => {
-    expect(first([])).toBeNull();
+    expect(first([])).toBeUndefined();
     expect(first([1, 2, 3])).toBe(1);
-    expect(last([])).toBeNull();
+    expect(last([])).toBeUndefined();
     expect(last([1, 2, 3])).toBe(3);
-    expect(nth([], 0)).toBeNull();
+    expect(nth([], 0)).toBeUndefined();
     expect(nth([1, 2, 3], 0)).toBe(1);
     expect(nth([1, 2, 3], 1)).toBe(2);
     expect(nth([1, 2, 3], 2)).toBe(3);
-    expect(nth([1, 2, 3], -1)).toBeNull();
-    expect(nth([1, 2, 3], 3)).toBeNull();
+    expect(nth([1, 2, 3], -1)).toBeUndefined();
+    expect(nth([1, 2, 3], 3)).toBeUndefined();
   });
   it('flatMap', () => {
     const arrIn = ["It's always sunny", 'in Philadelphia'];

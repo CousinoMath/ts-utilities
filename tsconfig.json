@@ -13,7 +13,11 @@
     "strict": true,
     "target": "es5"
   },
-  "exclude": ["./**/*.spec.ts", "./src/archive/*.ts"],
+  "exclude": [
+    "./**/*.spec.ts",
+    "./src/archive/*.ts",
+    "./src/playground/**/*.ts"
+  ],
   "files": ["./src/index.ts"],
   "include": ["src/**/*"]
 }
