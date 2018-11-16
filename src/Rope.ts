@@ -1,6 +1,4 @@
-import { Maybe } from './internal';
-import { isNonNull } from './Maybe';
-import { isNull } from 'util';
+import { isNonNull, isNull, Maybe } from './internal';
 
 function isString(x: any): x is string {
   return typeof x === 'string';
@@ -57,6 +55,7 @@ export class Rope {
   private parent: Maybe<Rope> = null;
   private substr: Maybe<string> = null;
 
+  // tslint:disable-next-line
   constructor() {}
 
   public append(xrs: Rope | string): Rope {
@@ -78,14 +77,6 @@ export class Rope {
     }
   }
 
-  private toRoot(): Rope {
-    let current: Rope = this;
-    while (isNonNull(current.parent)) {
-      current = current.parent;
-    }
-    return current;
-  }
-
   public toString(start = 0, length = this.length): string {
     let result = '';
     const stack: Array<[Rope, number, number]> = [[this, start, length]];
@@ -97,7 +88,7 @@ export class Rope {
       const hasLeft = isNonNull(left);
       const right = current.right;
       const hasRight = isNonNull(right);
-      const string = current.substr;
+      const str = current.substr;
       stack.pop();
       stackLen--;
 
@@ -125,10 +116,19 @@ export class Rope {
         }
         continue;
       }
-      if (isNonNull(string)) {
-        result += string.substr(begin, len);
+      if (isNonNull(str)) {
+        result += str.substr(begin, len);
       }
     }
     return result;
+  }
+
+  private toRoot(): Rope {
+    // tslint:disable-next-line
+    let current: Rope = this;
+    while (isNonNull(current.parent)) {
+      current = current.parent;
+    }
+    return current;
   }
 }

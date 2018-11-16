@@ -58,6 +58,7 @@ export {
   maybe,
   Maybe
 } from './Maybe';
+export { max, maxBy, min, minBy, product, sum } from './Math';
 export { NonEmptyList } from './NonEmptyList';
 export { equals2, equals3, sameValue, sameValueZero } from './Objects';
 export {
@@ -70,5 +71,4 @@ export {
   toOrdering
 } from './Ordering';
 export { is, isInteger, isNaN, log2, sign } from './Polyfills';
-// export { Rope } from './Rope';
-export { curried, mapTuple, product, swap, tuple } from './Tuple';
+export { curried, mapTuple, product as uniProduct, swap, tuple } from './Tuple';
