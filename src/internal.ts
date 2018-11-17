@@ -17,6 +17,7 @@ export {
   sortOn,
   uniqueBy
 } from './Arrays';
+export { BinaryTree } from './trees/BinaryTree';
 export { bool, ifThenElse } from './Booleans';
 export {
   bindLeft,
