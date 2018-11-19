@@ -46,10 +46,71 @@ describe('BinaryTree', () => {
     const seventeen = new BinaryTreeNode(17);
     setLeftChildTo(fifteen, thirteen);
     setRightChildTo(fifteen, seventeen);
-    expect(tree.root!.toDebugString()).toEqual(
-      twelve.toDebugString()
-    );
+    expect(tree.root!.toDebugString()).toEqual(twelve.toDebugString());
     tree.insert(19).insert(13.0);
     expect(tree.root!.toDebugString()).toEqual(twelve.toDebugString());
+  });
+  it('deletion', () => {
+    const tree = new BinaryTree(numberOrd)
+      .insert(15)
+      .insert(5)
+      .insert(16)
+      .insert(3)
+      .insert(12)
+      .insert(20)
+      .insert(10)
+      .insert(13)
+      .insert(18)
+      .insert(23)
+      .insert(6)
+      .insert(7);
+    const treeM13 = new BinaryTree(numberOrd)
+      .insert(15)
+      .insert(5)
+      .insert(16)
+      .insert(3)
+      .insert(12)
+      .insert(20)
+      .insert(10)
+      // .insert(13)
+      .insert(18)
+      .insert(23)
+      .insert(6)
+      .insert(7);
+    const treeM16 = new BinaryTree(numberOrd)
+      .insert(15)
+      .insert(5)
+      // .insert(16)
+      .insert(20)
+      .insert(3)
+      .insert(12)
+      .insert(18)
+      .insert(23)
+      .insert(10)
+      .insert(13)
+      .insert(6)
+      .insert(7);
+    const treeM5 = new BinaryTree(numberOrd)
+      .insert(15)
+      // .insert(5)
+      .insert(6)
+      .insert(16)
+      .insert(3)
+      .insert(12)
+      .insert(20)
+      .insert(10)
+      .insert(13)
+      .insert(18)
+      .insert(23)
+      .insert(7);
+    expect(tree.delete(13).root!.toDebugString()).toEqual(
+      treeM13.root!.toDebugString()
+    );
+    expect(tree.delete(16).root!.toDebugString()).toEqual(
+      treeM16.root!.toDebugString()
+    );
+    expect(tree.delete(5).root!.toDebugString()).toEqual(
+      treeM5.root!.toDebugString()
+    );
   });
 });
