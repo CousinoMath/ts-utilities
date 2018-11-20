@@ -127,7 +127,7 @@ processing.
 generates an [Istanbull/nyc][nyc] test coverage report using the default text
 reporter.
 
-## <a name="license">License</a>
+## [license][License]
 
 This project employs an [MIT license][license]
 
