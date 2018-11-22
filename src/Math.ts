@@ -14,7 +14,7 @@ export function fromContinuedFraction(xs: number[]): number {
     : NaN;
 }
 
-export function max(xs: number[]): number {
+export function max(...xs: number[]): number {
   let value = -Infinity;
   for (const x of xs) {
     if (x > value) {
@@ -34,7 +34,7 @@ export function maxBy<T>(ord: Ordering<T>, x0: T, ...xs: T[]): T {
   return value;
 }
 
-export function min(xs: number[]): number {
+export function min(...xs: number[]): number {
   let value = +Infinity;
   for (const x of xs) {
     if (x < value) {
@@ -54,11 +54,11 @@ export function minBy<T>(ord: Ordering<T>, x0: T, ...xs: T[]): T {
   return value;
 }
 
-export function sum(xs: number[]): number {
+export function sum(...xs: number[]): number {
   return xs.reduce((y, accum) => y + accum, 0);
 }
 
-export function product(xs: number[]): number {
+export function product(...xs: number[]): number {
   return xs.reduce((y, accum) => y * accum, 1);
 }
 

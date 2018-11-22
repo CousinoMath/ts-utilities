@@ -98,6 +98,20 @@ export class RedBlackNode<T> extends BinaryTreeNode<T> {
     }
     return parent;
   }
+
+  public toDebugString(): string {
+    const leftNon = isNonNull(this.left);
+    const rightNon = isNonNull(this.right);
+    const thisStr = `${this.value}${this.isBlack ? '*' : ''}`;
+    if (leftNon && rightNon) {
+      return `(${thisStr} ${this.left!.toDebugString()} ${this.right!.toDebugString()})`;
+    } else if (leftNon) {
+      return `(${thisStr} ${this.left!.toDebugString()} _)`;
+    } else if (rightNon) {
+      return `(${thisStr} _ ${this.right!.toDebugString()})`;
+    }
+    return `${thisStr}`;
+  }
 }
 
 export class RedBlackTree<T> extends BinaryTree<T> {
