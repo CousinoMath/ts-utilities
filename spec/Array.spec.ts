@@ -85,9 +85,9 @@ describe('Array suite', () => {
     );
   });
   it('range', () => {
-    // expect(range(10)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
-    // expect(range(0)).toEqual([]);
-    // expect(range(-1)).toEqual([]);
+    expect(range(10)).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    expect(range(0)).toEqual([]);
+    expect(range(-1)).toEqual([]);
     expect(range(1, 10)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     expect(range(1, 10, 2)).toEqual([1, 3, 5, 7, 9]);
     expect(range(10, 1, -2)).toEqual([10, 8, 6, 4, 2]);

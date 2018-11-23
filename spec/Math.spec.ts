@@ -1,6 +1,34 @@
-import { max, maxBy, min, minBy, numberOrd, product, sum } from '../src';
+import {
+  fractionPart,
+  fromContinuedFraction,
+  max,
+  maxBy,
+  min,
+  minBy,
+  numberOrd,
+  product,
+  sum,
+  toContinuedFraction
+} from '../src';
 
 describe('Math suite', () => {
+  it('fractionPart', () => {
+    expect(fractionPart(Math.SQRT2)).toBe(Math.SQRT2 - 1);
+    expect(fractionPart(-Math.SQRT2)).toBe(-Math.SQRT2+1);
+    expect(fractionPart(NaN)).toBeNaN();
+    expect(fractionPart(Infinity)).toBeNaN();
+    expect(fractionPart(-Infinity)).toBeNaN();
+  });
+  it('(from|to)ContinuedFraction', () => {
+    const sqrt2Conv = (len: number) => fromContinuedFraction(toContinuedFraction(Math.SQRT2, len));
+    expect(sqrt2Conv(0)).toBeNaN();
+    expect(sqrt2Conv(1)).toBe(1);
+    expect(sqrt2Conv(2)).toBe(3/2);
+    expect(sqrt2Conv(3)).toBe(7/5);
+    expect(sqrt2Conv(4)).toBe(17/12);
+    expect(toContinuedFraction(NaN, 100)).toEqual([]);
+    expect(toContinuedFraction(0, 1000)).toEqual([0]);
+  });
   it('max', () => {
     expect(max(0, 1, -5, -1, 5, 2, -4, -2, 4, 3, -3)).toBe(5);
     expect(max(-Infinity, NaN, Infinity)).toBe(Infinity);

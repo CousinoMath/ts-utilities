@@ -1,4 +1,4 @@
-doc
+doc/
 coverage
 dist
 .nyc_output

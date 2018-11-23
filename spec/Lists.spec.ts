@@ -25,9 +25,9 @@ describe('List suites', () => {
       expect(List.make(1, 2, 3, 4, 5)).toEqual(new List([1, 2, 3, 4, 5]));
     });
     it('range', () => {
-      // expect(List.range(10)).toEqual(make(0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
-      // expect(List.range(0)).toEqual(empty);
-      // expect(List.range(-1)).toEqual(empty);
+      expect(List.range(10)).toEqual(make(0, 1, 2, 3, 4, 5, 6, 7, 8, 9));
+      expect(List.range(0)).toEqual(empty);
+      expect(List.range(-1)).toEqual(empty);
       expect(List.range(1, 1)).toEqual(make(1));
       expect(List.range(1, 10)).toEqual(make(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
       expect(List.range(1, 10, 2)).toEqual(make(1, 3, 5, 7, 9));

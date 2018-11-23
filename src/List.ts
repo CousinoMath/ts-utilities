@@ -80,7 +80,7 @@ export class List<T> extends AbstractList<T> {
    * @param step change between elements, cannot be 0
    * @throws RangeError if creating an array of invalid length (e.g. step = 0)
    */
-  public static range(start = 0, stop: number, step = 1): List<number> {
+  public static range(start: number, stop?: number, step = 1): List<number> {
     let spread = 0;
     let offset = 0;
     if (typeof stop === 'undefined') {
@@ -964,18 +964,13 @@ export class List<T> extends AbstractList<T> {
       if (sortLen % 2 === 1) {
         const ys1 = sorted.pop();
         const ys2 = sorted.pop();
-        if (typeof ys1 !== 'undefined' && typeof ys2 !== 'undefined') {
-          sorted.push(merge(ys1, ys2));
-        }
-        sortLen--;
+        sorted.push(merge(ys1!, ys2!));
       }
       while (sorted.length > 1) {
         const ys1 = sorted.shift();
         const ys2 = sorted.shift();
         sortLen -= 2;
-        if (typeof ys1 !== 'undefined' && typeof ys2 !== 'undefined') {
-          results.push(merge(ys1, ys2));
-        }
+        results.push(merge(ys1!, ys2!));
       }
       sorted = results.concat(sorted);
       sortLen = sorted.length;

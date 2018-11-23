@@ -43,7 +43,8 @@
     ],
     "exclude": [
       "**/*.d.ts",
-      "src/archive"
+      "src/archive",
+      "src/playground"
     ],
     "include": [
       "src/**/*.ts",

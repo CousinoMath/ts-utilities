@@ -167,7 +167,7 @@ export function nth<T>(xs: T[], n: number): Maybe<T> {
  * @param [delta=1]
  * @returns [start, start + delta, ..., start + n * delta], where n = Math.floor((stop - start) / delta)
  */
-export function range(start = 0, stop: number, delta = 1): number[] {
+export function range(start: number, stop?: number, delta = 1): number[] {
   if (typeof stop === 'undefined') {
     return from(Math.max(start, 0), identity);
   } else {
@@ -236,16 +236,12 @@ export function sortOn<T>(ord: Ordering<T>, xs: T[]): T[] {
     if (sorted.length % 2 === 1) {
       const ys1 = sorted.pop();
       const ys2 = sorted.pop();
-      if (typeof ys1 !== 'undefined' && typeof ys2 !== 'undefined') {
-        sorted.push(merge(ys1, ys2));
-      }
+      sorted.push(merge(ys1!, ys2!));
     }
     while (sorted.length > 1) {
       const ys1 = sorted.shift();
       const ys2 = sorted.shift();
-      if (typeof ys1 !== 'undefined' && typeof ys2 !== 'undefined') {
-        results.push(merge(ys1, ys2));
-      }
+      results.push(merge(ys1!, ys2!));
     }
     sorted = results.concat(sorted);
     results = [];

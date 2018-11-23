@@ -45,6 +45,7 @@ export {
   on,
   uncurry
 } from './Functions';
+export { Lazy } from './Lazy';
 export { List, list } from './List';
 export {
   bottom,
@@ -59,7 +60,18 @@ export {
   maybe,
   Maybe
 } from './Maybe';
-export { max, maxBy, min, minBy, product, sum } from './Math';
+export {
+  greatestInt,
+  fractionPart,
+  fromContinuedFraction,
+  max,
+  maxBy,
+  min,
+  minBy,
+  product,
+  sum,
+  toContinuedFraction
+} from './Math';
 export { NonEmptyList } from './NonEmptyList';
 export { equals2, equals3, sameValue, sameValueZero } from './Objects';
 export {

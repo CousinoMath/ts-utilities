@@ -70,21 +70,59 @@
 					from the world of functional programming, without being &quot;<em>overly</em>&quot;
 				functional.</p>
 				<h2 id="contents">Contents</h2>
-				<h3 id="types">Types</h3>
+				<ul>
+					<li><a href="#usage">Usage</a><ul>
+							<li><a href="#brief">Brief Overview</a><ul>
+									<li><a href="#types">Types</a></li>
+									<li><a href="#classes">Classes</a></li>
+									<li><a href="#files">Other notable files</a></li>
+								</ul>
+							</li>
+							<li><a href="#detailed">Detailed Overview</a><ul>
+									<li><a href="#Either">Either</a></li>
+									<li><a href="#Maybe">Maybe</a></li>
+									<li><a href="#Lists">Lists</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li><a href="#examples">Examples</a></li>
+					<li><a href="#package">Package Scripts</a><ul>
+							<li><a href="#install">Installation</a></li>
+							<li><a href="#docs">Documentation</a></li>
+							<li><a href="#tests">Testing</a></li>
+						</ul>
+					</li>
+					<li><a href="#license">License</a></li>
+				</ul>
+				<h2 id="-a-name-usage-usage-a-"><a name="usage">Usage</a></h2>
+				<h3 id="-a-name-brief-brief-overview-a-"><a name="brief">Brief Overview</a></h3>
+				<h4 id="-a-name-types-types-a-"><a name="types">Types</a></h4>
 				<p>New types and aliases introduced by this library.</p>
 				<ul>
 					<li><a href="modules/_either_.html#either">Either</a> is a generic discrimated union, useful for functional
-					style error error tracking</li>
+					style error handling. <a href="#Either">More details on Either</a></li>
 					<li><a href="modules/_maybe_.html#maybe">Maybe</a> an alias for nullable types, which can be useful when
-					using the compiler options <code>strict</code> or <code>strictNullChecks</code></li>
+						using the Typescript compiler options <code>strict</code> or <code>strictNullChecks</code>.
+					<a href="#Maybe">More details on Maybe</a></li>
 				</ul>
-				<h3 id="other-files">Other Files</h3>
+				<h4 id="-a-name-classes-classes-a-"><a name="classes">Classes</a></h4>
 				<ul>
-					<li><code>src/index.ts</code> reexports everything</li>
+					<li><a href="classes/_list_.list.html">List</a> and <a href="classes/_nonemptylist_.nonemptylist.html">NonEmptyList</a> are lightweight array wrappers that are both
+						type safe and immutable. If you feel ES5 arrays are too restrictive, these
+						classes will give you more flexibility while having compatible methods and
+					quick conversions to and from arrays. <a href="#Lists">More details on Lists</a></li>
+				</ul>
+				<h4 id="-a-name-files-other-notable-files-a-"><a name="files">Other notable files</a></h4>
+				<ul>
 					<li><code>src/Array.ts</code> various utilities for arrays</li>
 					<li><code>src/Function.ts</code> functional style programming utilities</li>
+					<li><code>src/Polyfills.ts</code> some &quot;polyfills&quot; (they don&#39;t actually extended the
+						standard types) for ES5 including an <code>Object.is</code>, <code>Number.isNaN</code>, and
+					<code>Math.sign</code>.</li>
 				</ul>
-				<h2 id="either">Either</h2>
+				<h3 id="-a-name-detailed-detailed-usage-descriptions-a-"><a name="detailed">Detailed Usage Descriptions</a></h3>
+				<h4 id="-a-name-either-either-a-"><a name="Either">Either</a></h4>
 				<p>The type <code>Either&lt;R, S&gt;</code> is similar to Typescript&#39;s union type
 					<code>R | S</code> in that the values can either be of type <code>R</code> or of type
 					<code>S</code>. The difference is that you don&#39;t need type guards or literal
@@ -114,7 +152,7 @@
 					value they&#39;ve been given is a successful result or an error. This
 					allows them to continue to operate on arrays when successful or to
 				deal the erroneous result.</p>
-				<h2 id="maybe">Maybe</h2>
+				<h4 id="-a-name-maybe-maybe-a-"><a name="Maybe">Maybe</a></h4>
 				<p>The <code>Maybe&lt;T&gt;</code> type is an alias for nullable types, i.e.
 					<code>T | null</code>. This is handy when working under the compiler options
 					&quot;strict&quot; or &quot;strictNullChecks&quot;. Included are utility functions to
@@ -128,6 +166,22 @@
 					<code>undefined</code>. Whereas, calling any function <code>f: (x: Maybe&lt;T&gt;) =&gt; S</code>
 					as <code>f()</code> will result in compiler errors, because such a function
 				must take exactly one argument.</p>
+				<h4 id="-a-name-lists-lists-a-"><a name="Lists">Lists</a></h4>
+				<p>TODO</p>
+				<h2 id="-a-name-examples-examples-a-"><a name="examples">Examples</a></h2>
+				<h2 id="-a-name-package-package-scripts-a-"><a name="package">Package Scripts</a></h2>
+				<h3 id="-a-name-install-installation-a-"><a name="install">Installation</a></h3>
+				<h3 id="-a-name-docs-documentation-a-"><a name="docs">Documentation</a></h3>
+				<p><code>yarn docs</code> generates <a href="https://typedoc.org/">TypeDoc</a> documentation from the files in <code>src/</code> and
+					outputs the results to <code>doc/</code>. If you have custom TypeDoc themes, (please
+					share) use <code>yarn docs:json</code> to generate the TypeDoc JSON for your custom
+				processing.</p>
+				<h3 id="-a-name-tests-testing-a-"><a name="tests">Testing</a></h3>
+				<p><code>yarn test</code> runs <a href="https://jasmine.github.io/">Jasmine</a> test suites found in <code>spec/</code>. And <code>yarn coverage</code>
+					generates an <a href="https://istanbul.js.org/">Istanbull/nyc</a> test coverage report using the default text
+				reporter.</p>
+				<h2 id="license"><a href="./LICENSE.md">license</a></h2>
+				<p>This project employs an <a href="./LICENSE.md">MIT license</a></p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -164,6 +218,9 @@
 						<a href="modules/_list_.html">"<wbr>List"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="modules/_math_.html">"<wbr>Math"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="modules/_maybe_.html">"<wbr>Maybe"</a>
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
@@ -183,6 +240,12 @@
 					</li>
 					<li class=" tsd-kind-external-module tsd-is-external">
 						<a href="modules/_internal_.html">"internal"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="modules/_trees_binarytree_.html">"trees/<wbr>Binary<wbr>Tree"</a>
+					</li>
+					<li class=" tsd-kind-external-module tsd-is-external">
+						<a href="modules/_trees_redblacktree_.html">"trees/<wbr>Red<wbr>Black<wbr>Tree"</a>
 					</li>
 				</ul>
 			</nav>
