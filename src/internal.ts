@@ -83,6 +83,19 @@ export {
   stringOrd,
   toOrdering
 } from './Ordering';
-export { is, isInteger, isNaN, log2, sign } from './Polyfills';
+export {
+  acosh,
+  asinh,
+  atanh,
+  cosh,
+  hypot,
+  is,
+  isInteger,
+  isNaN,
+  log2,
+  sign,
+  sinh,
+  tanh
+} from './Polyfills';
 export { RedBlackTree } from './trees/RedBlackTree';
 export { curried, mapTuple, product as uniProduct, swap, tuple } from './Tuple';
