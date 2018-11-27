@@ -156,22 +156,6 @@ export class List<T> extends AbstractList<T> {
   }
 
   /**
-   * @summary Returns true if and only if the list is empty.
-   * @see [[AbstractList.isEmpty]]
-   */
-  public isEmpty(): boolean {
-    return this.arr.length === 0;
-  }
-
-  /**
-   * @summary Returns a copy of the list with the last element removed.
-   * @see [[AbstractList.init]]
-   */
-  public init(): List<T> {
-    return new List(this.arr.slice(0, this.length - 1));
-  }
-
-  /**
    * @summary Returns the last element of the list, if it exists, and ⊥ otherwise.
    * @see [[AbstractList.last]]
    */
@@ -195,15 +179,6 @@ export class List<T> extends AbstractList<T> {
    */
   public get size(): number {
     return this.length;
-  }
-
-  /**
-   * @summary Returns a copy of the list with the first element removed.
-   * @see [[init]]
-   * @see [[AbstractList.tail]]
-   */
-  public tail(): List<T> {
-    return new List(this.arr.slice(1));
   }
 
   /**
@@ -519,10 +494,11 @@ export class List<T> extends AbstractList<T> {
   }
 
   /**
-   * @summary A type guard for lists to be non-empty
+   * @summary Returns a copy of the list with the last element removed.
+   * @see [[AbstractList.init]]
    */
-  public isNonEmpty(): this is NonEmptyList<T> {
-    return !this.isEmpty();
+  public init(): List<T> {
+    return new List(this.arr.slice(0, this.length - 1));
   }
 
   /**
@@ -623,6 +599,14 @@ export class List<T> extends AbstractList<T> {
   }
 
   /**
+   * @summary Returns true if and only if the list is empty.
+   * @see [[AbstractList.isEmpty]]
+   */
+  public isEmpty(): boolean {
+    return this.arr.length === 0;
+  }
+
+  /**
    * @summary Returns true if and only if the current list is a "substring" of the given list `larger`.
    * @param eq test for equality between elements of the lists
    * @see [[AbstractList.isInfixOfBy]]
@@ -655,6 +639,13 @@ export class List<T> extends AbstractList<T> {
       }
     }
     return len === 0;
+  }
+
+  /**
+   * @summary A type guard for lists to be non-empty
+   */
+  public isNonEmpty(): this is NonEmptyList<T> {
+    return !this.isEmpty();
   }
 
   /**
@@ -841,7 +832,7 @@ export class List<T> extends AbstractList<T> {
     const perms: Array<List<T>> = [];
 
     while (queue.length > 0) {
-      /* Invariant: each element of `queue`, is [perm, rest] where perm is a 
+      /* Invariant: each element of `queue`, is [perm, rest] where perm is a
        *   permutation of some of the elements, and rest, a collection of the
        *   remaining elements.
        */
@@ -1047,6 +1038,15 @@ export class List<T> extends AbstractList<T> {
       }
     }
     return new NonEmptyList(substrs[0], substrs.slice(1));
+  }
+
+  /**
+   * @summary Returns a copy of the list with the first element removed.
+   * @see [[init]]
+   * @see [[AbstractList.tail]]
+   */
+  public tail(): List<T> {
+    return new List(this.arr.slice(1));
   }
 
   /**
