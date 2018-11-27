@@ -47,12 +47,12 @@ export abstract class AbstractList<T> {
   /**
    * @summary Returns true if and only if the list is empty.
    */
-  public abstract get isEmpty(): boolean;
+  public abstract isEmpty(): boolean;
 
   /**
    * @summary Returns a copy of the list with the last element removed.
    */
-  public abstract get init(): AbstractList<T>;
+  public abstract init(): AbstractList<T>;
 
   /**
    * @summary Returns the last element of the list, if it exists, and ⊥ otherwise.
@@ -75,7 +75,7 @@ export abstract class AbstractList<T> {
    * @summary Returns a copy of the list with the first element removed.
    * @see [[init]]
    */
-  public abstract get tail(): AbstractList<T>;
+  public abstract tail(): AbstractList<T>;
 
   /**
    * Allows lists to be iterated over in `for of` loops and spread/rest
@@ -650,7 +650,7 @@ export abstract class AbstractList<T> {
   public max(ord: Ordering<T>): Maybe<T> {
     const hd = this.head;
     const maxFn = (x: T, y: T) => (ord(x, y) === 'LT' ? y : x);
-    const hdFn = (x: T) => this.tail.reduce(maxFn, x);
+    const hdFn = (x: T) => this.tail().reduce(maxFn, x);
     return bindMaybe(hdFn)(hd);
   }
 
@@ -713,7 +713,7 @@ export abstract class AbstractList<T> {
    * @see [[accumulateWith]]
    */
   public reduceWith(f: (acc: T, elt: T) => T): Maybe<T> {
-    return bindMaybe<T, Maybe<T>>(hd => this.tail.reduce(f, hd))(this.head);
+    return bindMaybe<T, Maybe<T>>(hd => this.tail().reduce(f, hd))(this.head);
   }
 
   /**
@@ -750,7 +750,7 @@ export abstract class AbstractList<T> {
    */
   public toNonEmptyList(): Maybe<NonEmptyList<T>> {
     const fn: (hd: T) => NonEmptyList<T> = hd =>
-      new NonEmptyList(hd, this.tail.toArray());
+      new NonEmptyList(hd, this.tail().toArray());
     return bindMaybe<T, NonEmptyList<T>>(fn)(this.head);
   }
 
