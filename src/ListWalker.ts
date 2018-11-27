@@ -13,8 +13,8 @@ export class ListWalker<T> {
     return result;
   }
 
-  protected ahead: List<T> = new List<T>();
-  protected behind: List<T> = new List<T>();
+  public ahead: List<T> = new List<T>();
+  public behind: List<T> = new List<T>();
 
   public get current(): Maybe<T> {
     return this.ahead.head;
@@ -24,12 +24,27 @@ export class ListWalker<T> {
     return this.ahead.length + this.behind.length;
   }
 
+  public canMoveAhead(): boolean {
+    return !this.ahead.isEmpty();
+  }
+
+  public canMoveBehind(): boolean {
+    return !this.behind.isEmpty();
+  }
+
   public hasMoreAhead(): boolean {
     return this.ahead.length > 1;
   }
 
   public hasMoreBehind(): boolean {
-    return !this.behind.isEmpty();
+    return this.behind.length > 0;
+  }
+
+  public insertAhead(x: T): ListWalker<T> {
+    const result = new ListWalker<T>();
+    result.ahead = this.ahead.prepend(x);
+    result.behind = this.behind;
+    return result;
   }
 
   public isEmpty(): boolean {
@@ -37,7 +52,7 @@ export class ListWalker<T> {
   }
 
   public moveAhead(): ListWalker<T> {
-    if (this.hasMoreAhead()) {
+    if (this.canMoveAhead()) {
       const result = new ListWalker<T>();
       result.ahead = this.ahead.tail();
       result.behind = this.behind.prepend(this.ahead.head!);
@@ -48,7 +63,7 @@ export class ListWalker<T> {
   }
 
   public moveBehind(): ListWalker<T> {
-    if (this.hasMoreBehind()) {
+    if (this.canMoveBehind()) {
       const result = new ListWalker<T>();
       result.ahead = this.ahead.prepend(this.behind.head!);
       result.behind = this.behind.tail();
@@ -56,5 +71,38 @@ export class ListWalker<T> {
     } else {
       return this;
     }
+  }
+
+  public moveToBack(): ListWalker<T> {
+    const result = new ListWalker<T>();
+    result.ahead = new List();
+    result.behind = List.concat(this.ahead.reverse(), this.behind);
+    return result;
+  }
+
+  public moveToFirst(): ListWalker<T> {
+    return this.moveToFront();
+  }
+
+  public moveToFront(): ListWalker<T> {
+    const result = new ListWalker<T>();
+    result.ahead = List.concat(this.behind.reverse(), this.ahead);
+    result.behind = new List();
+    return result;
+  }
+
+  public moveToLast(): ListWalker<T> {
+    return this.moveToBack().moveBehind();
+  }
+
+  public removeAhead(): ListWalker<T> {
+    const result = new ListWalker<T>();
+    result.ahead = this.ahead.tail();
+    result.behind = this.behind;
+    return result;
+  }
+
+  public toList(): List<T> {
+    return List.concat(this.behind.reverse(), this.ahead);
   }
 }

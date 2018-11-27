@@ -139,7 +139,7 @@ export class List<T> extends AbstractList<T> {
   /**
    * The array behind this implementation.
    */
-  protected readonly arr: T[] = [];
+  public readonly arr: T[] = [];
 
   constructor(arr: T[] = []) {
     super();

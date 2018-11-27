@@ -27,7 +27,7 @@ export abstract class AbstractList<T> {
    * In Javascript, arrays cannot be length 2^32 or longer.
    * @summary Test whether a given length is valid for arrays.
    */
-  protected static isSafeLength(n: number): boolean {
+  public static isSafeLength(n: number): boolean {
     return isInteger(n) && n >= -0 && log2(n) < 32;
   }
 
@@ -36,7 +36,7 @@ export abstract class AbstractList<T> {
    * so that the Typescript compiler allows easier conversion
    * between the various lists.
    */
-  protected arr: T[] = [];
+  public arr: T[] = [];
 
   /**
    * @summary Returns the first element of the list, if it exists, and ⊥ otherwise.
@@ -775,7 +775,7 @@ export abstract class AbstractList<T> {
     return this.unionBy(sameValueZero, ys);
   }
 
-  protected isSafeIndex(n: number): boolean {
+  public isSafeIndex(n: number): boolean {
     return isInteger(n) && n >= -0 && n < this.length;
   }
 }
