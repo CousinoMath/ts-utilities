@@ -46,7 +46,7 @@ export class NonEmptyList<T> extends List<T> {
    * @throws Error just in case this is not empty.
    * @see [[List.isEmpty]]
    */
-  public get isEmpty(): boolean {
+  public isEmpty(): boolean {
     if (this.length === 0) {
       throw new Error('A non-empty list was found to be empty');
     }
@@ -197,7 +197,7 @@ export class NonEmptyList<T> extends List<T> {
    */
   public max(ord: Ordering<T>): T {
     const maxFn = (x: T, y: T) => (ord(x, y) === 'LT' ? y : x);
-    return this.tail.reduce(maxFn, this.head);
+    return this.tail().reduce(maxFn, this.head);
   }
 
   /**

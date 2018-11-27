@@ -141,7 +141,7 @@ export class List<T> extends AbstractList<T> {
    */
   protected readonly arr: T[] = [];
 
-  constructor(arr: T[]) {
+  constructor(arr: T[] = []) {
     super();
     this.arr = arr;
   }
@@ -152,14 +152,14 @@ export class List<T> extends AbstractList<T> {
    * @see [[tail]]
    */
   public get head(): Maybe<T> {
-    return makeMaybe(!this.isEmpty, () => this.arr[0]);
+    return makeMaybe(!this.isEmpty(), () => this.arr[0]);
   }
 
   /**
    * @summary Returns true if and only if the list is empty.
    * @see [[AbstractList.isEmpty]]
    */
-  public get isEmpty(): boolean {
+  public isEmpty(): boolean {
     return this.arr.length === 0;
   }
 
@@ -167,7 +167,7 @@ export class List<T> extends AbstractList<T> {
    * @summary Returns a copy of the list with the last element removed.
    * @see [[AbstractList.init]]
    */
-  public get init(): List<T> {
+  public init(): List<T> {
     return new List(this.arr.slice(0, this.length - 1));
   }
 
@@ -176,7 +176,7 @@ export class List<T> extends AbstractList<T> {
    * @see [[AbstractList.last]]
    */
   public get last(): Maybe<T> {
-    return makeMaybe(!this.isEmpty, () => this.arr[this.length - 1]);
+    return makeMaybe(!this.isEmpty(), () => this.arr[this.length - 1]);
   }
 
   /**
@@ -202,7 +202,7 @@ export class List<T> extends AbstractList<T> {
    * @see [[init]]
    * @see [[AbstractList.tail]]
    */
-  public get tail(): List<T> {
+  public tail(): List<T> {
     return new List(this.arr.slice(1));
   }
 
@@ -522,7 +522,7 @@ export class List<T> extends AbstractList<T> {
    * @summary A type guard for lists to be non-empty
    */
   public isNonEmpty(): this is NonEmptyList<T> {
-    return !this.isEmpty;
+    return !this.isEmpty();
   }
 
   /**

@@ -75,14 +75,14 @@ describe('List suites', () => {
     expect(nums.head).toBe(1);
     expect(empty.last).toBeUndefined();
     expect(nums.last).toBe(5);
-    expect(empty.isEmpty).toBe(true);
-    expect(nums.isEmpty).toBe(false);
+    expect(empty.isEmpty()).toBe(true);
+    expect(nums.isEmpty()).toBe(false);
     expect(empty.isNonEmpty()).toBe(false);
     expect(nums.isNonEmpty()).toBe(true);
-    expect(empty.tail).toEqual(empty);
-    expect(nums.tail).toEqual(make(2, 3, 4, 5));
-    expect(empty.init).toEqual(empty);
-    expect(nums.init).toEqual(make(1, 2, 3, 4));
+    expect(empty.tail()).toEqual(empty);
+    expect(nums.tail()).toEqual(make(2, 3, 4, 5));
+    expect(empty.init()).toEqual(empty);
+    expect(nums.init()).toEqual(make(1, 2, 3, 4));
     expect(empty.length).toBe(0);
     expect(nums.length).toBe(5);
     expect(empty.size).toBe(0);
@@ -95,7 +95,7 @@ describe('List suites', () => {
     const neNums = neMake(1, 2, 3, 4, 5);
     expect(neNums.head).toBe(1);
     expect(neNums.last).toBe(5);
-    expect(neNums.isEmpty).toBe(false);
+    expect(neNums.isEmpty()).toBe(false);
   });
   describe('methods', () => {
     it('accumulate(Right)?(With)?', () => {

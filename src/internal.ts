@@ -47,6 +47,7 @@ export {
 } from './Functions';
 export { Lazy } from './Lazy';
 export { List, list } from './List';
+export { ListWalker } from './ListWalker';
 export {
   bottom,
   bindMaybe,
@@ -98,4 +99,6 @@ export {
   tanh
 } from './Polyfills';
 export { RedBlackTree } from './trees/RedBlackTree';
+export { Tree } from './Tree';
+export { TreeStepper } from './TreeStepper';
 export { curried, mapTuple, product as uniProduct, swap, tuple } from './Tuple';
