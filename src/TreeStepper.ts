@@ -1,8 +1,13 @@
-import { bottom, isNonNull, isNull, ListWalker, Maybe, Tree } from './internal';
+import { isNonNull, isNull, ListWalker, Maybe, Tree } from './internal';
 
 export class TreeStepper<T> {
-  public siblings: ListWalker<Tree<T>> = new ListWalker();
-  public ancestor: Maybe<TreeStepper<T>> = bottom;
+  public readonly siblings: ListWalker<Tree<T>>;
+  public readonly ancestor: Maybe<TreeStepper<T>>;
+
+  constructor(sibs: ListWalker<Tree<T>>, parent: Maybe<TreeStepper<T>>) {
+    this.siblings = sibs;
+    this.ancestor = parent;
+  }
 
   public get currentSubtree(): Maybe<Tree<T>> {
     return this.siblings.current;
@@ -38,39 +43,28 @@ export class TreeStepper<T> {
 
   public moveDown(): TreeStepper<T> {
     if (this.hasChildren()) {
-      const result = new TreeStepper<T>();
-      result.siblings = ListWalker.fromList(this.siblings.current!.children);
-      result.ancestor = this;
-      return result;
+      return new TreeStepper<T>(
+        ListWalker.fromList(this.siblings.current!.children),
+        this
+      );
     } else {
       return this;
     }
   }
   public moveToFirstSibling(): TreeStepper<T> {
-    const result = new TreeStepper<T>();
-    result.siblings = this.siblings.moveToFirst();
-    result.ancestor = this.ancestor;
-    return result;
+    return new TreeStepper<T>(this.siblings.moveToFirst(), this.ancestor);
   }
 
   public moveToLastSibling(): TreeStepper<T> {
-    const result = new TreeStepper<T>();
-    result.siblings = this.siblings.moveToLast();
-    result.ancestor = this.ancestor;
-    return result;
+    return new TreeStepper<T>(this.siblings.moveToLast(), this.ancestor);
   }
 
   public moveToNextSibling(): TreeStepper<T> {
-    const result = new TreeStepper<T>();
-    result.siblings = this.siblings.moveAhead();
-    result.ancestor = this.ancestor;
-    return result;
+    return new TreeStepper<T>(this.siblings.moveAhead(), this.ancestor);
   }
 
   public moveToRoot(): TreeStepper<T> {
-    let result = new TreeStepper<T>();
-    result.siblings = this.siblings;
-    result.ancestor = this.ancestor;
+    let result = new TreeStepper<T>(this.siblings, this.ancestor);
     while (result.hasAncestor()) {
       result = result.ancestor!;
     }
@@ -86,10 +80,7 @@ export class TreeStepper<T> {
   }
 
   public moveToPrevSibling(): TreeStepper<T> {
-    const result = new TreeStepper<T>();
-    result.siblings = this.siblings.moveBehind();
-    result.ancestor = this.ancestor;
-    return result;
+    return new TreeStepper<T>(this.siblings.moveBehind(), this.ancestor);
   }
 }
 /* TODO

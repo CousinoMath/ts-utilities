@@ -1,11 +1,12 @@
 import { List, Maybe } from './internal';
 
 export class Tree<T> {
-  public node: T;
-  public children: List<Tree<T>> = new List();
+  public readonly node: T;
+  public readonly children: List<Tree<T>> = new List();
 
-  constructor(val: T) {
+  constructor(val: T, kids: List<Tree<T>>) {
     this.node = val;
+    this.children = kids;
   }
 
   public get value(): T {
@@ -13,15 +14,11 @@ export class Tree<T> {
   }
 
   public appendChild(c: Tree<T>): Tree<T> {
-    const result = new Tree(this.node);
-    result.children = this.children.append(c);
-    return result;
+    return new Tree(this.node, this.children.append(c));
   }
 
   public concatChildren(...cs: Array<Tree<T>>): Tree<T> {
-    const result = new Tree(this.node);
-    result.children = List.concat(this.children, new List(cs));
-    return result;
+    return new Tree(this.node, List.concat(this.children, new List(cs)));
   }
 
   public getChild(n: number): Maybe<Tree<T>> {
@@ -41,14 +38,10 @@ export class Tree<T> {
   }
 
   public prependChild(c: Tree<T>): Tree<T> {
-    const result = new Tree(this.node);
-    result.children = this.children.prepend(c);
-    return result;
+    return new Tree(this.node, this.children.prepend(c));
   }
 
   public setValue(val: T): Tree<T> {
-    const result = new Tree(val);
-    result.children = this.children;
-    return result;
+    return new Tree(val, this.children);
   }
 }

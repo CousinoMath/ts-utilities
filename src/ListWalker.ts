@@ -2,19 +2,22 @@ import { List, Maybe } from './internal';
 
 export class ListWalker<T> {
   public static fromArray<A>(xs: A[]): ListWalker<A> {
-    const result = new ListWalker<A>();
-    result.ahead = new List(xs);
+    const result = new ListWalker<A>(new List(xs), new List());
     return result;
   }
 
   public static fromList<A>(xs: List<A>): ListWalker<A> {
-    const result = new ListWalker<A>();
-    result.ahead = xs;
+    const result = new ListWalker<A>(xs, new List());
     return result;
   }
 
-  public ahead: List<T> = new List<T>();
-  public behind: List<T> = new List<T>();
+  public readonly ahead: List<T> = new List<T>();
+  public readonly behind: List<T> = new List<T>();
+
+  constructor(x1: List<T>, x2: List<T>) {
+    this.ahead = x1;
+    this.behind = x2;
+  }
 
   public get current(): Maybe<T> {
     return this.ahead.head;
@@ -41,10 +44,7 @@ export class ListWalker<T> {
   }
 
   public insertAhead(x: T): ListWalker<T> {
-    const result = new ListWalker<T>();
-    result.ahead = this.ahead.prepend(x);
-    result.behind = this.behind;
-    return result;
+    return new ListWalker<T>(this.ahead.prepend(x), this.behind);
   }
 
   public isEmpty(): boolean {
@@ -53,10 +53,10 @@ export class ListWalker<T> {
 
   public moveAhead(): ListWalker<T> {
     if (this.canMoveAhead()) {
-      const result = new ListWalker<T>();
-      result.ahead = this.ahead.tail();
-      result.behind = this.behind.prepend(this.ahead.head!);
-      return result;
+      return new ListWalker<T>(
+        this.ahead.tail(),
+        this.behind.prepend(this.ahead.head!)
+      );
     } else {
       return this;
     }
@@ -64,20 +64,20 @@ export class ListWalker<T> {
 
   public moveBehind(): ListWalker<T> {
     if (this.canMoveBehind()) {
-      const result = new ListWalker<T>();
-      result.ahead = this.ahead.prepend(this.behind.head!);
-      result.behind = this.behind.tail();
-      return result;
+      return new ListWalker<T>(
+        this.ahead.prepend(this.behind.head!),
+        this.behind.tail()
+      );
     } else {
       return this;
     }
   }
 
   public moveToBack(): ListWalker<T> {
-    const result = new ListWalker<T>();
-    result.ahead = new List();
-    result.behind = List.concat(this.ahead.reverse(), this.behind);
-    return result;
+    return new ListWalker<T>(
+      new List(),
+      List.concat(this.ahead.reverse(), this.behind)
+    );
   }
 
   public moveToFirst(): ListWalker<T> {
@@ -85,10 +85,10 @@ export class ListWalker<T> {
   }
 
   public moveToFront(): ListWalker<T> {
-    const result = new ListWalker<T>();
-    result.ahead = List.concat(this.behind.reverse(), this.ahead);
-    result.behind = new List();
-    return result;
+    return new ListWalker<T>(
+      List.concat(this.behind.reverse(), this.ahead),
+      new List()
+    );
   }
 
   public moveToLast(): ListWalker<T> {
@@ -96,10 +96,7 @@ export class ListWalker<T> {
   }
 
   public removeAhead(): ListWalker<T> {
-    const result = new ListWalker<T>();
-    result.ahead = this.ahead.tail();
-    result.behind = this.behind;
-    return result;
+    return  new ListWalker<T>(this.ahead.tail(), this.behind);
   }
 
   public toList(): List<T> {

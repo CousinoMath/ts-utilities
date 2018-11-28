@@ -561,9 +561,8 @@ describe('List suites', () => {
     const len = list(0, accum => accum + 1);
     expect(len(empty)).toBe(0);
     expect(len(make(1, 2, 3))).toBe(3);
-    const evens = list<number, number[]>(
-      [],
-      (accum, value) => (value % 2 === 0 ? accum.concat(value) : accum)
+    const evens = list<number, number[]>([], (accum, value) =>
+      value % 2 === 0 ? accum.concat(value) : accum
     );
     const xs = make(1, 2, 3, 4, 5, 6);
     expect(evens(empty)).toEqual([]);
