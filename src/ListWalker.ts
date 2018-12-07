@@ -40,11 +40,11 @@ export class ListWalker<T> {
   }
 
   public hasMoreBehind(): boolean {
-    return this.behind.length > 0;
+    return this.behind.length > 1;
   }
 
   public insertAhead(x: T): ListWalker<T> {
-    return new ListWalker<T>(this.ahead.prepend(x), this.behind);
+    return new ListWalker<T>(this.ahead.prepend(x).toList(), this.behind);
   }
 
   public isEmpty(): boolean {
@@ -55,7 +55,7 @@ export class ListWalker<T> {
     if (this.canMoveAhead()) {
       return new ListWalker<T>(
         this.ahead.tail(),
-        this.behind.prepend(this.ahead.head!)
+        this.behind.prepend(this.ahead.head!).toList()
       );
     } else {
       return this;
@@ -65,7 +65,7 @@ export class ListWalker<T> {
   public moveBehind(): ListWalker<T> {
     if (this.canMoveBehind()) {
       return new ListWalker<T>(
-        this.ahead.prepend(this.behind.head!),
+        this.ahead.prepend(this.behind.head!).toList(),
         this.behind.tail()
       );
     } else {
