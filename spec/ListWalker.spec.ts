@@ -1,9 +1,8 @@
-import { List, ListWalker, NonEmptyList } from '../src/index';
+import { List, ListWalker } from '../src/index';
 
 describe('ListWalker', () => {
   const fromArray = (xs: number[]) => ListWalker.fromArray<number>(xs);
   const fromList = (...xs: number[]) => ListWalker.fromList<number>(new List(xs));
-  const fromNEList = (x :number, ...xs: number[]) => ListWalker.fromList<number>(new NonEmptyList(x, xs));
   it('traversing', () => {
     const lw = fromArray([1, 2, 3, 4]);
     const len = 4;
@@ -19,6 +18,8 @@ describe('ListWalker', () => {
     expect(lw2.hasMoreAhead()).toBe(false);
     expect(lw2.canMoveBehind()).toBe(true);
     expect(lw2.hasMoreBehind()).toBe(true);
+    expect(4).toBe(lw2.getPosition());
+    expect(0).toBe(lw2.getRemaining());
     expect(lw2.length).toBe(len);
     expect(lw2.current).toBeUndefined();
     // lw2 = [4, 3, 2, 1]:[]
@@ -67,6 +68,8 @@ describe('ListWalker', () => {
     expect(lw2.hasMoreAhead()).toBe(true);
     expect(lw2.canMoveBehind()).toBe(false);
     expect(lw2.hasMoreBehind()).toBe(false);
+    expect(0).toBe(lw2.getPosition());
+    expect(4).toBe(lw2.getRemaining());
     expect(lw2.length).toBe(len);
     expect(lw2.current).toBe(1);
   });
@@ -76,10 +79,10 @@ describe('ListWalker', () => {
       .moveAhead()
       .moveAhead()
       .moveAhead();
-    expect(lw.insertAhead(0)).toEqual(fromNEList(0, 1, 2, 3));
+    expect(lw.insertAhead(0)).toEqual(fromList(0, 1, 2, 3));
     expect(lw.removeAhead()).toEqual(fromList(2, 3));
     expect(lw2.insertAhead(4)).toEqual(
-      fromNEList(1, 2, 3, 4)
+      fromList(1, 2, 3, 4)
         .moveAhead()
         .moveAhead()
         .moveAhead()

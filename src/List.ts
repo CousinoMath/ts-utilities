@@ -207,12 +207,12 @@ export class List<T> extends AbstractList<T> {
    * @see [[AbstractList.accumulate]]
    */
   public accumulate<U>(f: (acc: U, val: T) => U, init: U): List<U> {
-    const len = this.length;
-    const arr: U[] = new Array(len + 1);
-    arr[0] = init;
-    for (let i = 0; i < len; i++) {
-      arr[i + 1] = f(arr[i], this.arr[i]);
-    }
+    const arr = this.arr
+      .slice(0)
+      .reduce(
+        (accs: U[], val) => accs.concat([f(accs[accs.length - 1], val)]),
+        [init]
+      );
     return new List(arr);
   }
 
@@ -226,12 +226,12 @@ export class List<T> extends AbstractList<T> {
    * @see [[AbstractList.accumulateRight]]
    */
   public accumulateRight<U>(f: (acc: U, val: T) => U, init: U): List<U> {
-    const len = this.length;
-    const arr: U[] = new Array(len + 1);
-    arr[0] = init;
-    for (let i = 0; i < len; i++) {
-      arr[i + 1] = f(arr[i], this.arr[len - i - 1]);
-    }
+    const arr = this.arr
+      .slice(0)
+      .reduceRight(
+        (accs: U[], val) => accs.concat([f(accs[accs.length - 1], val)]),
+        [init]
+      );
     return new List(arr);
   }
 
@@ -245,14 +245,11 @@ export class List<T> extends AbstractList<T> {
    */
   public accumulateRightWith(f: (acc: T, val: T) => T): List<T> {
     const len = this.length;
-    const arr: T[] = new Array(len);
     if (len > 0) {
-      arr[0] = this.arr[len - 1];
-      for (let i = 1; i < len; i++) {
-        arr[i] = f(arr[i - 1], this.arr[len - i - 1]);
-      }
+      return this.init().accumulateRight(f, this.last!);
+    } else {
+      return new List([]);
     }
-    return new List(arr);
   }
 
   /**
@@ -265,14 +262,11 @@ export class List<T> extends AbstractList<T> {
    */
   public accumulateWith(f: (acc: T, val: T) => T): List<T> {
     const len = this.length;
-    const arr: T[] = new Array(len);
     if (len > 0) {
-      arr[0] = this.arr[0];
-      for (let i = 1; i < len; i++) {
-        arr[i] = f(arr[i - 1], this.arr[i]);
-      }
+      return this.tail().accumulate(f, this.head!);
+    } else {
+      return new List([]);
     }
-    return new List(arr);
   }
 
   /**
@@ -433,12 +427,11 @@ export class List<T> extends AbstractList<T> {
    */
   public findIndices(pred: (x: T) => boolean): List<number> {
     const arr: number[] = [];
-    const len = this.length;
-    for (let i = 0; i < len; i++) {
-      if (pred(this.arr[i])) {
-        arr.push(i);
+    this.arr.slice(0).forEach((val, idx) => {
+      if (pred(val)) {
+        arr.push(idx);
       }
-    }
+    });
     return new List(arr);
   }
 
@@ -991,6 +984,12 @@ export class List<T> extends AbstractList<T> {
    * @see [[AbstractList.subsequences]]
    */
   public subsequences(): NonEmptyList<List<T>> {
+    /*function subsequence<T>(xs: T[]): T[][] {
+    return xs.reduce(
+        (subseqs: T[][], x: T) =>
+            [...subseqs, ...subseqs.map(seq => [...seq, x])],
+        [[]]);
+}*/
     const len = this.length;
     if (!AbstractList.isSafeLength(Math.pow(2, len))) {
       throw new RangeError(

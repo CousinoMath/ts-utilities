@@ -35,6 +35,14 @@ export class ListWalker<T> {
     return !this.behind.isEmpty();
   }
 
+  public getPosition(): number {
+    return this.behind.length;
+  }
+
+  public getRemaining(): number {
+    return this.ahead.length;
+  }
+
   public hasMoreAhead(): boolean {
     return this.ahead.length > 1;
   }
