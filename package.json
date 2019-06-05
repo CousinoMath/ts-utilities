@@ -1,59 +1,38 @@
 {
   "name": "cousinomath-utilities",
   "version": "0.0.0",
+  "author": "Andrew Cousino <cousinomath@gmail.com> (https://cousinomath.website)",
   "keyword": "",
-  "homepage": "https://www.github.com/cousinomath/",
   "license": "MIT",
-  "main": "./dist/es5/index.js",
+  "description": "",
+  "browser": "./dist/es5/index.js",
   "typings": "./dist/es5/types/",
   "devDependencies": {
     "//": "source-map-support <- ts-node; tslib <- tslint; typescript <- typedoc",
-    "@types/jasmine": "^3.3.0",
-    "jasmine": "^3.3.1",
-    "jasmine-ts": "^0.3.0",
-    "nyc": "^13.1.0",
+    "@types/jest": "^24.0.13",
+    "jest": "^24.8.0",
+    "nyc": "^14.1.1",
     "prettier": "^1.15.3",
     "source-map-support": "^0.5.9",
+    "ts-jest": "^24.0.2",
     "ts-node": "^7.0.1",
     "ts-node-register": "^1.0.0",
     "tslib": "^1.9.3",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.17.0",
-    "typedoc": "^0.13.0",
+    "typedoc": "^0.14.2",
     "typescript": "^3.2.2"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "build:es2015": "tsc -p ts-es2015.json",
-    "coverage": "nyc jasmine",
+    "coverage": "jest --coverage",
     "docs": "typedoc --options ./typedoc.json src/index.ts",
     "docs:json": "typedoc --json docs.json --options ./typedoc.json src/index.ts",
     "lint": "tslint -p tsconfig.json",
-    "test": "jasmine-ts",
+    "test": "jest",
     "watch": "tsc -w -p tsconfig.json",
     "//": "at the moment, `test` only works with `jasmine-ts` and `coverage` only works with `jasmine`"
   },
-  "author": "Andrew Cousino",
-  "description": "",
-  "nyc": {
-    "all": true,
-    "extension": [
-      ".ts",
-      ".tsx"
-    ],
-    "exclude": [
-      "**/*.d.ts",
-      "src/archive",
-      "src/playground"
-    ],
-    "include": [
-      "src/**/*.ts",
-      "src/**/*.tsx"
-    ],
-    "instrument": true,
-    "require": [
-      "ts-node/register"
-    ],
-    "sourceMap": true
-  }
+  "dependencies": {}
 }

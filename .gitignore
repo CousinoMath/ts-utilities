@@ -1,5 +1,5 @@
-doc/
-playground/
+./doc
+./src/playground/
 coverage
 dist
 .nyc_output

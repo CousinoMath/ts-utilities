@@ -1,4 +1,4 @@
-import { is, numberOrd } from './internal';
+import { numberOrd } from './internal';
 
 // /**
 //  * @summary 
@@ -23,13 +23,6 @@ export function equals3<T>(x: T, y: T): boolean {
 }
 
 /**
- * @summary A convenience function for `(x, y) => Object.is(x, y)`
- */
-export function sameValue<T>(x: T, y: T): boolean {
-  return is(x, y);
-}
-
-/**
  * @summary A convenience function for SameValueZero equality
  */
 export function sameValueZero<T>(x: T, y: T): boolean {
@@ -38,5 +31,5 @@ export function sameValueZero<T>(x: T, y: T): boolean {
   if (xType === 'number' || yType === 'number') {
     return xType === yType && numberOrd(Number(x), Number(y)) === 'EQ';
   }
-  return sameValue(x, y);
+  return Object.is(x, y);
 }

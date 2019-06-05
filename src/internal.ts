@@ -1,24 +1,3 @@
-export { AbstractList } from './AbstractList';
-export {
-  accumulate,
-  array,
-  cumSum,
-  fill,
-  find,
-  findIndex,
-  first,
-  flatMap,
-  flatten,
-  from,
-  last,
-  nth,
-  range,
-  reduce,
-  sortOn,
-  uniqueBy
-} from './Arrays';
-export { BinaryTree } from './trees/BinaryTree';
-export { bool, ifThenElse } from './Booleans';
 export {
   bindLeft,
   bindRight,
@@ -46,8 +25,6 @@ export {
   uncurry
 } from './Functions';
 export { Lazy } from './Lazy';
-export { List, list } from './List';
-export { ListWalker } from './ListWalker';
 export {
   bottom,
   bindMaybe,
@@ -73,8 +50,7 @@ export {
   sum,
   toContinuedFraction
 } from './Math';
-export { NonEmptyList } from './NonEmptyList';
-export { equals2, equals3, sameValue, sameValueZero } from './Objects';
+export { equals2, equals3, sameValueZero } from './Objects';
 export {
   Ordering,
   Orderings,
@@ -85,20 +61,6 @@ export {
   toOrdering
 } from './Ordering';
 export {
-  acosh,
-  asinh,
-  atanh,
-  cosh,
-  hypot,
-  is,
-  isInteger,
-  isNaN,
-  log2,
-  sign,
-  sinh,
-  tanh
-} from './Polyfills';
-export { RedBlackTree } from './trees/RedBlackTree';
-export { Tree } from './Tree';
-export { TreeStepper } from './TreeStepper';
+  Result, ok, err, isOk, isErr, unwrapOk, unwrapErr, map, mapOr, mapOrElse
+} from './Result';
 export { curried, mapTuple, product as uniProduct, swap, tuple } from './Tuple';

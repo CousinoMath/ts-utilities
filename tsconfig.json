@@ -3,19 +3,20 @@
   "compilerOptions": {
     "declaration": true,
     "declarationDir": "./dist/es5/types/",
+    "esModuleInterop": true,
     "importHelpers": true,
-    "module": "commonjs",
+    "module": "ES6",
     "moduleResolution": "Node",
     "noUnusedLocals": true,
     "noUnusedParameters": false,
     "outDir": "./dist/es5",
     "sourceMap": true,
     "strict": true,
-    "target": "es5"
+    "target": "es5",
+    "types": ["jest", "node"]
   },
   "exclude": [
     "./**/*.spec.ts",
-    "./src/archive/*.ts",
     "./src/playground/**/*.ts"
   ],
   "files": ["./src/index.ts"],

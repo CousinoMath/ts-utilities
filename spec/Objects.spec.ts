@@ -1,5 +1,7 @@
-import { equals2, equals3, is, sameValue, sameValueZero } from '../src';
+import { equals2, equals3, sameValueZero } from '../src';
 
+// tslint:disable no-null-keyword
+// tslint:disable triple-equals
 describe('Objects suite', () => {
   it('equality', () => {
     const bools: boolean[] = [true, false];
@@ -13,15 +15,14 @@ describe('Objects suite', () => {
       (xs, x) => xs.concat(elts.map<[any, any]>(y => [x, y])),
       []
     );
-    // tslint:disable-next-line
     const eq2 = (x: any, y: any) => x == y;
     const eq2s = cross.map(xy => eq2(...xy));
     const eq3 = (x: any, y: any) => x === y;
     const eq3s = cross.map(xy => eq3(...xy));
-    const sv = (x: any, y: any) => is(x, y);
-    const svs = cross.map(xy => sv(...xy));
+    // const sv = (x: any, y: any) => Object.is(x, y);
+    // const svs = cross.map(xy => sv(...xy));
     const svz = (x: any, y: any) =>
-      is(x, y) ||
+      Object.is(x, y) ||
       (typeof x === 'number' &&
         typeof y === 'number' &&
         Math.abs(x) === 0 &&
@@ -34,9 +35,6 @@ describe('Objects suite', () => {
     expect(cross.map(xy => equals3(xy[0], xy[1]))).toEqual(eq3s);
     expect(equals3(undefined, null)).toBe(false);
     expect(equals3(undefined, undefined)).toBe(true);
-    expect(cross.map(xy => sameValue(xy[0], xy[1]))).toEqual(svs);
-    expect(is(undefined, null)).toBe(false);
-    expect(is(undefined, undefined)).toBe(true);
     expect(cross.map(xy => sameValueZero(xy[0], xy[1]))).toEqual(svzs);
     expect(sameValueZero(0, -0)).toBe(true);
     expect(sameValueZero(undefined, undefined)).toBe(true);
