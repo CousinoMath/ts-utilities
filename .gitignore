@@ -1,7 +1,8 @@
-./doc
-./src/playground/
+doc
+src/playground/
 coverage
 dist
 .nyc_output
 docs.json
 yarn.lock
+node_modules
