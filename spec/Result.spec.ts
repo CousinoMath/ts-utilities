@@ -17,8 +17,8 @@ describe("Result suite", () => {
   });
   it("unwrap*", () => {
     expect(unwrapOk(ok(1))).toEqual(1);
-    expect(unwrapOk(err("error"))).toThrow();
-    expect(unwrapErr(ok(1))).toThrow();
+    expect(() => unwrapOk(err("error"))).toThrow();
+    expect(() => unwrapErr(ok(1))).toThrow();
     expect(unwrapErr(err("error"))).toEqual("error");
     expect(unwrapOr(ok(1), 2)).toEqual(1);
     expect(unwrapOr(err("error"), 2)).toEqual(2);

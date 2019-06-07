@@ -15,7 +15,6 @@ functional.
   - [Detailed Overview](#detailed)
     - [Either](#Either)
     - [Maybe](#Maybe)
-    - [Lists](#Lists)
 - [Examples](#examples)
 - [Package Scripts](#package)
   - [Installation](#install)
@@ -36,21 +35,6 @@ New types and aliases introduced by this library.
 - [[Maybe]] an alias for nullable types, which can be useful when
   using the Typescript compiler options `strict` or `strictNullChecks`.
   [More details on Maybe](#Maybe)
-
-#### <a name="classes">Classes</a>
-
-- [[List]] and [[NonEmptyList]] are lightweight array wrappers that are both
-  type safe and immutable. If you feel ES5 arrays are too restrictive, these
-  classes will give you more flexibility while having compatible methods and
-  quick conversions to and from arrays. [More details on Lists](#Lists)
-
-#### <a name="files">Other notable files</a>
-
-- `src/Array.ts` various utilities for arrays
-- `src/Function.ts` functional style programming utilities
-- `src/Polyfills.ts` some "polyfills" (they don't actually extended the
-  standard types) for ES5 including an `Object.is`, `Number.isNaN`, and
-  `Math.sign`.
 
 ### <a name="detailed">Detailed Usage Descriptions</a>
 
@@ -103,10 +87,6 @@ can be called as `f()` which no arguments, in effect making `x`
 as `f()` will result in compiler errors, because such a function
 must take exactly one argument.
 
-#### <a name="Lists">Lists</a>
-
-TODO
-
 ## <a name="examples">Examples</a>
 
 ## <a name="package">Package Scripts</a>
@@ -123,15 +103,12 @@ processing.
 
 ### <a name="tests">Testing</a>
 
-`yarn test` runs [Jasmine][] test suites found in `spec/`. And `yarn coverage`
-generates an [Istanbull/nyc][nyc] test coverage report using the default text
-reporter.
+`yarn test` runs [Jest][] test suites found in `spec/`. And `yarn coverage`
+generates a test coverage report using the default text reporter.
 
 ## [license][License]
 
 This project employs an [MIT license][license]
 
-[Jasmine]: https://jasmine.github.io/
 [TypeDoc]: https://typedoc.org/
-[nyc]: https://istanbul.js.org/
-[license]: ./LICENSE.md
+[license]: ./LICENSE

@@ -1,6 +1,6 @@
 {
-  "name": "cousinomath-utilities",
-  "version": "0.0.0",
+  "name": "ts-utilities",
+  "version": "0.0.1",
   "author": "Andrew Cousino <cousinomath@gmail.com> (https://cousinomath.website)",
   "keyword": "",
   "license": "MIT",
@@ -31,8 +31,7 @@
     "docs:json": "typedoc --json docs.json --options ./typedoc.json src/index.ts",
     "lint": "tslint -p tsconfig.json",
     "test": "jest",
-    "watch": "tsc -w -p tsconfig.json",
-    "//": "at the moment, `test` only works with `jasmine-ts` and `coverage` only works with `jasmine`"
+    "watch": "tsc -w -p tsconfig.json"
   },
   "dependencies": {}
 }
