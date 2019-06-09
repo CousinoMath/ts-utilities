@@ -26,7 +26,7 @@ describe('Ordering suite', () => {
   });
   it('preorder', () => {
     expect(
-      preorder<string, number>(x => x.length, numberOrd)('hello', 'hola')
+      preorder<string, number>((x) => x.length, numberOrd)('hello', 'hola'),
     ).toBe('GT');
   });
   it('stringOrd', () => {

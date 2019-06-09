@@ -35,7 +35,7 @@ export type Either<R, S> = Left<R> | Right<S>;
  * @see [[lift]]
  */
 export function bindLeft<R, S, T>(
-  f: (x: R) => Either<T, S>
+  f: (x: R) => Either<T, S>,
 ): (xe: Either<R, S>) => Either<T, S> {
   return either<R, S, Either<T, S>>(f, right);
 }
@@ -48,7 +48,7 @@ export function bindLeft<R, S, T>(
  * @see [[lift]]
  */
 export function bindRight<R, S, U>(
-  g: (y: S) => Either<R, U>
+  g: (y: S) => Either<R, U>,
 ): (xe: Either<R, S>) => Either<R, U> {
   return either<R, S, Either<R, U>>(left, g);
 }
@@ -59,7 +59,7 @@ export function bindRight<R, S, U>(
  */
 export function either<R, S, T>(
   f: (l: R) => T,
-  g: (r: S) => T
+  g: (r: S) => T,
 ): (e: Either<R, S>) => T {
   return (x: Either<R, S>) => (x.kind === 'left' ? f(x.value) : g(x.value));
 }
@@ -126,15 +126,15 @@ export function lefts<R, S>(xes: Array<Either<R, S>>): R[] {
  */
 export function liftEither<R, S, T, U>(
   f: (x: R) => T,
-  g: (y: S) => U
+  g: (y: S) => U,
 ): (xe: Either<R, S>) => Either<T, U> {
   const lf: (x: R) => Either<T, U> = compose<R, T, Either<T, U>>(
     left,
-    f
+    f,
   );
   const rg: (y: S) => Either<T, U> = compose<S, U, Either<T, U>>(
     right,
-    g
+    g,
   );
   return either(lf, rg);
 }

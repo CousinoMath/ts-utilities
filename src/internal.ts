@@ -13,7 +13,7 @@ export {
   partition,
   right,
   rightDefault,
-  rights
+  rights,
 } from './Either';
 export {
   compose,
@@ -22,9 +22,8 @@ export {
   flip,
   identity,
   on,
-  uncurry
+  uncurry,
 } from './Functions';
-export { Lazy } from './Lazy';
 export {
   bottom,
   bindMaybe,
@@ -36,7 +35,7 @@ export {
   liftMaybe,
   makeMaybe,
   maybe,
-  Maybe
+  Maybe,
 } from './Maybe';
 export {
   greatestInt,
@@ -48,7 +47,7 @@ export {
   minBy,
   product,
   sum,
-  toContinuedFraction
+  toContinuedFraction,
 } from './Math';
 export { equals2, equals3, sameValueZero } from './Objects';
 export {
@@ -58,9 +57,9 @@ export {
   dateOrd,
   numberOrd,
   stringOrd,
-  toOrdering
+  toOrdering,
 } from './Ordering';
 export {
-  Result, ok, err, isOk, isErr, unwrapOk, unwrapErr, map, mapOr, mapOrElse
+  Result, ok, err, isOk, isErr, unwrapOk, unwrapErr, map, mapOr, mapOrElse,
 } from './Result';
 export { curried, mapTuple, product as uniProduct, swap, tuple } from './Tuple';

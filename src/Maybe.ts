@@ -17,7 +17,7 @@ export type Maybe<T> = T | null | undefined;
  * @see [[lift]]
  */
 export function bindMaybe<S, T>(
-  f: (x: S) => Maybe<T>
+  f: (x: S) => Maybe<T>,
 ): (xm: Maybe<S>) => Maybe<T> {
   return maybe(bottom, f);
 }
@@ -27,10 +27,10 @@ export function bindMaybe<S, T>(
  * @summary Resulting function maps `f` over its input and outputs only non ⊥ results.
  */
 export function bindToArray<S, T>(f: (x: S) => Maybe<T>): (xs: S[]) => T[] {
-  return xs => {
+  return (xs) => {
     const ys: T[] = [];
     for (const x of xs) {
-      maybe<T, number>(0, y => ys.push(y))(f(x));
+      maybe<T, number>(0, (y) => ys.push(y))(f(x));
     }
     return ys;
   };
@@ -44,7 +44,7 @@ export function bindToArray<S, T>(f: (x: S) => Maybe<T>): (xs: S[]) => T[] {
 export function concatMaybes<T>(xms: Array<Maybe<T>>): T[] {
   const vals: T[] = [];
   for (const xm of xms) {
-    maybe<T, number>(0, x => vals.push(x))(xm);
+    maybe<T, number>(0, (x) => vals.push(x))(xm);
   }
   return vals;
 }

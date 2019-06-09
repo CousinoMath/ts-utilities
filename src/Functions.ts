@@ -23,7 +23,7 @@ export function constant<R>(x: R): <S>(y: S) => R {
  * @summary Curry a function
  */
 export function curry<R, S, T>(f: (x: R, y: S) => T): (x: R) => (y: S) => T {
-  return x => y => f(x, y);
+  return (x) => (y) => f(x, y);
 }
 
 /**
@@ -48,7 +48,7 @@ export function identity<T>(x: T): T {
  */
 export function on<R, S, T>(
   f: (x: R) => S,
-  op: (x: S, y: S) => T
+  op: (x: S, y: S) => T,
 ): (x: R, y: R) => T {
   return (x, y) => op(f(x), f(y));
 }

@@ -25,7 +25,7 @@ export function curried<R, S>(x: R): (y: S) => [R, S] {
  */
 export function mapTuple<R1, R2, T1, T2>(
   f: (x: R1) => T1,
-  g: (y: R2) => T2
+  g: (y: R2) => T2,
 ): (xy: [R1, R2]) => [T1, T2] {
   return ([x, y]: [R1, R2]) => [f(x), g(y)];
 }
@@ -36,9 +36,9 @@ export function mapTuple<R1, R2, T1, T2>(
  */
 export function product<R, T1, T2>(
   f: (x: R) => T1,
-  g: (x: R) => T2
+  g: (x: R) => T2,
 ): (x: R) => [T1, T2] {
-  return x => [f(x), g(x)];
+  return (x) => [f(x), g(x)];
 }
 
 /**

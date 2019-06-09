@@ -119,7 +119,7 @@ export function toContinuedFraction(x: number, maxLen: number): number[] {
   while (y !== 0 && len < maxLen) {
     const next = greatestInt(y);
     len = result.push(next);
-    y = 1/(y - next);
+    y = 1 / (y - next);
   }
   return result;
 }

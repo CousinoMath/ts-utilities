@@ -13,6 +13,6 @@ class Subscription<T> {
   }
 
   public notifySubscribers(x: T): void {
-      this.subs.forEach(sub => sub(x));
+      this.subs.forEach((sub) => sub(x));
   }
 }

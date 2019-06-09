@@ -6,12 +6,12 @@ describe('Tuple suite', () => {
   });
   it('map', () => {
     expect(
-      mapTuple<number, number, number, number>(x => x + 1, y => y * 2)([2, 2])
+      mapTuple<number, number, number, number>((x) => x + 1, (y) => y * 2)([2, 2]),
     ).toEqual([3, 4]);
   });
   it('uniProduct', () => {
     expect(
-      uniProduct<number, number, number>(x => x + 1, y => 2 * y)(2)
+      uniProduct<number, number, number>((x) => x + 1, (y) => 2 * y)(2),
     ).toEqual([3, 4]);
   });
   it('swap', () => {

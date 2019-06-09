@@ -1,12 +1,5 @@
 import { numberOrd } from './internal';
 
-// /**
-//  * @summary 
-//  */
-// export function defaults<S, T>(objS: S, objT: T): S & T {
-//   return { ...objT, ...objS };
-// }
-
 /**
  * @summary A convenience function for `(x, y) => x == y`
  */

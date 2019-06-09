@@ -9,19 +9,19 @@ import {
   liftMaybe,
   makeMaybe,
   Maybe,
-  maybe
+  maybe,
 } from '../src';
 
 describe('Maybe suite', () => {
   it('bind', () => {
-    const head: (xs: number[]) => Maybe<number> = xs =>
+    const head: (xs: number[]) => Maybe<number> = (xs) =>
       xs.length === 0 ? bottom : xs[0];
     expect(bindMaybe(head)(bottom)).toBeUndefined();
     expect(bindMaybe(head)([])).toBeUndefined();
     expect(bindMaybe(head)([1, 2, 3, 4])).toBe(1);
   });
   it('bindTo(Array|Set|Map)', () => {
-    const head: (x: string) => Maybe<string> = x =>
+    const head: (x: string) => Maybe<string> = (x) =>
       x.length === 0 ? bottom : x[0];
     expect(bindToArray(head)([])).toEqual([]);
     expect(bindToArray(head)(['One', '', 'day'])).toEqual(['O', 'd']);
@@ -30,7 +30,7 @@ describe('Maybe suite', () => {
     expect(concatMaybes([bottom, 1, bottom, 2, /* undefined, */ 3, bottom])).toEqual([
       1,
       2,
-      3
+      3,
     ]);
     expect(concatMaybes([])).toEqual([]);
     expect(concatMaybes([bottom, bottom, /* undefined, */ bottom])).toEqual([]);
@@ -50,9 +50,9 @@ describe('Maybe suite', () => {
   });
   it('lift', () => {
     // expect(liftMaybe<number[], number>(x => x.length)(undefined)).toBeUndefined();
-    expect(liftMaybe<number[], number>(x => x.length)(bottom)).toBeUndefined();
-    expect(liftMaybe<number[], number>(x => x.length)([])).toBe(0);
-    expect(liftMaybe<number[], number>(x => x.length)([0])).toBe(1);
+    expect(liftMaybe<number[], number>((x) => x.length)(bottom)).toBeUndefined();
+    expect(liftMaybe<number[], number>((x) => x.length)([])).toBe(0);
+    expect(liftMaybe<number[], number>((x) => x.length)([0])).toBe(1);
   });
   it('make', () => {
     expect(makeMaybe(true, () => 1)).toBe(1);
@@ -60,7 +60,7 @@ describe('Maybe suite', () => {
   });
   it('maybe', () => {
     // expect(maybe<number, number>(0, x => x * x + 1)(undefined)).toBe(0);
-    expect(maybe<number, number>(0, x => x * x + 1)(bottom)).toBe(0);
-    expect(maybe<number, number>(0, x => x * x + 1)(2)).toBe(5);
+    expect(maybe<number, number>(0, (x) => x * x + 1)(bottom)).toBe(0);
+    expect(maybe<number, number>(0, (x) => x * x + 1)(2)).toBe(5);
   });
 });

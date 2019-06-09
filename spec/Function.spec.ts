@@ -25,14 +25,14 @@ describe('Functions suite', () => {
     expect(
       compose(
         times3,
-        plus5
-      )(1)
+        plus5,
+      )(1),
     ).toBe(18);
     expect(
       compose(
         plus5,
-        times3
-      )(1)
+        times3,
+      )(1),
     ).toBe(8);
   });
   it('on', () => {

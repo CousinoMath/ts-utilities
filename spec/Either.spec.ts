@@ -12,16 +12,16 @@ import {
   partition,
   right,
   rightDefault,
-  rights
+  rights,
 } from '../src';
 
 describe('Either suite', () => {
   it('bind(Left|Right)', () => {
-    const leftFn = bindLeft<string, string, string>(x =>
-      x.length === 0 ? left('empty string') : right(x.toLocaleUpperCase())
+    const leftFn = bindLeft<string, string, string>((x) =>
+      x.length === 0 ? left('empty string') : right(x.toLocaleUpperCase()),
     );
-    const rightFn = bindRight<string, number, number>(x =>
-      x === 0 ? left('zero') : right(x + 1)
+    const rightFn = bindRight<string, number, number>((x) =>
+      x === 0 ? left('zero') : right(x + 1),
     );
     expect(leftFn(left(''))).toEqual(left('empty string'));
     expect(leftFn(left('hello'))).toEqual(right('HELLO'));
@@ -38,8 +38,8 @@ describe('Either suite', () => {
   });
   it('either', () => {
     const eitherFn = either<string, number, string>(
-      x => x.toLocaleUpperCase(),
-      y => Number(y).toString()
+      (x) => x.toLocaleUpperCase(),
+      (y) => Number(y).toString(),
     );
     expect(eitherFn(left('hello'))).toBe('HELLO');
     expect(eitherFn(right(7))).toBe('7');
@@ -52,22 +52,22 @@ describe('Either suite', () => {
   });
   it('liftEither', () => {
     const eitherFn = liftEither<string, number, string, number>(
-      x => x.toLocaleUpperCase(),
-      y => y + 1
+      (x) => x.toLocaleUpperCase(),
+      (y) => y + 1,
     );
     expect(eitherFn(left('string'))).toEqual(left<string, number>('STRING'));
     expect(eitherFn(right(8))).toEqual(right<string, number>(9));
   });
   it('partition|lefts|rights', () => {
     const strs = [
-      "you've",
+      'you\'ve',
       'got',
       'a',
       'fine',
       'army',
       'base',
       'here',
-      'colonel'
+      'colonel',
     ];
     const strsL = strs.map<Either<string, number>>(left);
     const nums = [2, 1, 3, 4, 7, 11, 18];
