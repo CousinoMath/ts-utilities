@@ -30,9 +30,9 @@ functional.
 
 New types and aliases introduced by this library.
 
-- [[Either]] is a generic discrimated union, useful for functional
+- `Either` is a generic discrimated union, useful for functional
   style error handling. [More details on Either](#Either)
-- [[Maybe]] an alias for nullable types, which can be useful when
+- `Maybe` an alias for nullable types, which can be useful when
   using the Typescript compiler options `strict` or `strictNullChecks`.
   [More details on Maybe](#Maybe)
 
@@ -106,7 +106,7 @@ processing.
 `yarn test` runs [Jest][] test suites found in `spec/`. And `yarn coverage`
 generates a test coverage report using the default text reporter.
 
-## [license][License]
+## [License][License]
 
 This project employs an [MIT license][license]
 

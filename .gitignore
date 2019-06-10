@@ -1,6 +1,6 @@
-doc
-src/playground/
-coverage
 dist
-yarn.lock
+doc
+coverage
 node_modules
+src/playground/
+*.lock

@@ -1,21 +1,21 @@
 {
-  "name": "ts-utilities",
+  "name": "@cousinomath/ts-utilities",
   "version": "0.0.1",
   "author": "Andrew Cousino <cousinomath@gmail.com> (https://cousinomath.website)",
   "keyword": "typescript",
   "license": "MIT",
   "description": "A Typescript utility library",
   "main": "./dist/index.js",
-  "typings": "./dist/index.d.ts",
+  "types": "./dist/index.d.ts",
   "devDependencies": {
     "//": "tslib <- tslint; typescript <- typedoc",
     "@types/jest": "^24.0.13",
     "jest": "^24.8.0",
     "ts-jest": "^24.0.2",
     "ts-node": "^8.2.0",
-    "tslint": "^5.11.0",
+    "tslint": "^5.17.0",
     "typedoc": "^0.14.2",
-    "typescript": "^3.2.2"
+    "typescript": "^3.5.1"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -27,5 +27,13 @@
     "test": "jest",
     "watch": "tsc -w -p tsconfig.json"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CousinoMath/ts-utilities.git"
+  },
+  "homepage": "https://github.com/CousinoMath/ts-utilities"
 }
