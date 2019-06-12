@@ -108,7 +108,8 @@ generates a test coverage report using the default text reporter.
 
 ## [License][License]
 
-This project employs an [MIT license][license]
+This project employs an [MIT license][License]
 
+[Jest]: https://jestjs.io/
 [TypeDoc]: https://typedoc.org/
-[license]: ./LICENSE
+[License]: ./LICENSE
